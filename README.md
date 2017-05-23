@@ -6,8 +6,8 @@ This project if for the 72.33 - Object-Oriented Programming course
 
 ### Students:
 
-..* BENSADÓN, JUAN
-..* PRINC, GUIDO
-..* TORREGUITAR, JOSÉ MARTÍN
-..* OLIVA, RAMIRO
-..* OTOUZBIRIAN, LEANDRO ARIEL
+* BENSADÓN, JUAN
+* PRINC, GUIDO
+* TORREGUITAR, JOSÉ MARTÍN
+* OLIVA, RAMIRO
+* OTOUZBIRIAN, LEANDRO ARIEL
