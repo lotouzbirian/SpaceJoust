@@ -6,6 +6,8 @@ public class Rocket extends GameObject{
     private GameObject target;
     private GameObject origin;
     private static final float ROCKET_SPEED_FACTOR= 3;
+    private float speedX;
+    private float speedY;
 
     public Rocket(int collisionWidth, int collisionHeight, GameObject target, GameObject origin){
         super(collisionWidth, collisionHeight, ROCKET_SPEED_FACTOR);
