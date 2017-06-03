@@ -17,8 +17,19 @@ public class Rocket extends GameObject{
         this.target=target;
     }
     
-    public void updateTrayectory (){
-        
+    public void update(){
+        float distanceX= target.getPositionX() - getPositionX();
+        float distanceY= target.getPositionY() - getPositionY();
+        speedX= setMovement(distanceX, distanceY);
+        speedY= setMovement(distanceY, distanceX);
+        setPositionX(getPositionX() + (int)speedX);
+        setPositionY(getPositionY() + (int)speedY);
+        super.update();
+    }
+    
+    public float setMovement(float a, float b){
+        float cuenta= (a/(float)Math.sqrt((a * a) + (b * b))) * getSpeedFactor();
+        return cuenta;
     }
     
 }
