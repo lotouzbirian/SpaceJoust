@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
  * Created by Bensas on 5/27/17.
  */
 public class SpaceJoust{
-    private static final int GAME_WIDTH = 1920;
-    private static final int GAME_HEIGHT = 1440;
+    public static final int GAME_WIDTH = 1920;
+    public static final int GAME_HEIGHT = 1440;
 
     public static void main(String[] args){
 
