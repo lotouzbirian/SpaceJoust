@@ -11,10 +11,12 @@ public abstract class GameObject extends Observable {
     private float rotation = 0;
     private Rectangle boundaries;
     private Shape collisionBox;
+    private float speedFactor;
 
-    public GameObject(int collisionWidth, int collisionHeight){
+    public GameObject(int collisionWidth, int collisionHeight, float speedFactor){
         this.collisionWidth = collisionWidth;
         this.collisionHeight = collisionHeight;
+        this.speedFactor= speedFactor;
         updateCollisionBox();
     }
 
