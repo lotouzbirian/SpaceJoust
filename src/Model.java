@@ -4,7 +4,7 @@
 public class Model {
     View view;
 
-    GameThread thread;
+    ModelThread thread;
 
     final static int SHIP_COLLISION_HEIGHT=30, SHIP_COLLISION_WIDTH = 20;
 
@@ -26,7 +26,7 @@ public class Model {
 
     public void initGame(){
         initPlayers();
-        thread = new GameThread(this, view);
+        thread = new ModelThread(this);
         thread.setIsRunning(true);
         thread.start();
     }
