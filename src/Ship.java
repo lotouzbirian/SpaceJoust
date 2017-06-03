@@ -4,15 +4,26 @@
 public class Ship extends GameObject{
     private float radialPosition;    
     private static final float SHIP_SPEED_FACTOR= 2;
-    private static final float RADIUS=0;
-    private boolean isAlive = true;
+    private static final float RADIUS= 0;
+    private boolean isAlive= true;
 
     public Ship(int collisionWidth, int collisionHeight){
         super(collisionWidth, collisionHeight, SHIP_SPEED_FACTOR);
 
     }
+
+    @Override
+    public void update(){
+        setRadialPosition(getRadialPosition() + SHIP_SPEED_FACTOR);
+        setPositionX((int)(RADIUS * Math.cos(getRadialPosition())));
+        setPositionY((int)(RADIUS * Math.sin(getRadialPosition())));
+        super.update();
+    }
     
     public float getRadialPosition(){return radialPosition;}
+    public void setRadialPosition(float radialPosition){
+        this.radialPosition= radialPosition;
+    }
 
     public boolean isBehindShip(Ship otherShip){
         if (otherShip.getRadialPosition() > getRadialPosition() ||
@@ -27,6 +38,5 @@ public class Ship extends GameObject{
     public void setIsAlive(){
         isAlive = false;
     }
-
 
 }

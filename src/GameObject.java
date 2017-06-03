@@ -26,8 +26,6 @@ public abstract class GameObject extends Observable {
 
     public void setPositionX(int positionX) {
         this.positionX = positionX;
-        setChanged();
-        notifyObservers();
     }
 
     public void setPositionY(int positionY) {
@@ -52,6 +50,8 @@ public abstract class GameObject extends Observable {
 
     public void update(){
         updateCollisionBox();
+        setChanged();
+        notifyObservers();
     }
 
     private void updateCollisionBox(){
