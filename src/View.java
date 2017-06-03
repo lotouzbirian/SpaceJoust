@@ -12,18 +12,21 @@
  */
 
 public class View extends JPanel implements ActionListener{
-
     Model model;
     Controller controller;
+
+    ViewThread thread;
 
     private ArrayList<ObjectView> objectViews;
 
     public View() {
-
-        addKeyListener(new TAdapter());
         setFocusable(true);
+        addKeyListener(new TAdapter());
         //setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
         objectViews = new ArrayList<>();
+        thread = new ViewThread(this);
+        thread.setIsRunning(true);
+        thread.start();
     }
 
     public void onThreadClosed(){

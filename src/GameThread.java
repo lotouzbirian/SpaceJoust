@@ -1,7 +1,7 @@
 /**
  * Created by Bensas on 5/31/17.
  */
-public class GameThread extends Thread {
+public abstract class GameThread extends Thread {
     private boolean isRunning;
     private int targetFPS= 60;
     private float averageFPS;
@@ -53,12 +53,8 @@ public class GameThread extends Thread {
         this.isRunning= isRunning;
     }
 
-    public void doUpdate(){
+    public abstract void doUpdate();
 
-    }
-
-    public void onThreadClosed(){
-
-    }
+    public abstract void onThreadClosed();
 
 }
