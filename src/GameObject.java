@@ -7,7 +7,6 @@ import java.util.Observable;
  */
 public abstract class GameObject extends Observable {
     private int positionX = 100, positionY = 100;
-    private float speedX = 0, speedY = 0;
     private int collisionWidth, collisionHeight;
     private float rotation = 0;
     private Rectangle boundaries;
@@ -32,10 +31,6 @@ public abstract class GameObject extends Observable {
     public void setPositionY(int positionY) {
         this.positionY = positionY;
     }
-
-    public float getSpeedX() {return speedX;}
-
-    public float getSpeedY() {return speedY;}
 
     public int getCollisionWidth() {return collisionWidth;}
 
