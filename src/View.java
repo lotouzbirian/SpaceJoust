@@ -26,6 +26,10 @@ public class View extends JPanel implements ActionListener{
         objectViews = new ArrayList<>();
     }
 
+    public void onThreadClosed(){
+
+    }
+
     public void setModel(Model model){
         this.model = model;
     }

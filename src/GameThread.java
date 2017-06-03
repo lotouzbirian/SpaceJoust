@@ -6,6 +6,9 @@ public class GameThread extends Thread {
     private int targetFPS= 60;
     private float averageFPS;
 
+    /*
+    This thread performs a certain set of actions once every 60 seconds.
+     */
     @Override
     public void run() {
         long startTime;
