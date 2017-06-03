@@ -32,4 +32,9 @@ public class Rocket extends GameObject{
         return cuenta;
     }
     
+    public boolean collidesWith(GameObject object){
+        if(object.getClass().equals(Rocket.class) || object.equals(origin) )
+            return false;
+        return super.collidesWith(object);
+    }
 }
