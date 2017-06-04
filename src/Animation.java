@@ -3,13 +3,13 @@ import java.awt.Image;
 
 public class Animation {
 	private Image[] frames;
-	private int timer=0;
+	private int timer= 0;
 	private int frameDuration;
-	private int frameIndex=0;
+	private int frameIndex= 0;
 	
-	public Animation(int frameDuration, Image[] frames){
-		this.frames=frames;
-		this.frameDuration=frameDuration;
+	public Animation(Image[] frames, int frameDuration){
+		this.frames= frames;
+		this.frameDuration= frameDuration;
 	}
 	
 	public Image getFrame(){

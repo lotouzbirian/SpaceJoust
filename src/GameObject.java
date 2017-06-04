@@ -42,6 +42,10 @@ public abstract class GameObject extends Observable {
         return collisionBox;
     }
 
+    public float getSpeedFactor(){return speedFactor;}
+
+    public void setSpeedFactor(float speedFactor) {this.speedFactor = speedFactor;}
+
     public  boolean collidesWith(GameObject object){
         if (object.getCollisionBox().getBounds2D().intersects(getCollisionBox().getBounds2D()))
             return true;

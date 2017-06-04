@@ -8,24 +8,27 @@ public class Ship extends GameObject{
     private static final int ROCKET_COST= 2;
     private static final int SHIELD_COST= 2;
     private static final int ACCELERATION_COST= 2;
-    private static final int ACCELERATION_FACTOR=2;
-    private int shipSpeedFactor= 2;
+    private static final float ACCELERATION_FACTOR= 2f;
+    private static final float DECELERATION_FACTOR= 0.1f;
+    private static final int DEFAULT_SPEED_FACTOR= 2;
     private float radialPosition;    
     private boolean isAlive= true;
     private int health= STARTING_HEALTH;
     private int energy= STARTING_ENERGY;
-    private boolean shielded=false
+    private boolean shielded= false;
 
     public Ship(int collisionWidth, int collisionHeight){
-        super(collisionWidth, collisionHeight, shipSpeedFactor());
-
+        super(collisionWidth, collisionHeight, DEFAULT_SPEED_FACTOR);
     }
 
     @Override
     public void update(){
-        setRadialPosition(getRadialPosition() + getshipSpeedFactor());
+        setRadialPosition(getRadialPosition() + getSpeedFactor());
         setPositionX((int)(RADIUS * Math.cos(getRadialPosition())));
         setPositionY((int)(RADIUS * Math.sin(getRadialPosition())));
+        if (getSpeedFactor() > DEFAULT_SPEED_FACTOR){
+            setSpeedFactor(getSpeedFactor() - DECELERATION_FACTOR);
+        }
         super.update();
     }
     
@@ -44,16 +47,8 @@ public class Ship extends GameObject{
         this.energy= energy;
     }
 
-    public int getshipSpeedFactor(){return shipSpeedFactor;}
-    public void setShipSpeedFactor(int speed){
-        shipSpeedFactor=speed;
-    }
-
     public void accelerate(){
-        setShipSpeedFactor(getshipSpeedFactor() * ACCELERATION_FACTOR);
-    }
-    public void decelerate(){
-        setShipSpeedFactor(getshipSpeedFactor() / ACCELERATION_FACTOR);
+        setSpeedFactor(getSpeedFactor() * ACCELERATION_FACTOR);
     }
 
     public void shield(){
