@@ -9,22 +9,18 @@ import java.util.Observer;
 public abstract class ObjectView implements Observer{
     private int positionX, positionY;
     private float rotation;
-    private Image texture;
+    protected Animation animation;
 
-    public ObjectView(){
-
-    }
-
-    public void loadAndSetTexture(String textureName){
+    protected Image loadTexture(String textureName){
         ImageIcon i = new ImageIcon(textureName);
-        texture = i.getImage();
+        return i.getImage();
     }
 
     public void draw(Graphics2D g){
         //We rotate the whole canvas before drawing our object
         //and then rotate it back to its original position
         g.rotate(getRotation());
-        g.drawImage(texture, getPositionX(), getPositionY(), texture.getWidth(null), texture.getHeight(null), null);
+        g.drawImage(animation.getFrame(), getPositionX(), getPositionY(), animation.getFrame().getWidth(null), animation.getFrame().getHeight(null), null);
         g.rotate(-getRotation());
     }
 
