@@ -50,6 +50,7 @@ public class Ship extends GameObject{
     }
 
     public void accelerate(){
+        setEnergy(getEnergy()-ACCELERATION_COST);
         setShipSpeedFactor(getshipSpeedFactor() * ACCELERATION_FACTOR);
     }
     public void decelerate(){
@@ -57,10 +58,15 @@ public class Ship extends GameObject{
     }
 
     public void shield(){
+        setEnergy(getEnergy()-SHIELD_COST);
         shielded=true;
     }
     public void unshield(){
         shielded=false;
+    }
+
+    public void fireRocket(){
+        setEnergy(getEnergy()-ROCKET_COST);
     }
 
     public boolean isBehindShip(Ship otherShip){
