@@ -8,9 +8,9 @@ public class Model {
 
     final static int SHIP_COLLISION_HEIGHT=30, SHIP_COLLISION_WIDTH = 20;
 
-    Ship[] players;
-    Rocket[] rockets;
-
+    private Ship[] players;
+    private Rocket[] rockets;
+    private Asteroid[] asteroids;
 
     public Model(){
 
@@ -50,6 +50,26 @@ public class Model {
     public void update(){
         for (Ship player: players){
             player.update();
+        }
+        // for (Rocket rocket: rockets){
+        //     for (Asteroid asteroid: asteroids){
+        //         if (rocket.collidesWith(asteroid)){
+        //             rocket.explode();
+        //             asteroid.explode();
+        //         }
+        //     }
+        // }
+        for (Asteroid asteroid: asteroids){
+            for (Player player: players){
+                player.explode();
+                asteroid.explode();
+            }
+            for (Rocket rocket: rockets){
+                if (asteroid.collidesWith(rocket)){
+                    rocket.explode();
+                    asteroid.explode();
+                }
+            }
         }
         checkForShipCollision(players[0], players[1]);
     };

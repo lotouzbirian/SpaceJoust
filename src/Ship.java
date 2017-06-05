@@ -76,6 +76,10 @@ public class Ship extends GameObject{
         }
     }
 
+    public void impact(){
+        setHealth(getHealth() - 1);
+    }
+
     public boolean isBehindShip(Ship otherShip){
         if (otherShip.getRadialPosition() > getRadialPosition() ||
                 getRadialPosition() - otherShip.getRadialPosition() > Math.PI)
