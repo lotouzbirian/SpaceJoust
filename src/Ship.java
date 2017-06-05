@@ -2,15 +2,15 @@
  * Created by Bensas on 5/27/17.
  */
 public class Ship extends GameObject{
-    private static final float RADIUS= 0;
+    private static final int RADIUS= 200;
     private static final int STARTING_HEALTH= 5;
     private static final int STARTING_ENERGY= 5;
     private static final int ROCKET_COST= 2;
     private static final int SHIELD_COST= 2;
     private static final int ACCELERATION_COST= 2;
-    private static final float ACCELERATION_FACTOR= 2f;
-    private static final float DECELERATION_FACTOR= 0.1f;
-    private static final int DEFAULT_SPEED_FACTOR= 2;
+    private static final float ACCELERATION_FACTOR= 10f;
+    private static final float DECELERATION_FACTOR= 0.002f;
+    private static final float DEFAULT_SPEED_FACTOR= 0.005f;
     private float radialPosition;    
     private boolean isAlive= true;
     private int health= STARTING_HEALTH;
@@ -23,11 +23,17 @@ public class Ship extends GameObject{
 
     @Override
     public void update(){
-        setRadialPosition(getRadialPosition() + getSpeedFactor());
-        setPositionX((int)(RADIUS * Math.cos(getRadialPosition())));
-        setPositionY((int)(RADIUS * Math.sin(getRadialPosition())));
-        if (getSpeedFactor() > DEFAULT_SPEED_FACTOR){
-            setSpeedFactor(getSpeedFactor() - DECELERATION_FACTOR);
+        if (getIsAlive()){
+            setRadialPosition(getRadialPosition() + getSpeedFactor());
+            setPositionX(SpaceJoust.GAME_WIDTH/2 - (int)(RADIUS * Math.cos(getRadialPosition())));
+            setPositionY(SpaceJoust.GAME_HEIGHT/2 - (int)(RADIUS * Math.sin(getRadialPosition())));
+            setRotation(getRadialPosition());
+            if (getSpeedFactor() > DEFAULT_SPEED_FACTOR){
+                setSpeedFactor(getSpeedFactor() - DECELERATION_FACTOR);
+                System.out.println("Lowering speed, current: " + getSpeedFactor());
+            } else {
+                setSpeedFactor(DEFAULT_SPEED_FACTOR);
+            }
         }
         super.update();
     }
@@ -48,20 +54,26 @@ public class Ship extends GameObject{
     }
 
     public void accelerate(){
-        setEnergy(getEnergy() - ACCELERATION_COST);
-        setSpeedFactor(getSpeedFactor() * ACCELERATION_FACTOR);
+        if (getEnergy() >= ACCELERATION_COST && getSpeedFactor() == DEFAULT_SPEED_FACTOR){
+            setEnergy(getEnergy() - ACCELERATION_COST);
+            setSpeedFactor(getSpeedFactor() * ACCELERATION_FACTOR);
+        }
     }
 
     public void shield(){
-        setEnergy(getEnergy() - SHIELD_COST);
-        shielded=true;
+        if (getEnergy() >= SHIELD_COST){
+            setEnergy(getEnergy() - SHIELD_COST);
+            shielded=true;
+        }
     }
     public void unshield(){
         shielded=false;
     }
 
     public void fireRocket(){
-        setEnergy(getEnergy() - ROCKET_COST);
+        if (getEnergy() >= ROCKET_COST){
+            setEnergy(getEnergy() - ROCKET_COST);
+        }
     }
 
     public boolean isBehindShip(Ship otherShip){
@@ -71,11 +83,11 @@ public class Ship extends GameObject{
         return false;
     }
 
-    public boolean isAlive(){
+    public boolean getIsAlive(){
         return isAlive;
     }
-    public void setIsAlive(){
-        isAlive = false;
+    public void setIsAlive(boolean isAlive){
+        this.isAlive = isAlive;
     }
 
 }

@@ -35,8 +35,8 @@ public class Model {
                 createShipObjectAndView(),
                 createShipObjectAndView()
         };
-        players[1].setPositionX(1200);
-        players[0].setPositionX(0);
+        players[0].setRadialPosition(0);
+        players[1].setRadialPosition((float)Math.PI);
     }
 
     private Ship createShipObjectAndView(){
@@ -51,19 +51,15 @@ public class Model {
         for (Ship player: players){
             player.update();
         }
-        System.out.println(players[0].isAlive());
         checkForShipCollision(players[0], players[1]);
-        players[0].setPositionX(players[0].getPositionX() + 1);
-        //System.out.println(players[0].getPositionX());
     };
 
     public void checkForShipCollision(Ship ship1, Ship ship2){
         if (ship1.collidesWith(ship2)){
-            ship1.setIsAlive();
-            // if (ship1.isBehindShip(ship2))
-            //     ship2.die();
-            // else
-            //     ship1.die();
+             if (ship1.isBehindShip(ship2))
+                 ship2.setIsAlive(false);
+             else
+                 ship1.setIsAlive(false);
         }
     }
 

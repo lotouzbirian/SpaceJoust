@@ -20,31 +20,33 @@ public abstract class GameObject extends Observable {
         updateCollisionBox();
     }
 
-    public int getPositionX() {return positionX;}
+    protected int getPositionX() {return positionX;}
 
-    public int getPositionY() {return positionY;}
+    protected int getPositionY() {return positionY;}
 
-    public void setPositionX(int positionX) {
+    protected void setPositionX(int positionX) {
         this.positionX = positionX;
     }
 
-    public void setPositionY(int positionY) {
+    protected void setPositionY(int positionY) {
         this.positionY = positionY;
     }
 
-    public int getCollisionWidth() {return collisionWidth;}
+    protected int getCollisionWidth() {return collisionWidth;}
 
-    public int getCollisionHeight() {return collisionHeight;}
+    protected int getCollisionHeight() {return collisionHeight;}
 
-    public float getRotation(){return rotation;}
+    protected float getRotation(){return rotation;}
 
-    public Shape getCollisionBox() {
+    protected void setRotation(float rotation) {this.rotation = rotation;}
+
+    private Shape getCollisionBox() {
         return collisionBox;
     }
 
-    public float getSpeedFactor(){return speedFactor;}
+    protected float getSpeedFactor(){return speedFactor;}
 
-    public void setSpeedFactor(float speedFactor) {this.speedFactor = speedFactor;}
+    protected void setSpeedFactor(float speedFactor) {this.speedFactor = speedFactor;}
 
     public  boolean collidesWith(GameObject object){
         if (object.getCollisionBox().getBounds2D().intersects(getCollisionBox().getBounds2D()))
@@ -63,6 +65,5 @@ public abstract class GameObject extends Observable {
         AffineTransform tx = new AffineTransform();
         tx.rotate(rotation);
         collisionBox = tx.createTransformedShape(boundaries);
-        System.out.println((getPositionX() - getCollisionWidth()/2) + " - " + (getPositionY() - getCollisionHeight()/2) + " --- " + getCollisionWidth() + " - " + getCollisionHeight());
     }
 }

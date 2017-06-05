@@ -5,7 +5,7 @@
         import java.awt.event.KeyEvent;
  import java.util.ArrayList;
 
- import javax.swing.JPanel;
+ import javax.swing.*;
 
  /**
  * Created by Bensas on 5/27/17.
@@ -17,12 +17,18 @@ public class View extends JPanel implements ActionListener{
 
     ViewThread thread;
 
+    Image circleImage;
+    Image backgroundImage;
+
     private ArrayList<ObjectView> objectViews;
 
     public View() {
         setFocusable(true);
         addKeyListener(new TAdapter());
-        //setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
+
+        circleImage = new ImageIcon("circle.jpg").getImage();
+        backgroundImage = new ImageIcon("background1.jpg").getImage();
+
         objectViews = new ArrayList<>();
         thread = new ViewThread(this);
         thread.setIsRunning(true);
@@ -46,6 +52,9 @@ public class View extends JPanel implements ActionListener{
      }
 
     private void draw(Graphics g){
+        g.drawImage(backgroundImage, 0, 0, backgroundImage.getWidth(null), backgroundImage.getHeight(null), null);
+        g.drawImage(circleImage, SpaceJoust.GAME_WIDTH/2 - 200 - 9, SpaceJoust.GAME_HEIGHT / 2 - 200 - 9, 400 + 19, 400 + 19, null);
+
         for (ObjectView objectView : objectViews){
             objectView.draw((Graphics2D)g);
         }

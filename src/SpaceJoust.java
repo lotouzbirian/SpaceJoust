@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
  * Created by Bensas on 5/27/17.
  */
 public class SpaceJoust{
-    public static final int GAME_WIDTH = 1920;
-    public static final int GAME_HEIGHT = 1440;
+    public static final int GAME_WIDTH = 800;
+    public static final int GAME_HEIGHT = 600;
 
     public static void main(String[] args){
 
@@ -22,7 +22,7 @@ public class SpaceJoust{
         controller.setModel(model);
 
         JFrame frame = new JFrame();
-        frame.setBounds(1, 1, 500, 400);
+        frame.setBounds(1, 1, GAME_WIDTH, GAME_HEIGHT);
         frame.add(view);
         frame.setVisible(true);
 

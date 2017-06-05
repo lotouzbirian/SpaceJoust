@@ -8,7 +8,7 @@ public class ShipView extends ObjectView {
 
     public ShipView(){
         Image[] frames = new Image[]{
-                loadTexture("ship1.png")
+                loadTexture(TEXTURE_PATH)
         };
         animation = new Animation(frames, 20);
     }
