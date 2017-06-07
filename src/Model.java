@@ -25,6 +25,8 @@ public class Model {
     }
 
     public void initGame(){
+        rockets = new Rocket[10];
+        asteroids = new Asteroid[10];
         initPlayers();
         thread = new ModelThread(this);
         thread.setIsRunning(true);
@@ -52,28 +54,32 @@ public class Model {
             player.update();
         }
         for (Rocket rocket: rockets){
-            rocket.update();
-            if (rocket.collidesWith(rocket.getTarget())){
-                rocket.getTarget().explode();
-                rocket.explode();
+            if (rocket != null){
+                rocket.update();
+                if (rocket.collidesWith(rocket.getTarget())){
+                    rocket.getTarget().explode();
+                    rocket.explode();
+                }
             }
         }
         for (Asteroid asteroid: asteroids){
-            asteroid.update();
-            for (Ship player: players){
-                player.explode();
-                asteroid.explode();
-            }
-            for (Rocket rocket: rockets){
-                if (asteroid.collidesWith(rocket)){
-                    rocket.explode();
+            if (asteroid != null){
+                asteroid.update();
+                for (Ship player: players){
+                    player.explode();
                     asteroid.explode();
                 }
-            }
-            for (Asteroid otherAsteroid: asteroids){
-                if (!otherAsteroid.equals(asteroid) && asteroid.collidesWith(otherAsteroid)){
-                    otherAsteroid.explode();
-                    asteroid.explode();
+                for (Rocket rocket: rockets){
+                    if (asteroid.collidesWith(rocket)){
+                        rocket.explode();
+                        asteroid.explode();
+                    }
+                }
+                for (Asteroid otherAsteroid: asteroids){
+                    if (!otherAsteroid.equals(asteroid) && asteroid.collidesWith(otherAsteroid)){
+                        otherAsteroid.explode();
+                        asteroid.explode();
+                    }
                 }
             }
         }
