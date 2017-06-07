@@ -19,6 +19,10 @@ public class Asteroid extends GameObject{
 		super(collisionWidth, collisionHeight, speedFactor);
 		setRandomPropierties();
 	}
+
+	public void explode(){
+        
+    }
 	
 	public void setRandomPropierties(){
 		if(rnd.nextBoolean()){//si es verdadero, entra por la derecha o izquierda

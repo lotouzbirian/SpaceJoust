@@ -20,6 +20,10 @@ public class Ship extends GameObject{
     public Ship(int collisionWidth, int collisionHeight){
         super(collisionWidth, collisionHeight, DEFAULT_SPEED_FACTOR);
     }
+    
+    public void explode(){
+        
+    }
 
     @Override
     public void update(){

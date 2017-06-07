@@ -8,7 +8,7 @@ public class Model {
 
     final static int SHIP_COLLISION_HEIGHT=30, SHIP_COLLISION_WIDTH = 20;
 
-    private Ship[] players;
+    public Ship[] players;
     private Rocket[] rockets;
     private Asteroid[] asteroids;
 
@@ -54,13 +54,13 @@ public class Model {
         for (Rocket rocket: rockets){
             rocket.update();
             if (rocket.collidesWith(rocket.getTarget())){
-                rocket.getTarget.explode();
+                rocket.getTarget().explode();
                 rocket.explode();
             }
         }
         for (Asteroid asteroid: asteroids){
             asteroid.update();
-            for (Player player: players){
+            for (Ship player: players){
                 player.explode();
                 asteroid.explode();
             }

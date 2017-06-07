@@ -54,6 +54,8 @@ public abstract class GameObject extends Observable {
         return false;
     };
 
+    public abstract void explode();
+
     public void update(){
         updateCollisionBox();
         setChanged();

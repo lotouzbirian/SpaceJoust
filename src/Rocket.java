@@ -14,7 +14,13 @@ public class Rocket extends GameObject{
         this.target=target;
         this.origin= origin;
     }
+
+    public void explode(){
+        
+    }
     
+    public GameObject getTarget(){ return target;}
+
     public void setTarget (GameObject target){
         this.target=target;
     }
