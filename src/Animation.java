@@ -6,6 +6,8 @@ public class Animation {
 	private int timer= 0;
 	private int frameDuration;
 	private int frameIndex= 0;
+
+	private int correspondingState;
 	
 	public Animation(Image[] frames, int frameDuration){
 		this.frames= frames;
@@ -25,4 +27,7 @@ public class Animation {
 		if (frames.length<=frameIndex)
 			frameIndex=0;
 	}
+
+	public int getCorrespondingState(){return correspondingState;}
+	public void setCorrespondingState(int correspondingState){this.correspondingState = correspondingState;}
 }

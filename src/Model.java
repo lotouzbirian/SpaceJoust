@@ -82,7 +82,7 @@ public class Model {
             if (rocket != null){
                 rocket.update();
                 if (rocket.collidesWith(rocket.getTarget())){
-                    System.out.println("Colided with ship");
+                    //System.out.println("Colided with ship");
                     rocket.getTarget().impact();
                     rocket.impact();
                 }

@@ -13,6 +13,7 @@ public abstract class GameObject extends Observable {
     private Rectangle boundaries;
     private Area collisionBox;
     private float speedFactor;
+    private int state;
 
     public GameObject(int collisionWidth, int collisionHeight, float speedFactor){
         this.collisionWidth = collisionWidth;
@@ -48,6 +49,10 @@ public abstract class GameObject extends Observable {
     protected float getSpeedFactor(){return speedFactor;}
 
     protected void setSpeedFactor(float speedFactor) {this.speedFactor = speedFactor;}
+
+    public int getState() {return state;}
+
+    public void setState(int state) {this.state = state;}
 
     public  boolean collidesWith(GameObject object){
         if (object.getCollisionBox().intersects(getCollisionBox().getBounds()) && getCollisionBox().intersects(object.getCollisionBox().getBounds()))

@@ -11,7 +11,9 @@ import java.util.Observer;
 public abstract class GameObjectView implements Observer{
     private int positionX, positionY;
     private float rotation;
-    protected Animation animation;
+    private int state;
+    protected Animation[] animations;
+    protected Animation currentAnimation, travelAnimation, explodeAnimation;
     AffineTransform identity = new AffineTransform();
 
     /***
@@ -24,17 +26,17 @@ public abstract class GameObjectView implements Observer{
         return i.getImage();
     }
 
-
     /***
      *
      * @param g
      */
     public void draw(Graphics2D g){
+        getAnimation().update();
         AffineTransform trans = new AffineTransform();
         trans.setTransform(identity);
-        trans.translate(getPositionX() - animation.getFrame().getWidth(null)/2, getPositionY() - animation.getFrame().getHeight(null) / 2);
-        trans.rotate(getRotation(), animation.getFrame().getWidth(null)/2, animation.getFrame().getHeight(null)/2);
-        g.drawImage(animation.getFrame(), trans, null);
+        trans.translate(getPositionX() - getAnimation().getFrame().getWidth(null)/2, getPositionY() - getAnimation().getFrame().getHeight(null) / 2);
+        trans.rotate(getRotation(), getAnimation().getFrame().getWidth(null)/2, getAnimation().getFrame().getHeight(null)/2);
+        g.drawImage(getAnimation().getFrame(), trans, null);
     }
 
     @Override
@@ -42,23 +44,39 @@ public abstract class GameObjectView implements Observer{
         setPositionX(((GameObject)o).getPositionX());
         setPositionY(((GameObject)o).getPositionY());
         setRotation(((GameObject)o).getRotation());
+        if (((GameObject)o).getState() != getState()){
+            switchAnimation(((GameObject)o).getState());
+            setState(((GameObject)o).getState());
+        }
     }
 
-    public int getPositionX() {return positionX;}
+    protected Animation getAnimation(){return currentAnimation;}
 
-    public int getPositionY() {return positionY;}
+    protected void setAnimation(Animation currentAnimation){this.currentAnimation = currentAnimation;}
 
-    public float getRotation() {return rotation;}
+    protected abstract void switchAnimation(int nextState);
 
-    public void setPositionX(int positionX) {
+
+    protected int getPositionX() {return positionX;}
+
+    protected int getPositionY() {return positionY;}
+
+    protected float getRotation() {return rotation;}
+
+    protected void setRotation(float rotation) {
+        this.rotation = rotation;
+    }
+
+    protected int getState(){return state;}
+
+    protected void setState(int state){this.state = state;}
+
+    protected void setPositionX(int positionX) {
         this.positionX = positionX;
     }
 
-    public void setPositionY(int positionY) {
+    protected void setPositionY(int positionY) {
         this.positionY = positionY;
     }
 
-    public void setRotation(float rotation) {
-        this.rotation = rotation;
-    }
 }

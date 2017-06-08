@@ -2,9 +2,11 @@
  * Created by Bensas on 5/27/17.
  */
 public class Rocket extends GameObject{
+    private static final float ROCKET_SPEED_FACTOR= 3;
+    private static final int STATE_TRAVELING= 0, STATE_EXPLODING= 1;
+
     private GameObject target;
     private GameObject origin;
-    private static final float ROCKET_SPEED_FACTOR= 3;
     private float speedX;
     private float speedY;
 
@@ -14,10 +16,11 @@ public class Rocket extends GameObject{
         setPositionY(origin.getPositionY());
         setTarget(target);
         setOrigin(origin);
+        setState(STATE_TRAVELING);
     }
 
     public void impact(){
-        
+        setState(STATE_EXPLODING);
     }
 
     public GameObject getOrigin() {return origin;}
