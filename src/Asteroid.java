@@ -12,16 +12,18 @@ import java.util.*;
  */
 
 public class Asteroid extends GameObject{
+	private static final float DEFAULT_SPEED_FACTOR= 0.005f;
+
 	Random rnd=new Random();
 	float randomFloat=rnd.nextFloat();
 	
-	public Asteroid(int collisionWidth, int collisionHeight, float speedFactor){
-		super(collisionWidth, collisionHeight, speedFactor);
+	public Asteroid(int collisionWidth, int collisionHeight){
+		super(collisionWidth, collisionHeight, DEFAULT_SPEED_FACTOR);
 		setRandomPropierties();
 	}
 
-	public void explode(){
-        
+	public void impact(){
+
     }
 	
 	public void setRandomPropierties(){

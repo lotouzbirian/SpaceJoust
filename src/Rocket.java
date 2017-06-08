@@ -2,7 +2,6 @@
  * Created by Bensas on 5/27/17.
  */
 public class Rocket extends GameObject{
-
     private GameObject target;
     private GameObject origin;
     private static final float ROCKET_SPEED_FACTOR= 3;
@@ -11,14 +10,20 @@ public class Rocket extends GameObject{
 
     public Rocket(int collisionWidth, int collisionHeight, GameObject target, GameObject origin){
         super(collisionWidth, collisionHeight, ROCKET_SPEED_FACTOR);
-        this.target=target;
-        this.origin= origin;
+        setPositionX(origin.getPositionX());
+        setPositionY(origin.getPositionY());
+        setTarget(target);
+        setOrigin(origin);
     }
 
-    public void explode(){
+    public void impact(){
         
     }
-    
+
+    public GameObject getOrigin() {return origin;}
+
+    public void setOrigin(GameObject origin) {this.origin = origin;}
+
     public GameObject getTarget(){ return target;}
 
     public void setTarget (GameObject target){

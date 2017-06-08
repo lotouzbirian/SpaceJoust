@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.util.Observable;
 
 /**
@@ -10,7 +11,7 @@ public abstract class GameObject extends Observable {
     private int collisionWidth, collisionHeight;
     private float rotation = 0;
     private Rectangle boundaries;
-    private Shape collisionBox;
+    private Area collisionBox;
     private float speedFactor;
 
     public GameObject(int collisionWidth, int collisionHeight, float speedFactor){
@@ -49,12 +50,12 @@ public abstract class GameObject extends Observable {
     protected void setSpeedFactor(float speedFactor) {this.speedFactor = speedFactor;}
 
     public  boolean collidesWith(GameObject object){
-        if (object.getCollisionBox().getBounds2D().intersects(getCollisionBox().getBounds2D()))
+        if (object.getCollisionBox().intersects(getCollisionBox().getBounds()) && getCollisionBox().intersects(object.getCollisionBox().getBounds()))
             return true;
         return false;
     };
 
-    public abstract void explode();
+    public abstract void impact();
 
     public void update(){
         updateCollisionBox();
@@ -66,6 +67,7 @@ public abstract class GameObject extends Observable {
         boundaries = new Rectangle(getPositionX() - getCollisionWidth()/2, getPositionY() - getCollisionHeight()/2, getCollisionWidth(), getCollisionHeight()  );
         AffineTransform tx = new AffineTransform();
         tx.rotate(rotation);
-        collisionBox = tx.createTransformedShape(boundaries);
+        collisionBox = new Area(tx.createTransformedShape(boundaries));
+        //System.out.println(collisionBox.getBounds());
     }
 }

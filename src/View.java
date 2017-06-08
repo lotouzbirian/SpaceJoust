@@ -20,7 +20,7 @@ public class View extends JPanel implements ActionListener{
     Image circleImage;
     Image backgroundImage;
 
-    private ArrayList<ObjectView> objectViews;
+    private ArrayList<GameObjectView> gameObjectViews;
 
     public View() {
         setFocusable(true);
@@ -29,7 +29,7 @@ public class View extends JPanel implements ActionListener{
         circleImage = new ImageIcon("circle.jpg").getImage();
         backgroundImage = new ImageIcon("background1.jpg").getImage();
 
-        objectViews = new ArrayList<>();
+        gameObjectViews = new ArrayList<>();
         thread = new ViewThread(this);
         thread.setIsRunning(true);
         thread.start();
@@ -47,16 +47,16 @@ public class View extends JPanel implements ActionListener{
         this.controller = controller;
     }
 
-     public void addView(ObjectView view){
-         objectViews.add(view);
+     public void addView(GameObjectView view){
+         gameObjectViews.add(view);
      }
 
     private void draw(Graphics g){
         g.drawImage(backgroundImage, 0, 0, backgroundImage.getWidth(null), backgroundImage.getHeight(null), null);
         g.drawImage(circleImage, SpaceJoust.GAME_WIDTH/2 - 200 - 9, SpaceJoust.GAME_HEIGHT / 2 - 200 - 9, 400 + 19, 400 + 19, null);
 
-        for (ObjectView objectView : objectViews){
-            objectView.draw((Graphics2D)g);
+        for (GameObjectView gameObjectView : gameObjectViews){
+            gameObjectView.draw((Graphics2D)g);
         }
     }
 

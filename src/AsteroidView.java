@@ -1,12 +1,12 @@
 import java.awt.*;
 
 /**
- * Created by Bensas on 5/28/17.
+ * Created by Bensas on 6/7/17.
  */
-public class ShipView extends GameObjectView {
-    private static final String TEXTURE_PATH = "ship1.png";
+public class AsteroidView extends GameObjectView {
+    private static final String TEXTURE_PATH = "asteroid.png";
 
-    public ShipView(){
+    public AsteroidView(){
         Image[] frames = new Image[]{
                 loadTexture(TEXTURE_PATH)
         };

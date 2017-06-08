@@ -1,3 +1,6 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  * Created by Bensas on 5/27/17.
  */
@@ -6,11 +9,13 @@ public class Model {
 
     ModelThread thread;
 
-    final static int SHIP_COLLISION_HEIGHT=30, SHIP_COLLISION_WIDTH = 20;
+    final static int SHIP_COLLISION_HEIGHT=128, SHIP_COLLISION_WIDTH = 64;
+    final static int ROCKET_COLLISION_HEIGHT=20, ROCKET_COLLISION_WIDTH = 20;
+    final static int ASTEROID_COLLISION_HEIGHT=30, ASTEROID_COLLISION_WIDTH = 30;
 
     public Ship[] players;
-    private Rocket[] rockets;
-    private Asteroid[] asteroids;
+    private ArrayList<Rocket> rockets = new ArrayList<>();
+    private ArrayList<Asteroid> asteroids = new ArrayList<>();
 
     public Model(){
 
@@ -25,8 +30,6 @@ public class Model {
     }
 
     public void initGame(){
-        rockets = new Rocket[10];
-        asteroids = new Asteroid[10];
         initPlayers();
         thread = new ModelThread(this);
         thread.setIsRunning(true);
@@ -34,19 +37,41 @@ public class Model {
     }
     private void initPlayers(){
         players = new Ship[]{
-                createShipObjectAndView(),
-                createShipObjectAndView()
+                createShipWithView(),
+                createShipWithView()
         };
         players[0].setRadialPosition(0);
         players[1].setRadialPosition((float)Math.PI);
     }
 
-    private Ship createShipObjectAndView(){
+    /***
+     *
+     * @return
+     */
+    private Ship createShipWithView(){
         Ship ship = new Ship(SHIP_COLLISION_WIDTH, SHIP_COLLISION_HEIGHT);
         ShipView shipView = new ShipView();
         ship.addObserver(shipView);
         getView().addView(shipView);
-        return  ship;
+        return ship;
+    }
+
+    private Asteroid createAsteroid(){
+        Asteroid asteroid = new Asteroid(ASTEROID_COLLISION_WIDTH, ASTEROID_COLLISION_HEIGHT);
+        AsteroidView asteroidView = new AsteroidView();
+        asteroid.addObserver(asteroidView);
+        asteroids.add(asteroid);
+        getView().addView(asteroidView);
+        return asteroid;
+    }
+
+    public Rocket createRocket(GameObject origin, GameObject target){
+        Rocket rocket = new Rocket(ROCKET_COLLISION_WIDTH, ROCKET_COLLISION_HEIGHT, target, origin);
+        RocketView rocketView = new RocketView();
+        rocket.addObserver(rocketView);
+        rockets.add(rocket);
+        getView().addView(rocketView);
+        return rocket;
     }
 
     public void update(){
@@ -57,8 +82,9 @@ public class Model {
             if (rocket != null){
                 rocket.update();
                 if (rocket.collidesWith(rocket.getTarget())){
-                    rocket.getTarget().explode();
-                    rocket.explode();
+                    System.out.println("Colided with ship");
+                    rocket.getTarget().impact();
+                    rocket.impact();
                 }
             }
         }
@@ -66,19 +92,19 @@ public class Model {
             if (asteroid != null){
                 asteroid.update();
                 for (Ship player: players){
-                    player.explode();
-                    asteroid.explode();
+                    player.impact();
+                    asteroid.impact();
                 }
                 for (Rocket rocket: rockets){
                     if (asteroid.collidesWith(rocket)){
-                        rocket.explode();
-                        asteroid.explode();
+                        rocket.impact();
+                        asteroid.impact();
                     }
                 }
                 for (Asteroid otherAsteroid: asteroids){
                     if (!otherAsteroid.equals(asteroid) && asteroid.collidesWith(otherAsteroid)){
-                        otherAsteroid.explode();
-                        asteroid.explode();
+                        otherAsteroid.impact();
+                        asteroid.impact();
                     }
                 }
             }

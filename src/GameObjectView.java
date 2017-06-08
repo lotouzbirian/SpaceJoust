@@ -1,34 +1,35 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.io.FileNotFoundException;
 import java.util.Observable;
 import java.util.Observer;
 
 /**
  * Created by Bensas on 5/27/17.
  */
-public abstract class ObjectView implements Observer{
+public abstract class GameObjectView implements Observer{
     private int positionX, positionY;
     private float rotation;
     protected Animation animation;
     AffineTransform identity = new AffineTransform();
 
+    /***
+     *
+     * @param textureName
+     * @return
+     */
     protected Image loadTexture(String textureName){
         ImageIcon i = new ImageIcon(textureName);
         return i.getImage();
     }
 
+
+    /***
+     *
+     * @param g
+     */
     public void draw(Graphics2D g){
-        //We rotate the whole canvas around the position of our object before drawing it
-        //and then rotate it back to its original position
-//        g.rotate(getRotation(), getPositionX() + animation.getFrame().getWidth(null)/2, getPositionY()+ animation.getFrame().getHeight(null)/2);
-//        g.drawImage(animation.getFrame(),
-//                getPositionX() - animation.getFrame().getWidth(null)/2,
-//                getPositionY() - animation.getFrame().getHeight(null)/2,
-//                animation.getFrame().getWidth(null),
-//                animation.getFrame().getHeight(null),
-//                null);
-//        g.rotate(-getRotation(), getPositionX() + animation.getFrame().getWidth(null)/2, getPositionY()+ animation.getFrame().getHeight(null)/2);
         AffineTransform trans = new AffineTransform();
         trans.setTransform(identity);
         trans.translate(getPositionX() - animation.getFrame().getWidth(null)/2, getPositionY() - animation.getFrame().getHeight(null) / 2);
