@@ -3,7 +3,6 @@
  */
 public class Rocket extends GameObject{
     private static final float ROCKET_SPEED_FACTOR= 3;
-    private static final int STATE_TRAVELING= 0, STATE_EXPLODING= 1;
 
     private GameObject target;
     private GameObject origin;
@@ -23,6 +22,13 @@ public class Rocket extends GameObject{
         setState(STATE_EXPLODING);
     }
 
+    private float getSpeedX() {return speedX;}
+    private void setSpeedX(float speedX) {this.speedX = speedX;}
+
+    private float getSpeedY() {return speedY;}
+    private void setSpeedY(float speedY) {this.speedY = speedY;}
+
+
     public GameObject getOrigin() {return origin;}
 
     public void setOrigin(GameObject origin) {this.origin = origin;}
@@ -40,6 +46,7 @@ public class Rocket extends GameObject{
         speedY= setMovement(distanceY, distanceX);
         setPositionX(getPositionX() + (int)speedX);
         setPositionY(getPositionY() + (int)speedY);
+        setRotation((float)Math.atan((getSpeedY()/getSpeedY())));
         super.update();
     }
     

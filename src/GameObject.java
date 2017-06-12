@@ -14,6 +14,7 @@ public abstract class GameObject extends Observable {
     private Area collisionBox;
     private float speedFactor;
     private int state;
+    public static final int STATE_TRAVELING= 0, STATE_EXPLODING= 1;
 
     public GameObject(int collisionWidth, int collisionHeight, float speedFactor){
         this.collisionWidth = collisionWidth;
@@ -42,7 +43,7 @@ public abstract class GameObject extends Observable {
 
     protected void setRotation(float rotation) {this.rotation = rotation;}
 
-    private Shape getCollisionBox() {
+    protected Area getCollisionBox() {
         return collisionBox;
     }
 
@@ -55,7 +56,7 @@ public abstract class GameObject extends Observable {
     public void setState(int state) {this.state = state;}
 
     public  boolean collidesWith(GameObject object){
-        if (object.getCollisionBox().intersects(getCollisionBox().getBounds()) && getCollisionBox().intersects(object.getCollisionBox().getBounds()))
+        if (object.getCollisionBox().intersects(getCollisionBox().getBounds()))
             return true;
         return false;
     };
@@ -71,8 +72,7 @@ public abstract class GameObject extends Observable {
     private void updateCollisionBox(){
         boundaries = new Rectangle(getPositionX() - getCollisionWidth()/2, getPositionY() - getCollisionHeight()/2, getCollisionWidth(), getCollisionHeight()  );
         AffineTransform tx = new AffineTransform();
-        tx.rotate(rotation);
+        tx.rotate(rotation, getPositionX(), getPositionY());
         collisionBox = new Area(tx.createTransformedShape(boundaries));
-        //System.out.println(collisionBox.getBounds());
     }
 }

@@ -22,7 +22,7 @@ public class Ship extends GameObject{
     public Ship(int collisionWidth, int collisionHeight){
         super(collisionWidth, collisionHeight, DEFAULT_SPEED_FACTOR);
     }
-
+    
     @Override
     public void update(){
         if (getIsAlive()){
@@ -42,8 +42,10 @@ public class Ship extends GameObject{
 
     public void updateEnergy(){
         energyRegenTimer++;
-        if (energyRegenTimer >= 60 && getEnergy() <= MAX_ENERGY)
+        if (energyRegenTimer >= 60 && getEnergy() <= MAX_ENERGY){
             setEnergy(getEnergy() + 1);
+            energyRegenTimer = 0;
+        }
     }
 
     public void updatePositionAndRotation(){

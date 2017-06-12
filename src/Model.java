@@ -81,8 +81,7 @@ public class Model {
         for (Rocket rocket: rockets){
             if (rocket != null){
                 rocket.update();
-                if (rocket.collidesWith(rocket.getTarget())){
-                    //System.out.println("Colided with ship");
+                if (rocket.getState() != GameObject.STATE_EXPLODING && rocket.collidesWith(rocket.getTarget())){
                     rocket.getTarget().impact();
                     rocket.impact();
                 }

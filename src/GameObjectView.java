@@ -1,7 +1,6 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -11,20 +10,13 @@ import java.util.Observer;
 public abstract class GameObjectView implements Observer{
     private int positionX, positionY;
     private float rotation;
-    private int state;
-    protected Animation[] animations;
-    protected Animation currentAnimation, travelAnimation, explodeAnimation;
     AffineTransform identity = new AffineTransform();
 
-    /***
-     *
-     * @param textureName
-     * @return
-     */
-    protected Image loadTexture(String textureName){
-        ImageIcon i = new ImageIcon(textureName);
-        return i.getImage();
-    }
+    private int state;
+    protected static final int STATE_TRAVELING= 0, STATE_EXPLODING= 1;
+
+    protected HashMap<String, Animation> animations = new HashMap<>();
+    protected Animation currentAnimation;
 
     /***
      *
@@ -50,11 +42,22 @@ public abstract class GameObjectView implements Observer{
         }
     }
 
-    protected Animation getAnimation(){return currentAnimation;}
+    public void addAnimation(String name, Animation animation){
+        animations.put(name, animation);
+    }
 
+    protected Animation getAnimation(){return currentAnimation;}
     protected void setAnimation(Animation currentAnimation){this.currentAnimation = currentAnimation;}
 
-    protected abstract void switchAnimation(int nextState);
+    protected void switchAnimation(int state){
+        switch (state){
+            case STATE_TRAVELING:
+                setAnimation(animations.get("TRAVEL"));
+            case STATE_EXPLODING:
+                setAnimation(animations.get("EXPLOSION"));
+                break;
+        }
+    };
 
 
     protected int getPositionX() {return positionX;}
