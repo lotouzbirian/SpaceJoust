@@ -50,6 +50,8 @@ public class Ship extends GameObject{
 
     public void updatePositionAndRotation(){
         setRadialPosition(getRadialPosition() + getSpeedFactor());
+        if (getRadialPosition() >= 2 * Math.PI)
+            setRadialPosition(0f);
         setPositionX(SpaceJoust.GAME_WIDTH/2 - (int)(RADIUS * Math.cos(getRadialPosition())));
         setPositionY(SpaceJoust.GAME_HEIGHT/2 - (int)(RADIUS * Math.sin(getRadialPosition())));
         setRotation(getRadialPosition());
