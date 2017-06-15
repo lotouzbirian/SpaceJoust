@@ -114,9 +114,9 @@ public class Model {
     public void checkForShipCollision(Ship ship1, Ship ship2){
         if (ship2.collidesWith(ship1)){
              if (ship1.isBehindShip(ship2))
-                 ship2.setIsAlive(false);
+                 ship2.setHealth(0);
              else
-                 ship1.setIsAlive(false);
+                 ship1.setHealth(0);
         }
     }
 

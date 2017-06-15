@@ -3,7 +3,7 @@
  */
 public class Ship extends GameObject{
     private static final int RADIUS= 200;
-    private static final int STARTING_HEALTH= 5;
+    private static final int STARTING_HEALTH= 3;
     private static final int STARTING_ENERGY= 5;
     private static final int MAX_ENERGY= 10;
     private static final int ROCKET_COST= 2;
@@ -34,8 +34,10 @@ public class Ship extends GameObject{
                 setSpeedFactor(DEFAULT_SPEED_FACTOR);
             }
 
-            if (getIsAlive() && getHealth() <= 0)
+            if (getIsAlive() && getHealth() <= 0){
                 setIsAlive(false);
+                setState(STATE_EXPLODING);
+            }
         }
         super.update();
     }
@@ -115,8 +117,5 @@ public class Ship extends GameObject{
     public boolean getIsAlive(){
         return isAlive;
     }
-    public void setIsAlive(boolean isAlive){
-        this.isAlive = isAlive;
-    }
-
+    public void setIsAlive(boolean isAlive){this.isAlive = isAlive;}
 }
