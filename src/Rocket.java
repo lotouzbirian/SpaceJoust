@@ -18,6 +18,7 @@ public class Rocket extends GameObject{
         setState(STATE_TRAVELING);
     }
 
+    @Override
     public void impact(){
         setState(STATE_EXPLODING);
     }
@@ -29,15 +30,14 @@ public class Rocket extends GameObject{
     private void setSpeedY(float speedY) {this.speedY = speedY;}
 
     public GameObject getOrigin() {return origin;}
-
     public void setOrigin(GameObject origin) {this.origin = origin;}
 
     public GameObject getTarget(){ return target;}
-
     public void setTarget (GameObject target){
         this.target=target;
     }
-    
+
+    @Override
     public void update(){
         if (getState() == STATE_TRAVELING){
             float distanceX= target.getPositionX() - getPositionX();
@@ -55,7 +55,8 @@ public class Rocket extends GameObject{
         float cuenta= (a/(float)Math.sqrt((a * a) + (b * b))) * getSpeedFactor();
         return cuenta;
     }
-    
+
+    @Override
     public boolean collidesWith(GameObject object){
         if(object.getClass().equals(Rocket.class) || object.equals(origin) )
             return false;

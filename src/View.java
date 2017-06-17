@@ -17,6 +17,8 @@ public class View extends JPanel implements ActionListener{
 
     private ViewThread thread;
 
+     private static int STATE_MAIN_MENU = 0, STATE_LOBBY = 1, STATE_IN_GAME = 2;
+
     Animation circleAnimation;
     Image backgroundImage;
     protected Image[]
@@ -100,12 +102,12 @@ public class View extends JPanel implements ActionListener{
                 loadTexture("circle11.png"),
                 loadTexture("circle10.png"),
                 loadTexture("circle9.png"),
-                loadTexture("circle8.png"),
                 loadTexture("circle7.png"),
                 loadTexture("circle6.png"),
                 loadTexture("circle5.png"),
+                loadTexture("circle4.png"),
         };
-        circleAnimation = new Animation(circleFrames, 5);
+        circleAnimation = new Animation(circleFrames, 2);
         shipTravelFrames = new Image[]{
                 loadTexture("ship1.png"),
                 loadTexture("ship2.png"),

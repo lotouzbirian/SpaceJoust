@@ -13,7 +13,7 @@ public abstract class GameObject extends Observable {
     private Area collisionBox;
     private float speedFactor;
     private int state;
-    public static final int STATE_TRAVELING= 0, STATE_EXPLODING= 1, STATE_INACTIVE = 2;
+    public static final int STATE_TRAVELING= 0, STATE_EXPLODING = 1;
 
     public GameObject(int collisionWidth, int collisionHeight, float speedFactor){
         this.collisionWidth = collisionWidth;
@@ -48,10 +48,14 @@ public abstract class GameObject extends Observable {
     protected void setSpeedFactor(float speedFactor) {this.speedFactor = speedFactor;}
 
     public int getState() {return state;}
-    public void setState(int state) {this.state = state;}
+    public void setState(int state) {
+        this.state = state;
+        setChanged();
+        notifyObservers();
+    }
 
     public  boolean collidesWith(GameObject object){
-        if (object.getState() != STATE_EXPLODING && object.getCollisionBox().intersects(getCollisionBox().getBounds()))
+        if (getState() != STATE_EXPLODING && object.getState() != STATE_EXPLODING && object.getCollisionBox().intersects(getCollisionBox().getBounds()))
             return true;
         return false;
     };
@@ -62,6 +66,13 @@ public abstract class GameObject extends Observable {
         updateCollisionBox();
         setChanged();
         notifyObservers();
+    }
+
+    public boolean isOffScreen(){
+        if (getPositionX() < -getCollisionWidth() || getPositionX() > SpaceJoust.GAME_WIDTH ||
+                getPositionY() < -getCollisionHeight() || getPositionY() > SpaceJoust.GAME_HEIGHT)
+            return  true;
+        return false;
     }
 
     private void updateCollisionBox(){

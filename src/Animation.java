@@ -1,6 +1,5 @@
 import java.awt.Image;
 
-
 public class Animation {
 	private Image[] frames;
 	private int timer= 0, frameDuration, frameIndex = 0;
