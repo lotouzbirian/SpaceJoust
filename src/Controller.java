@@ -14,27 +14,27 @@ public class Controller {
     public void handleInput(KeyEvent e){
         switch (e.getKeyCode()){
             case KeyEvent.VK_A:
-                model.players[0].accelerate();
+                model.getPlayer(1).accelerate();
                 break;
             case KeyEvent.VK_S:
-                model.players[0].shield();
+                model.getPlayer(1).shield();
                 break;
             case KeyEvent.VK_D:
-                if (model.players[0].fireRocket())
-                    model.createRocketWithView(model.players[0], model.players[1]);
+                if (model.getPlayer(1).fireRocket())
+                    model.createRocketWithView(model.getPlayer(1), model.getPlayer(2));
                 break;
             case KeyEvent.VK_W:
                 break;
 
             case KeyEvent.VK_J:
-                model.players[1].accelerate();
+                model.getPlayer(2).accelerate();
                 break;
             case KeyEvent.VK_K:
-                model.players[1].shield();
+                model.getPlayer(2).shield();
                 break;
             case KeyEvent.VK_L:
-                if (model.players[1].fireRocket())
-                    model.createRocketWithView(model.players[1], model.players[0]);
+                if (model.getPlayer(2).fireRocket())
+                    model.createRocketWithView(model.getPlayer(2), model.getPlayer(1));
                 break;
             case KeyEvent.VK_I:
                 break;
