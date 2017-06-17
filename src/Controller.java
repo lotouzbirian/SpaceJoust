@@ -1,5 +1,6 @@
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by Bensas on 5/27/17.
@@ -14,11 +15,15 @@ public class Controller {
         this.model = model;
     }
 
+<<<<<<< HEAD
     /**
       *Se encarga de manejar la presión de teclas para la jugabilidad del juego.
       *@param e es el evento que genera presionar la tecla, y con un switch se verifica que realizar. 
     */
     public void handleInput(KeyEvent e){
+=======
+    public void handleKeyboardInput(KeyEvent e){
+>>>>>>> 7edfe947ae459bdf692de938e84325db500f4946
         switch (e.getKeyCode()){
             case KeyEvent.VK_A:
                 model.getPlayer(1).accelerate();
@@ -46,6 +51,9 @@ public class Controller {
             case KeyEvent.VK_I:
                 break;
         }
+    }
 
+    public void handleMouseInput(MouseEvent e){
+        for (e.getX() )
     }
 }
