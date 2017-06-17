@@ -1,3 +1,9 @@
+/**
+ * @author Ramiro Oliva
+ */
+
+import java.awt.*;
+
 public class Button{
 	private String nameButton;
 	private int positionX;
@@ -16,7 +22,7 @@ public class Button{
 		rectangle = new Rectangle (positionX, positionY, 120, 50);
 		g.setFont(fnt0);
 		g.setColor(Color.white);
-		g.draw(newButton);
-		g.drawString( nameButton, newButton.x +30, newButton.y + 20);
+		g.draw(rectangle);
+		g.drawString( nameButton, rectangle.x +30, rectangle.y + 20);
 	}
 }

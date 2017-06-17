@@ -1,5 +1,6 @@
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by Bensas on 5/27/17.
@@ -11,7 +12,7 @@ public class Controller {
         this.model = model;
     }
 
-    public void handleInput(KeyEvent e){
+    public void handleKeyboardInput(KeyEvent e){
         switch (e.getKeyCode()){
             case KeyEvent.VK_A:
                 model.getPlayer(1).accelerate();
@@ -39,6 +40,9 @@ public class Controller {
             case KeyEvent.VK_I:
                 break;
         }
+    }
 
+    public void handleMouseInput(MouseEvent e){
+        for (e.getX() )
     }
 }
