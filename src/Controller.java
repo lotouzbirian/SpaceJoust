@@ -7,10 +7,17 @@ import java.awt.event.KeyEvent;
 public class Controller {
     Model model;
 
+    /**
+      *Setea el model al controller.
+    */
     public void setModel(Model model){
         this.model = model;
     }
 
+    /**
+      *Se encarga de manejar la presión de teclas para la jugabilidad del juego.
+      *@param e es el evento que genera presionar la tecla, y con un switch se verifica que realizar. 
+    */
     public void handleInput(KeyEvent e){
         switch (e.getKeyCode()){
             case KeyEvent.VK_A:

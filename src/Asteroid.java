@@ -1,16 +1,13 @@
 import java.util.*;
 /**
- * 
- * @author Ramiro Oliva
- * Habria que ver que pasa con los asteroides que se crean aleatoriamente en las esquinas porque
- * a veces ni aparecerian por como se mueven. lo que yo pense es restringir mas los bordes como para
- * que no puedan salir de las esquinas ya que si se crea alguno que no se ve, si ponemos buffs
- * estariamos alterando el balanceo y tambien creo que faltaria como un timer para decir que 
- * despues de cierto tiempo si esta "out of bounds" elimine el asteroide.
- * Donde dice set speed me frene por no querer hacer cagadas.
- * 
+  * @author Ramiro Oliva
  */
 
+
+/**
+  *Clase Asteroid que representa a un objeto no manejable por el usuario,
+  * generado de manera random, y el cual puede impactar con las naves y provocarles daño.
+*/
 public class Asteroid extends GameObject{
 	private static final float DEFAULT_SPEED_FACTOR= 0.005f;
 
@@ -18,21 +15,47 @@ public class Asteroid extends GameObject{
 
 	private float speedX, speedY;
 
+	/**
+	  *Constructor de la clase
+	  *@param collisionWidth es el ancho colisionable del asteroide.
+	  *@param collisionHeight es el alto colisionable del asteroide.
+	  *Además
+	*/
 	public Asteroid(int collisionWidth, int collisionHeight){
 		super(collisionWidth, collisionHeight, DEFAULT_SPEED_FACTOR);
 		setRandomPropierties();
 	}
 
+	/**
+	  *@return devuelve la velocidad izquierda/derecha(en x) del asteroide.
+	*/
 	public float getSpeedX() {return speedX;}
+
+	/**
+	  *@param speedX es la nueva velocidad en x del asteroide.
+	*/
 	public void setSpeedX(float speedX) {this.speedX = speedX;}
 
+	/**
+	  *@return devuelve la velocidad arriba/abajo(en y) del asteroide.
+	*/
 	public float getSpeedY() {return speedY;}
-	public void setSpeedY(float speedY) {this.speedY = speedY;}
 
+	/**
+	  *@param speedY es la nueva velocidad en y del asteroide.
+	*/
+	public void setSpeedY(float speedY) {this.speedY = speedY;}
+	
+	/**
+	  *Cambia el estado del asteroide al impactar contra una nave.
+	*/
 	public void impact(){
         setState(STATE_EXPLODING);
     }
 
+	/**
+	  *Updatea la posición del mismo con respecto a su anterior posición.
+	*/
     public void update(){
         setPositionX(getPositionX() + (int)getSpeedX());
         setPositionY(getPositionY() + (int)getSpeedY());
@@ -40,6 +63,9 @@ public class Asteroid extends GameObject{
         super.update();
     }
 	
+	/**
+	  *Se encarga de determinar la posición por la que aparecerá el asteroide en la pantalla.
+	*/
 	public void setRandomPropierties(){
 		if(rnd.nextBoolean()){//si es verdadero, entra por la derecha o izquierda
 			if(rnd.nextBoolean()){//si es verdadero, entra por la derecha
