@@ -17,8 +17,6 @@ public class View extends JPanel implements ActionListener{
 
     private ViewThread thread;
 
-     private static int STATE_MAIN_MENU = 0, STATE_LOBBY = 1, STATE_IN_GAME = 2;
-
     Animation circleAnimation;
     Image backgroundImage;
     protected Image[]
@@ -28,6 +26,18 @@ public class View extends JPanel implements ActionListener{
             explosionFrames;
 
      private ArrayList<GameObjectView> gameObjectViews;
+
+     private enum STATE { NewGame, Exit, Play, MainMenu };
+     private STATE State = MainMenu;
+     private Button MainMenuButtons = new ArrayList();
+     private Button NewGameButtons = new ArrayList();
+     MainMenuButtons.add(new Button("New Game", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35));
+     MainMenuButtons.add(new Button("Exit", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35));
+     NewGameButtons.add(new Button("Play", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35));
+     NewGameButtons.add(new Button("Main Menu", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35));
+
+
+
 
     public View() {
         setFocusable(true);
@@ -102,12 +112,12 @@ public class View extends JPanel implements ActionListener{
                 loadTexture("circle11.png"),
                 loadTexture("circle10.png"),
                 loadTexture("circle9.png"),
+                loadTexture("circle8.png"),
                 loadTexture("circle7.png"),
                 loadTexture("circle6.png"),
                 loadTexture("circle5.png"),
-                loadTexture("circle4.png"),
         };
-        circleAnimation = new Animation(circleFrames, 2);
+        circleAnimation = new Animation(circleFrames, 5);
         shipTravelFrames = new Image[]{
                 loadTexture("ship1.png"),
                 loadTexture("ship2.png"),
@@ -287,16 +297,35 @@ public class View extends JPanel implements ActionListener{
     }
 
     private void draw(Graphics g){
-        g.drawImage(backgroundImage, 0, 0, backgroundImage.getWidth(null), backgroundImage.getHeight(null), null);
+        switch (State){
+            
+            case MainMenu:
+            for(Button Buttons: MainMenuButtons){
+                Buttons.draw();
+            }
+            break;
 
-        g.drawImage(circleAnimation.getFrame(), SpaceJoust.GAME_WIDTH/2 - 200 - 9, SpaceJoust.GAME_HEIGHT / 2 - 200 - 9, 400 + 19, 400 + 19, null);
-        circleAnimation.update();
+            case NewGame:
+            for(Button Buttons: NewGameButtons){
+                Buttons.draw();
+            }
+            break;
 
-        for (GameObjectView gameObjectView : gameObjectViews){
+            case Exit:
+            /* ABORT!!!*/
+            break;
+
+            case Play:
+            g.drawImage(backgroundImage, 0, 0, backgroundImage.getWidth(null), backgroundImage.getHeight(null), null);
+            g.drawImage(circleAnimation.getFrame(), SpaceJoust.GAME_WIDTH/2 - 200 - 9, SpaceJoust.GAME_HEIGHT / 2 - 200 - 9, 400 + 19, 400 + 19, null);
+            circleAnimation.update();
+            for (GameObjectView gameObjectView : gameObjectViews){
             gameObjectView.draw((Graphics2D)g);
+            }   
+            cleanupObjectViews();
+            break;
         }
-
-        cleanupObjectViews();
+       
     }
 
     private void cleanupObjectViews(){
