@@ -1,8 +1,5 @@
  import java.awt.*;
- import java.awt.event.ActionEvent;
-        import java.awt.event.ActionListener;
-        import java.awt.event.KeyAdapter;
-        import java.awt.event.KeyEvent;
+ import java.awt.event.*;
  import java.util.ArrayList;
 
  import javax.swing.*;
@@ -14,10 +11,9 @@
 public class View extends JPanel implements ActionListener{
     Model model;
     private Controller controller;
-
     private ViewThread thread;
 
-     private static int STATE_MAIN_MENU = 0, STATE_LOBBY = 1, STATE_IN_GAME = 2;
+    static final int STATE_MAIN_MENU = 0, STATE_NEW_GAME = 1, STATE_PLAY = 2, STATE_GAME_OVER = 3, STATE_EXIT = 4;
 
     Animation circleAnimation;
     Image backgroundImage;
@@ -27,19 +23,30 @@ public class View extends JPanel implements ActionListener{
             asteroidTravelFrames,
             explosionFrames;
 
-     private ArrayList<GameObjectView> gameObjectViews;
+    private ArrayList<GameObjectView> gameObjectViews;
+
+    private int State = STATE_PLAY;
+    private ArrayList<Button> mainMenuButtons = new ArrayList();
+    private ArrayList<Button> newGameButtons = new ArrayList();
+    private ArrayList<Button> gameOverButtons = new ArrayList();
 
     public View() {
-        setFocusable(true);
-        addKeyListener(new TAdapter());
+       setFocusable(true);
+       addKeyListener(new TAdapter());
+       addMouseListener(new MouseListener());
 
-        loadFramess();
-        backgroundImage = new ImageIcon("background1.jpg").getImage();
+       mainMenuButtons.add(new Button("New Game", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35));
+       mainMenuButtons.add(new Button("Exit", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35));
+       newGameButtons.add(new Button("Play", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35));
+       newGameButtons.add(new Button("Main Menu", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35));
 
-        gameObjectViews = new ArrayList<>();
-        thread = new ViewThread(this);
-        thread.setIsRunning(true);
-        thread.start();
+       loadFramess();
+       backgroundImage = new ImageIcon("background1.jpg").getImage();
+
+       gameObjectViews = new ArrayList<>();
+       thread = new ViewThread(this);
+       thread.setIsRunning(true);
+       thread.start();
     }
 
     public void loadFramess(){
@@ -102,12 +109,12 @@ public class View extends JPanel implements ActionListener{
                 loadTexture("circle11.png"),
                 loadTexture("circle10.png"),
                 loadTexture("circle9.png"),
+                loadTexture("circle8.png"),
                 loadTexture("circle7.png"),
                 loadTexture("circle6.png"),
                 loadTexture("circle5.png"),
-                loadTexture("circle4.png"),
         };
-        circleAnimation = new Animation(circleFrames, 2);
+        circleAnimation = new Animation(circleFrames, 5);
         shipTravelFrames = new Image[]{
                 loadTexture("ship1.png"),
                 loadTexture("ship2.png"),
@@ -250,7 +257,7 @@ public class View extends JPanel implements ActionListener{
     /***
      *
      * @param textureName
-     * @return
+     * @return Image
      */
     protected Image loadTexture(String textureName){
         ImageIcon i = new ImageIcon(textureName);
@@ -287,16 +294,41 @@ public class View extends JPanel implements ActionListener{
     }
 
     private void draw(Graphics g){
-        g.drawImage(backgroundImage, 0, 0, backgroundImage.getWidth(null), backgroundImage.getHeight(null), null);
+        switch (State){
+            
+            case STATE_MAIN_MENU:
+                for(Button button: mainMenuButtons){
+                    button.draw((Graphics2D)g);
+                }
+                break;
 
-        g.drawImage(circleAnimation.getFrame(), SpaceJoust.GAME_WIDTH/2 - 200 - 9, SpaceJoust.GAME_HEIGHT / 2 - 200 - 9, 400 + 19, 400 + 19, null);
-        circleAnimation.update();
+            case STATE_NEW_GAME:
+                for(Button button: newGameButtons){
+                    button.draw((Graphics2D)g);
+                }
+                break;
 
-        for (GameObjectView gameObjectView : gameObjectViews){
-            gameObjectView.draw((Graphics2D)g);
+            case STATE_GAME_OVER:
+                for (Button button: gameOverButtons){
+                    button.draw((Graphics2D)g);
+                }
+
+
+            case STATE_EXIT:
+            /* ABORT!!!*/
+            break;
+
+            case STATE_PLAY:
+                g.drawImage(backgroundImage, 0, 0, backgroundImage.getWidth(null), backgroundImage.getHeight(null), null);
+                g.drawImage(circleAnimation.getFrame(), SpaceJoust.GAME_WIDTH/2 - 200 - 9, SpaceJoust.GAME_HEIGHT / 2 - 200 - 9, 400 + 19, 400 + 19, null);
+                circleAnimation.update();
+                for (GameObjectView gameObjectView : gameObjectViews){
+                gameObjectView.draw((Graphics2D)g);
+                }
+                cleanupObjectViews();
+                break;
         }
-
-        cleanupObjectViews();
+       
     }
 
     private void cleanupObjectViews(){
@@ -324,10 +356,29 @@ public class View extends JPanel implements ActionListener{
 
      }
 
+     private class MouseListener implements java.awt.event.MouseListener{
+         @Override
+         public void mouseClicked(MouseEvent e) {
+             controller.handleMouseInput(e);
+         }
+
+         @Override
+         public void mousePressed(MouseEvent e) {}
+
+         @Override
+         public void mouseReleased(MouseEvent e) {}
+
+         @Override
+         public void mouseEntered(MouseEvent e) {}
+
+         @Override
+         public void mouseExited(MouseEvent e) {}
+     }
+
      private class TAdapter extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-            controller.handleInput(e);
+            controller.handleKeyboardInput(e);
         }
     }
 
