@@ -16,10 +16,16 @@ public class Model {
     private int numberOfPlayers = 2;
     private int asteroidTimer = 0;
 
+    /**
+      *@return Devuelve la View.
+    */
     private View getView(){
         return view;
     }
 
+    /**
+      *@param view setea la View.
+    */
     public void setView(View view){
         this.view = view;
     }

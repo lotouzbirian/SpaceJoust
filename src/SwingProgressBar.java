@@ -10,6 +10,13 @@ public class SwingProgressBar {
     private int maxValue, currentValue;
     private Color color;
 
+
+    /**
+      *Constructor de la clase que crea el ancho de la barra.
+      *@param maxValue es el valor máximo de la barra.
+      *@param currenValue es el valor actual de la barra.
+      *@param color es el color de la barra.
+    */
     public SwingProgressBar(int maxValue, int currentValue, Color color){
         this.maxValue = maxValue;
         this.currentValue = currentValue;
@@ -17,15 +24,38 @@ public class SwingProgressBar {
         setSectionWidth();
     }
 
+
+    /**
+      *Setea el ancho de la barra.
+    */
     private void setSectionWidth(){
         sectionWidth = (BAR_WIDTH - BAR_DIVISION_WIDTH * (maxValue + 1)) / maxValue;
     }
+
+
+    /**
+      *@return Devuelve el ancho de la barra.
+    */    
     private int getSectionWidth() {return sectionWidth;}
 
+
+    /**
+      * @param currentValue es el valor actual de la barra.
+    */
     public void setCurrentValue(int currentValue) {this.currentValue = currentValue;}
 
+
+    /**
+      *@return Devuelve el color de la barra.
+    */
     private Color getColor() {return color;}
 
+
+    /**
+      *Dibuja la barra.
+      *@param posX es la posición X en donde graficarla.
+      *@param posY es la posición Y en donde graficarla.
+    */
     public void draw(Graphics2D g, int posX, int posY){
         g.setColor(Color.GRAY);
         g.fillRect(posX - BAR_WIDTH/2, posY - BAR_HEIGHT/2, BAR_WIDTH, BAR_HEIGHT);

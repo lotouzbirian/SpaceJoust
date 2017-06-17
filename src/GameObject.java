@@ -97,7 +97,7 @@ public abstract class GameObject extends Observable {
     public int getState() {return state;}
 
     /**
-      *Setea el nuevo estado del objeto y notifica al resto de los objetos.
+      *Setea el nuevo estado del objeto y notifica a los Observers.
       *@param state es el nuevo estado
     */
     public void setState(int state) {
@@ -120,7 +120,7 @@ public abstract class GameObject extends Observable {
     public abstract void impact();
 
     /**
-      *Updatea la área colisionable del objeto y notifica al resto de los objetos. 
+      *Updatea la área colisionable del objeto y notifica al resto de los Observers. 
     */
     public void update(){
         updateCollisionBox();

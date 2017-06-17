@@ -30,6 +30,10 @@ public class View extends JPanel implements ActionListener{
     private ArrayList<Button> newGameButtons = new ArrayList();
     private ArrayList<Button> gameOverButtons = new ArrayList();
 
+
+    /**
+      *Constructor de la clase que 
+    */
     public View() {
        setFocusable(true);
        addKeyListener(new TAdapter());
