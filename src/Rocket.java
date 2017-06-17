@@ -40,13 +40,15 @@ public class Rocket extends GameObject{
     }
     
     public void update(){
-        float distanceX= target.getPositionX() - getPositionX();
-        float distanceY= target.getPositionY() - getPositionY();
-        speedX= setMovement(distanceX, distanceY);
-        speedY= setMovement(distanceY, distanceX);
-        setPositionX(getPositionX() + (int)speedX);
-        setPositionY(getPositionY() + (int)speedY);
-        setRotation((float)Math.atan((getSpeedY()/getSpeedY())));
+        if (getState() == STATE_TRAVELING){
+            float distanceX= target.getPositionX() - getPositionX();
+            float distanceY= target.getPositionY() - getPositionY();
+            speedX= setMovement(distanceX, distanceY);
+            speedY= setMovement(distanceY, distanceX);
+            setPositionX(getPositionX() + (int)speedX);
+            setPositionY(getPositionY() + (int)speedY);
+            setRotation((float)-Math.PI/2 - (float)Math.atan(-getSpeedY()/getSpeedX()));
+        }
         super.update();
     }
     

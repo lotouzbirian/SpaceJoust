@@ -36,7 +36,9 @@ public class ShipView extends GameObjectView {
     @Override
     public void draw(Graphics2D g) {
         super.draw(g);
-        healthBar.draw(g, getPositionX(), getPositionY() - 20);
-        energyBar.draw(g, getPositionX(), getPositionY() - 40);
+        if (getState() != STATE_EXPLODING && getState() != STATE_INACTIVE){
+            healthBar.draw(g, getPositionX(), getPositionY() - 20);
+            energyBar.draw(g, getPositionX(), getPositionY() - 40);
+        }
     }
 }

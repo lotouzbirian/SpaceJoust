@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -9,13 +8,14 @@ public class Model {
 
     ModelThread thread;
 
-    final static int SHIP_COLLISION_HEIGHT=128, SHIP_COLLISION_WIDTH = 64;
+    final static int SHIP_COLLISION_HEIGHT=120, SHIP_COLLISION_WIDTH = 40;
     final static int ROCKET_COLLISION_HEIGHT=20, ROCKET_COLLISION_WIDTH = 20;
-    final static int ASTEROID_COLLISION_HEIGHT=30, ASTEROID_COLLISION_WIDTH = 30;
+    final static int ASTEROID_COLLISION_HEIGHT=10, ASTEROID_COLLISION_WIDTH = 10;
 
     public Ship[] players;
     private ArrayList<Rocket> rockets = new ArrayList<>();
     private ArrayList<Asteroid> asteroids = new ArrayList<>();
+    private int asteroidTimer = 0;
 
     public Model(){
 
@@ -51,8 +51,11 @@ public class Model {
     private Ship createShipWithView(){
         Ship ship = new Ship(SHIP_COLLISION_WIDTH, SHIP_COLLISION_HEIGHT);
         ShipView shipView = new ShipView();
+        ShieldView shieldView = new ShieldView();
         ship.addObserver(shipView);
+        ship.addObserver(shieldView);
         getView().addView(shipView);
+        getView().addView(shieldView);
         return ship;
     }
 
@@ -75,9 +78,32 @@ public class Model {
     }
 
     public void update(){
+        updatePlayers();
+        updateRockets();
+        updateAsteroids();
+        asteroidTimer++;
+        if (asteroidTimer >= 200){
+            createAsteroid();
+            asteroidTimer = 0;
+        }
+    };
+
+    public void checkForShipCollision(Ship ship1, Ship ship2){
+        if (ship2.collidesWith(ship1)){
+             if (ship1.isBehindShip(ship2))
+                 ship2.setHealth(0);
+             else
+                 ship1.setHealth(0);
+        }
+    }
+
+    public void updatePlayers(){
         for (Ship player: players){
             player.update();
         }
+        checkForShipCollision(players[0], players[1]);
+    }
+    public void updateRockets(){
         for (Rocket rocket: rockets){
             if (rocket != null){
                 rocket.update();
@@ -87,12 +113,17 @@ public class Model {
                 }
             }
         }
+    }
+
+    public void updateAsteroids(){
         for (Asteroid asteroid: asteroids){
             if (asteroid != null){
                 asteroid.update();
                 for (Ship player: players){
-                    player.impact();
-                    asteroid.impact();
+                    if (asteroid.collidesWith(player)){
+                        player.impact();
+                        asteroid.impact();
+                    }
                 }
                 for (Rocket rocket: rockets){
                     if (asteroid.collidesWith(rocket)){
@@ -107,16 +138,6 @@ public class Model {
                     }
                 }
             }
-        }
-        checkForShipCollision(players[0], players[1]);
-    };
-
-    public void checkForShipCollision(Ship ship1, Ship ship2){
-        if (ship2.collidesWith(ship1)){
-             if (ship1.isBehindShip(ship2))
-                 ship2.setHealth(0);
-             else
-                 ship1.setHealth(0);
         }
     }
 

@@ -1,13 +1,14 @@
-/**
- * Created by Bensas on 5/27/17.
- */
 public class Ship extends GameObject{
+
+    protected static final int STATE_DAMAGED= 3, STATE_CRITICAL= 4;
+
     private static final int RADIUS= 200;
     private static final int STARTING_HEALTH= 3;
     private static final int STARTING_ENERGY= 5;
     private static final int MAX_ENERGY= 10;
     private static final int ROCKET_COST= 2;
     private static final int SHIELD_COST= 2;
+    private static final int SHIELD_DURATION= 120;
     private static final int ACCELERATION_COST= 2;
     private static final float ACCELERATION_FACTOR= 10f;
     private static final float DECELERATION_FACTOR= 0.002f;
@@ -18,6 +19,7 @@ public class Ship extends GameObject{
     private int health= STARTING_HEALTH;
     private int energy= STARTING_ENERGY, energyRegenTimer = 0;
     private boolean shielded= false;
+    private int shieldTimer = 0;
 
     public Ship(int collisionWidth, int collisionHeight){
         super(collisionWidth, collisionHeight, DEFAULT_SPEED_FACTOR);
@@ -28,10 +30,19 @@ public class Ship extends GameObject{
         if (getIsAlive()){
             updatePositionAndRotation();
             updateEnergy();
+
             if (getSpeedFactor() > DEFAULT_SPEED_FACTOR){
                 setSpeedFactor(getSpeedFactor() - DECELERATION_FACTOR);
             } else {
                 setSpeedFactor(DEFAULT_SPEED_FACTOR);
+            }
+
+            if (isShielded()){
+                shieldTimer++;
+                if (shieldTimer > SHIELD_DURATION){
+                    unshield();
+                    shieldTimer = 0;
+                }
             }
 
             if (getIsAlive() && getHealth() <= 0){
@@ -67,12 +78,20 @@ public class Ship extends GameObject{
     public int getHealth(){return health;}
     public void setHealth(int health){
         this.health= health;
+        if (health == 2)
+            setState(STATE_DAMAGED);
+        else if (health == 1)
+            setState(STATE_CRITICAL);
     }
 
     public int getEnergy(){return energy;}
     public void setEnergy(int energy){
-        this.energy= energy;
+        if (energy <= MAX_ENERGY)
+            this.energy= energy;
+        else
+            this.energy= MAX_ENERGY;
     }
+
 
     public boolean accelerate(){
         if (getEnergy() >= ACCELERATION_COST && getSpeedFactor() == DEFAULT_SPEED_FACTOR){
@@ -84,7 +103,7 @@ public class Ship extends GameObject{
     }
 
     public boolean shield(){
-        if (getEnergy() >= SHIELD_COST){
+        if (getEnergy() >= SHIELD_COST && !isShielded()){
             setEnergy(getEnergy() - SHIELD_COST);
             shielded=true;
             return true;
@@ -95,6 +114,8 @@ public class Ship extends GameObject{
         shielded=false;
     }
 
+    public boolean isShielded() {return shielded;}
+
     public boolean fireRocket(){
         if (getEnergy() >= ROCKET_COST){
             setEnergy(getEnergy() - ROCKET_COST);
@@ -104,7 +125,12 @@ public class Ship extends GameObject{
     }
 
     public void impact(){
-        setHealth(getHealth() - 1);
+        if (!isShielded())
+            setHealth(getHealth() - 1);
+        else{
+            unshield();
+            setEnergy(getEnergy() + 2);
+        }
     }
 
     public boolean isBehindShip(Ship otherShip){

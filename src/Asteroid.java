@@ -15,40 +15,58 @@ public class Asteroid extends GameObject{
 	private static final float DEFAULT_SPEED_FACTOR= 0.005f;
 
 	Random rnd=new Random();
-	float randomFloat=rnd.nextFloat();
-	
+
+	private float speedX, speedY;
+
 	public Asteroid(int collisionWidth, int collisionHeight){
 		super(collisionWidth, collisionHeight, DEFAULT_SPEED_FACTOR);
 		setRandomPropierties();
 	}
 
-	public void impact(){
+	public float getSpeedX() {return speedX;}
+	public void setSpeedX(float speedX) {this.speedX = speedX;}
 
+	public float getSpeedY() {return speedY;}
+	public void setSpeedY(float speedY) {this.speedY = speedY;}
+
+	public void impact(){
+        setState(STATE_EXPLODING);
+    }
+
+    public void update(){
+        setPositionX(getPositionX() + (int)getSpeedX());
+        setPositionY(getPositionY() + (int)getSpeedY());
+        setRotation(getRotation() + 0.001f);
+        super.update();
     }
 	
 	public void setRandomPropierties(){
 		if(rnd.nextBoolean()){//si es verdadero, entra por la derecha o izquierda
 			if(rnd.nextBoolean()){//si es verdadero, entra por la derecha
 				setPositionX(SpaceJoust.GAME_WIDTH + getCollisionWidth());
-				setPositionY((int)rnd.nextFloat()*SpaceJoust.GAME_HEIGHT); //El int tiene que ser entre
-				//setSpeed();
+				setPositionY((int)(rnd.nextFloat()*SpaceJoust.GAME_HEIGHT)); //El int tiene que ser entre
+				setSpeedX(-1);
+				setSpeedY(1);
 			}
 			else{//sale por la izquierda
 				setPositionX(-getCollisionWidth());
-				setPositionY((int)rnd.nextFloat()*SpaceJoust.GAME_HEIGHT);
-				//setSpeed();
+				setPositionY((int)(rnd.nextFloat()*SpaceJoust.GAME_HEIGHT));
+				setSpeedX(1);
+				setSpeedY(-1);
 			}
 		}
 		else{//entra por arriba o abajo
-			if(rnd.nextBoolean()){//entra por arriba
-				setPositionX((int)rnd.nextFloat()*SpaceJoust.GAME_WIDTH); //El int tiene que ser entre
+			if(rnd.nextBoolean()){//entra por abajo
+				setPositionX((int)(rnd.nextFloat() * SpaceJoust.GAME_WIDTH)); //El int tiene que ser entre
 				setPositionY(SpaceJoust.GAME_HEIGHT + getCollisionHeight());
-				//setSpeed();
+				setSpeedX(1);
+				setSpeedY(-1);
 			}
-			else{//entra por abajo
-				setPositionX((int)rnd.nextFloat()*SpaceJoust.GAME_WIDTH); //El int tiene que ser entre
+			else{//entra por arriba
+				setPositionX((int)(rnd.nextFloat() * SpaceJoust.GAME_WIDTH)); //El int tiene que ser entre
 				setPositionY(-getCollisionHeight());
-				//setSpeed();
+				setSpeedX(-1);
+				setSpeedY(1);
 			}
 		}
 		

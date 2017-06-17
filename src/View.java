@@ -17,10 +17,15 @@ public class View extends JPanel implements ActionListener{
 
     private ViewThread thread;
 
-    Image circleImage;
+    Animation circleAnimation;
     Image backgroundImage;
-    protected Animation shipTravelAnimation, shipDamagedAnimation, shipCriticalAnimation, rocketTravelAnimation, asteroidTravelAnimation, explosionAnimation;
+    protected Image[]
+            shipTravelFrames, shipDamagedFrames, shipCriticalFrames, shieldTravelFrames,
+            rocketTravelFrames,
+            asteroidTravelFrames,
+            explosionFrames;
 
+     Image[] frames;
 
      private ArrayList<GameObjectView> gameObjectViews;
 
@@ -28,8 +33,7 @@ public class View extends JPanel implements ActionListener{
         setFocusable(true);
         addKeyListener(new TAdapter());
 
-        loadAnimations();
-        circleImage = new ImageIcon("circle.jpg").getImage();
+        loadFramess();
         backgroundImage = new ImageIcon("background1.jpg").getImage();
 
         gameObjectViews = new ArrayList<>();
@@ -38,17 +42,105 @@ public class View extends JPanel implements ActionListener{
         thread.start();
     }
 
-    public void loadAnimations(){
-        Image[] shipTravelFrames = new Image[]{
-                loadTexture("ship1.png")
+    public void loadFramess(){
+        Image[] circleFrames = new Image[]{
+                loadTexture("circle1.png"),
+                loadTexture("circle2.png"),
+                loadTexture("circle3.png"),
+                loadTexture("circle4.png"),
+                loadTexture("circle5.png"),
+                loadTexture("circle6.png"),
+                loadTexture("circle7.png"),
+                //loadTexture("circle8.png"),
+                loadTexture("circle9.png"),
+                loadTexture("circle10.png"),
+                loadTexture("circle11.png"),
+                loadTexture("circle12.png"),
+                loadTexture("circle13.png"),
+                loadTexture("circle14.png"),
+                loadTexture("circle15.png"),
+                loadTexture("circle16.png"),
+                loadTexture("circle17.png"),
+                loadTexture("circle18.png"),
+                loadTexture("circle19.png"),
+                loadTexture("circle20.png"),
+                loadTexture("circle21.png"),
+                loadTexture("circle22.png"),
+                loadTexture("circle23.png"),
+                loadTexture("circle24.png"),
+                loadTexture("circle25.png"),
+                loadTexture("circle26.png"),
+                loadTexture("circle27.png"),
+                loadTexture("circle28.png"),
+                loadTexture("circle29.png"),
+                loadTexture("circle30.png"),
+                loadTexture("circle31.png"),
+                loadTexture("circle32.png"),
+                loadTexture("circle33.png"),
+                loadTexture("circle33.png"),
+                loadTexture("circle32.png"),
+                loadTexture("circle31.png"),
+                loadTexture("circle30.png"),
+                loadTexture("circle29.png"),
+                loadTexture("circle28.png"),
+                loadTexture("circle27.png"),
+                loadTexture("circle26.png"),
+                loadTexture("circle25.png"),
+                loadTexture("circle24.png"),
+                loadTexture("circle23.png"),
+                loadTexture("circle22.png"),
+                loadTexture("circle21.png"),
+                loadTexture("circle20.png"),
+                loadTexture("circle19.png"),
+                loadTexture("circle18.png"),
+                loadTexture("circle17.png"),
+                loadTexture("circle16.png"),
+                loadTexture("circle15.png"),
+                loadTexture("circle14.png"),
+                loadTexture("circle13.png"),
+                loadTexture("circle12.png"),
+                loadTexture("circle11.png"),
+                loadTexture("circle10.png"),
+                loadTexture("circle9.png"),
+                loadTexture("circle8.png"),
+                loadTexture("circle7.png"),
+                loadTexture("circle6.png"),
+                loadTexture("circle5.png"),
         };
-        Image[] shipDamagedFrames = new Image[]{
-                loadTexture("ship1.png")
+        circleAnimation = new Animation(circleFrames, 5);
+        shipTravelFrames = new Image[]{
+                loadTexture("ship4.png"),
+                loadTexture("ship5.png"),
+                loadTexture("ship6.png"),
+                loadTexture("ship7.png"),
+                loadTexture("ship8.png"),
+                loadTexture("ship9.png"),
+                loadTexture("ship10.png"),
+                loadTexture("ship9.png"),
+                loadTexture("ship8.png"),
+                loadTexture("ship7.png"),
+                loadTexture("ship6.png"),
+                loadTexture("ship5.png"),
+
         };
-        Image[] shipCriticalFrames = new Image[]{
-                loadTexture("ship1.png")
+        shipDamagedFrames = new Image[]{
+                loadTexture("ship3.png")
         };
-        Image[] rocketTravelFrames = new Image[]{
+        shipCriticalFrames = new Image[]{
+                loadTexture("ship3.png")
+        };
+        shieldTravelFrames = new Image[]{
+                loadTexture("shield1.png"),
+                loadTexture("shield2.png"),
+                loadTexture("shield3.png"),
+                loadTexture("shield4.png"),
+                loadTexture("shield5.png"),
+                loadTexture("shield6.png"),
+                loadTexture("shield7.png"),
+                loadTexture("shield8.png"),
+                loadTexture("shield9.png")
+        };
+        rocketTravelFrames = new Image[]{
                 loadTexture("rocket1.png"),
                 loadTexture("rocket2.png"),
                 loadTexture("rocket3.png"),
@@ -59,10 +151,10 @@ public class View extends JPanel implements ActionListener{
                 loadTexture("rocket8.png")
         };
 
-        Image[] asteroidTravelFrames = new Image[]{
+        asteroidTravelFrames = new Image[]{
                 loadTexture("asteroid.png")
         };
-        Image[] explosionFrames = new Image[]{
+        explosionFrames = new Image[]{
                 loadTexture("explosion01.png"),
                 loadTexture("explosion02.png"),
                 loadTexture("explosion03.png"),
@@ -154,23 +246,17 @@ public class View extends JPanel implements ActionListener{
                 loadTexture("explosion89.png"),
                 loadTexture("explosion90.png")
         };
-        shipTravelAnimation = new Animation(shipTravelFrames, 20);
-        shipDamagedAnimation = new Animation(shipDamagedFrames, 20);
-        shipCriticalAnimation = new Animation(shipCriticalFrames, 20);
-        rocketTravelAnimation = new Animation(rocketTravelFrames, 20);
-        asteroidTravelAnimation = new Animation(asteroidTravelFrames, 20);
-        explosionAnimation = new Animation(explosionFrames, 2);
     }
 
-     /***
-      *
-      * @param textureName
-      * @return
-      */
-     protected Image loadTexture(String textureName){
-         ImageIcon i = new ImageIcon(textureName);
-         return i.getImage();
-     }
+    /***
+     *
+     * @param textureName
+     * @return
+     */
+    protected Image loadTexture(String textureName){
+        ImageIcon i = new ImageIcon(textureName);
+        return i.getImage();
+    }
 
     public void onThreadClosed(){
 
@@ -186,26 +272,45 @@ public class View extends JPanel implements ActionListener{
 
     protected void addView(GameObjectView view){
         if (view instanceof ShipView){
-            System.out.println("Ship created");
-            view.addAnimation("TRAVEL", shipTravelAnimation);
-            view.addAnimation("DAMAGED", shipDamagedAnimation);
-            view.addAnimation("CRITICAL", shipCriticalAnimation);
+            view.addAnimation("TRAVEL", new Animation(shipTravelFrames, 20));
+            view.addAnimation("DAMAGED", new Animation(shipDamagedFrames, 20));
+            view.addAnimation("CRITICAL", new Animation(shipCriticalFrames, 20));
+        } else if (view instanceof  ShieldView){
+            view.addAnimation("TRAVEL", new Animation(shieldTravelFrames, 20));
         } else if (view instanceof RocketView){
-            view.addAnimation("TRAVEL", rocketTravelAnimation);
+            view.addAnimation("TRAVEL", new Animation(rocketTravelFrames, 20));
         } else if (view instanceof AsteroidView){
-            view.addAnimation("TRAVEL", asteroidTravelAnimation);
+            view.addAnimation("TRAVEL", new Animation(asteroidTravelFrames, 20));
         }
-        view.addAnimation("EXPLOSION", explosionAnimation);
+        view.addAnimation("EXPLOSION", new Animation(explosionFrames, 2));
         view.setAnimation(view.animations.get("TRAVEL"));
         gameObjectViews.add(view);
     }
 
     private void draw(Graphics g){
         g.drawImage(backgroundImage, 0, 0, backgroundImage.getWidth(null), backgroundImage.getHeight(null), null);
-        g.drawImage(circleImage, SpaceJoust.GAME_WIDTH/2 - 200 - 9, SpaceJoust.GAME_HEIGHT / 2 - 200 - 9, 400 + 19, 400 + 19, null);
+        g.drawImage(circleAnimation.getFrame(), SpaceJoust.GAME_WIDTH/2 - 200 - 9, SpaceJoust.GAME_HEIGHT / 2 - 200 - 9, 400 + 19, 400 + 19, null);
+        circleAnimation.update();
 
         for (GameObjectView gameObjectView : gameObjectViews){
             gameObjectView.draw((Graphics2D)g);
+        }
+        cleanupObjectViews();
+    }
+
+    private void cleanupObjectViews(){
+        ArrayList<Integer> toBeRemovedIndexes = new ArrayList<Integer>();
+        for (GameObjectView gameObjectView: gameObjectViews){
+            if (gameObjectView.getState() == GameObjectView.STATE_INACTIVE)
+                toBeRemovedIndexes.add(gameObjectViews.indexOf(gameObjectView));
+        }
+        for (Integer i: toBeRemovedIndexes)
+        try{
+            gameObjectViews.remove(i.intValue());
+            System.out.println("Removed " + gameObjectViews.get(i).getClass().getSimpleName());
+
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("Coulldn't remove " + gameObjectViews.get(i).getClass().getSimpleName());
         }
     }
 

@@ -3,12 +3,11 @@ import java.awt.Image;
 
 public class Animation {
 	private Image[] frames;
-	private int timer= 0;
-	private int frameDuration;
-	private int frameIndex= 0;
+	private int timer= 0, frameDuration, frameIndex = 0;
 
-	private int correspondingState;
-	
+    public static final int STATE_PLAYING = 0, STATE_FINISHED = 1;
+    private int state;
+
 	public Animation(Image[] frames, int frameDuration){
 		this.frames= frames;
 		this.frameDuration= frameDuration;
@@ -17,17 +16,19 @@ public class Animation {
 	public Image getFrame(){
 		return frames[frameIndex];
 	}
-	
-	public void update(){
+
+    public void setState(int state) {this.state = state;}
+    public int getState() {return state;}
+
+    public void update(){
 		timer++;
 		if (timer>=frameDuration){
 			timer=0;
 			frameIndex++;
 		}
-		if (frames.length<=frameIndex)
-			frameIndex=0;
+		if (frameIndex >= frames.length){
+            setState(STATE_FINISHED);
+            frameIndex=0;
+        }
 	}
-
-	public int getCorrespondingState(){return correspondingState;}
-	public void setCorrespondingState(int correspondingState){this.correspondingState = correspondingState;}
 }

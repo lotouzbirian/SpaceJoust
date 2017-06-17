@@ -6,9 +6,4 @@ import java.util.Observable;
  */
 public class RocketView extends GameObjectView {
 
-
-    public RocketView(){
-
-    }
-
 }
