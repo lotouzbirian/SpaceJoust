@@ -1,7 +1,7 @@
 import java.util.*;
 /**
  * 
- * @author ramonga
+ * @author Ramiro Oliva
  * Habria que ver que pasa con los asteroides que se crean aleatoriamente en las esquinas porque
  * a veces ni aparecerian por como se mueven. lo que yo pense es restringir mas los bordes como para
  * que no puedan salir de las esquinas ya que si se crea alguno que no se ve, si ponemos buffs

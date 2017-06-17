@@ -1,14 +1,14 @@
 /**
- * Created by Bensas on 5/31/17.
+ * @author Juan Bensadon
+ * This thread performs a certain set of actions sixty times every second.
+ * Said actions are contained in the doUpdate() method.
+ * It also provides a method to be executed when the thread is stopped.
  */
 public abstract class GameThread extends Thread {
     private boolean isRunning;
     private int targetFPS= 60;
     private float averageFPS;
 
-    /*
-    This thread performs a certain set of actions once every 60 seconds.
-     */
     @Override
     public void run() {
         long startTime;

@@ -21,7 +21,7 @@ public class Controller {
                 break;
             case KeyEvent.VK_D:
                 if (model.players[0].fireRocket())
-                    model.createRocket(model.players[0], model.players[1]);
+                    model.createRocketWithView(model.players[0], model.players[1]);
                 break;
             case KeyEvent.VK_W:
                 break;
@@ -34,7 +34,7 @@ public class Controller {
                 break;
             case KeyEvent.VK_L:
                 if (model.players[1].fireRocket())
-                    model.createRocket(model.players[1], model.players[0]);
+                    model.createRocketWithView(model.players[1], model.players[0]);
                 break;
             case KeyEvent.VK_I:
                 break;

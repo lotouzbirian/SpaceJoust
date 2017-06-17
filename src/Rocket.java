@@ -1,5 +1,5 @@
 /**
- * Created by Bensas on 5/27/17.
+ * @author Guido Princ
  */
 public class Rocket extends GameObject{
     private static final float ROCKET_SPEED_FACTOR= 3;
@@ -28,7 +28,6 @@ public class Rocket extends GameObject{
     private float getSpeedY() {return speedY;}
     private void setSpeedY(float speedY) {this.speedY = speedY;}
 
-
     public GameObject getOrigin() {return origin;}
 
     public void setOrigin(GameObject origin) {this.origin = origin;}
@@ -43,10 +42,10 @@ public class Rocket extends GameObject{
         if (getState() == STATE_TRAVELING){
             float distanceX= target.getPositionX() - getPositionX();
             float distanceY= target.getPositionY() - getPositionY();
-            speedX= setMovement(distanceX, distanceY);
-            speedY= setMovement(distanceY, distanceX);
-            setPositionX(getPositionX() + (int)speedX);
-            setPositionY(getPositionY() + (int)speedY);
+            setSpeedX(setMovement(distanceX, distanceY));
+            setSpeedY(setMovement(distanceY, distanceX));
+            setPositionX(getPositionX() + (int)getSpeedX());
+            setPositionY(getPositionY() + (int)getSpeedY());
             setRotation((float)-Math.PI/2 - (float)Math.atan(-getSpeedY()/getSpeedX()));
         }
         super.update();

@@ -1,5 +1,6 @@
 /**
- * Created by Bensas on 6/3/17.
+ * @author Juan Bensadon
+ * Specific Thread class for executing view updates.
  */
 public class ViewThread extends GameThread {
     View view;

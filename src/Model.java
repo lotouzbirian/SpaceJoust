@@ -17,10 +17,6 @@ public class Model {
     private ArrayList<Asteroid> asteroids = new ArrayList<>();
     private int asteroidTimer = 0;
 
-    public Model(){
-
-    }
-
     private View getView(){
         return view;
     }
@@ -59,7 +55,7 @@ public class Model {
         return ship;
     }
 
-    private Asteroid createAsteroid(){
+    private Asteroid createAsteroidWithView(){
         Asteroid asteroid = new Asteroid(ASTEROID_COLLISION_WIDTH, ASTEROID_COLLISION_HEIGHT);
         AsteroidView asteroidView = new AsteroidView();
         asteroid.addObserver(asteroidView);
@@ -68,7 +64,7 @@ public class Model {
         return asteroid;
     }
 
-    public Rocket createRocket(GameObject origin, GameObject target){
+    public Rocket createRocketWithView(GameObject origin, GameObject target){
         Rocket rocket = new Rocket(ROCKET_COLLISION_WIDTH, ROCKET_COLLISION_HEIGHT, target, origin);
         RocketView rocketView = new RocketView();
         rocket.addObserver(rocketView);
@@ -83,7 +79,7 @@ public class Model {
         updateAsteroids();
         asteroidTimer++;
         if (asteroidTimer >= 200){
-            createAsteroid();
+            createAsteroidWithView();
             asteroidTimer = 0;
         }
     };

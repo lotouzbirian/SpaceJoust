@@ -4,13 +4,12 @@ import java.awt.geom.Area;
 import java.util.Observable;
 
 /**
- * Created by Bensas on 5/27/17.
+ * @author Juan Bensadon
  */
 public abstract class GameObject extends Observable {
-    private int positionX = 100, positionY = 100;
+    private int positionX, positionY;
     private int collisionWidth, collisionHeight;
     private float rotation = 0;
-    private Rectangle boundaries;
     private Area collisionBox;
     private float speedFactor;
     private int state;
@@ -24,13 +23,12 @@ public abstract class GameObject extends Observable {
     }
 
     protected int getPositionX() {return positionX;}
-
-    protected int getPositionY() {return positionY;}
-
     protected void setPositionX(int positionX) {
         this.positionX = positionX;
     }
 
+
+    protected int getPositionY() {return positionY;}
     protected void setPositionY(int positionY) {
         this.positionY = positionY;
     }
@@ -40,7 +38,6 @@ public abstract class GameObject extends Observable {
     protected int getCollisionHeight() {return collisionHeight;}
 
     protected float getRotation(){return rotation;}
-
     protected void setRotation(float rotation) {this.rotation = rotation;}
 
     protected Area getCollisionBox() {
@@ -48,11 +45,9 @@ public abstract class GameObject extends Observable {
     }
 
     protected float getSpeedFactor(){return speedFactor;}
-
     protected void setSpeedFactor(float speedFactor) {this.speedFactor = speedFactor;}
 
     public int getState() {return state;}
-
     public void setState(int state) {this.state = state;}
 
     public  boolean collidesWith(GameObject object){
@@ -70,7 +65,7 @@ public abstract class GameObject extends Observable {
     }
 
     private void updateCollisionBox(){
-        boundaries = new Rectangle(getPositionX() - getCollisionWidth()/2, getPositionY() - getCollisionHeight()/2, getCollisionWidth(), getCollisionHeight()  );
+        Rectangle boundaries = new Rectangle(getPositionX() - getCollisionWidth()/2, getPositionY() - getCollisionHeight()/2, getCollisionWidth(), getCollisionHeight());
         AffineTransform tx = new AffineTransform();
         tx.rotate(rotation, getPositionX(), getPositionY());
         collisionBox = new Area(tx.createTransformedShape(boundaries));

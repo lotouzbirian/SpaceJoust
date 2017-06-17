@@ -25,8 +25,6 @@ public class View extends JPanel implements ActionListener{
             asteroidTravelFrames,
             explosionFrames;
 
-     Image[] frames;
-
      private ArrayList<GameObjectView> gameObjectViews;
 
     public View() {
@@ -109,19 +107,18 @@ public class View extends JPanel implements ActionListener{
         };
         circleAnimation = new Animation(circleFrames, 5);
         shipTravelFrames = new Image[]{
+                loadTexture("ship1.png"),
+                loadTexture("ship2.png"),
+                loadTexture("ship3.png"),
                 loadTexture("ship4.png"),
                 loadTexture("ship5.png"),
                 loadTexture("ship6.png"),
                 loadTexture("ship7.png"),
-                loadTexture("ship8.png"),
-                loadTexture("ship9.png"),
-                loadTexture("ship10.png"),
-                loadTexture("ship9.png"),
-                loadTexture("ship8.png"),
-                loadTexture("ship7.png"),
                 loadTexture("ship6.png"),
                 loadTexture("ship5.png"),
-
+                loadTexture("ship4.png"),
+                loadTexture("ship3.png"),
+                loadTexture("ship2.png")
         };
         shipDamagedFrames = new Image[]{
                 loadTexture("ship3.png")
@@ -289,12 +286,14 @@ public class View extends JPanel implements ActionListener{
 
     private void draw(Graphics g){
         g.drawImage(backgroundImage, 0, 0, backgroundImage.getWidth(null), backgroundImage.getHeight(null), null);
+
         g.drawImage(circleAnimation.getFrame(), SpaceJoust.GAME_WIDTH/2 - 200 - 9, SpaceJoust.GAME_HEIGHT / 2 - 200 - 9, 400 + 19, 400 + 19, null);
         circleAnimation.update();
 
         for (GameObjectView gameObjectView : gameObjectViews){
             gameObjectView.draw((Graphics2D)g);
         }
+
         cleanupObjectViews();
     }
 
@@ -307,10 +306,8 @@ public class View extends JPanel implements ActionListener{
         for (Integer i: toBeRemovedIndexes)
         try{
             gameObjectViews.remove(i.intValue());
-            System.out.println("Removed " + gameObjectViews.get(i).getClass().getSimpleName());
-
         }catch (IndexOutOfBoundsException e){
-            System.out.println("Coulldn't remove " + gameObjectViews.get(i).getClass().getSimpleName());
+            System.out.println("Failed to remove " + gameObjectViews.get(i).getClass().getSimpleName() + "(IndexOutOfBoundsException)");
         }
     }
 

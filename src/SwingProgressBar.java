@@ -1,12 +1,12 @@
 import java.awt.*;
 
 /**
- * Created by Bensas on 6/15/17.
+ * @author Juan Bensadon
+ * Simple loading-bar style object, used in Space Joust as a health/energy bar.
  */
 public class SwingProgressBar {
     private static final int BAR_WIDTH = 80, BAR_HEIGHT = 10, BAR_DIVISION_WIDTH = 3;
     private int sectionWidth;
-    private int positionX, positionY;
     private int maxValue, currentValue;
     private Color color;
 

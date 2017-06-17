@@ -8,7 +8,6 @@ public class ShipView extends GameObjectView {
     protected static final int STATE_DAMAGED= 3, STATE_CRITICAL= 4;
     protected SwingProgressBar healthBar, energyBar;
 
-
     public ShipView(){
         healthBar = new SwingProgressBar(3, 3, Color.GREEN);
         energyBar = new SwingProgressBar(10, 5, Color.YELLOW);
@@ -22,6 +21,7 @@ public class ShipView extends GameObjectView {
                 break;
             case STATE_CRITICAL:
                 setAnimation(animations.get("CRITICAL"));
+                break;
         }
         super.switchAnimation(state);
     }

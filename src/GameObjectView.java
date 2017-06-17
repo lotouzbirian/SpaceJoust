@@ -11,7 +11,7 @@ public abstract class GameObjectView implements Observer{
     private int positionX, positionY;
     private float rotation;
 
-    private int state = STATE_TRAVELING;
+    private int state;
     protected static final int STATE_TRAVELING= 0, STATE_EXPLODING= 1, STATE_INACTIVE = 2;
 
     protected HashMap<String, Animation> animations = new HashMap<>();
@@ -20,7 +20,7 @@ public abstract class GameObjectView implements Observer{
     public void draw(Graphics2D g){
         getAnimation().update();
         AffineTransform trans = new AffineTransform();
-        trans.translate(getPositionX() - getAnimation().getFrame().getWidth(null)/2, getPositionY() - getAnimation().getFrame().getHeight(null) / 2);
+        trans.translate(getPositionX() - getAnimation().getFrame().getWidth(null)/2, getPositionY() - getAnimation().getFrame().getHeight(null)/2);
         trans.rotate(getRotation(), getAnimation().getFrame().getWidth(null)/2, getAnimation().getFrame().getHeight(null)/2);
         g.drawImage(getAnimation().getFrame(), trans, null);
         if (getState() == STATE_EXPLODING && getAnimation().getState() == Animation.STATE_FINISHED)

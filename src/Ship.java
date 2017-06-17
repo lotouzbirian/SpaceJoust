@@ -1,8 +1,12 @@
+/**
+ * @author Jose Torreguitar
+ */
+
 public class Ship extends GameObject{
 
     protected static final int STATE_DAMAGED= 3, STATE_CRITICAL= 4;
 
-    private static final int RADIUS= 200;
+    private static final int TRAJECTORY_RADIUS= 200;
     private static final int STARTING_HEALTH= 3;
     private static final int STARTING_ENERGY= 5;
     private static final int MAX_ENERGY= 10;
@@ -37,13 +41,7 @@ public class Ship extends GameObject{
                 setSpeedFactor(DEFAULT_SPEED_FACTOR);
             }
 
-            if (isShielded()){
-                shieldTimer++;
-                if (shieldTimer > SHIELD_DURATION){
-                    unshield();
-                    shieldTimer = 0;
-                }
-            }
+            updateShield();
 
             if (getIsAlive() && getHealth() <= 0){
                 setIsAlive(false);
@@ -61,12 +59,22 @@ public class Ship extends GameObject{
         }
     }
 
+    public void updateShield(){
+        if (isShielded()){
+            shieldTimer++;
+            if (shieldTimer > SHIELD_DURATION){
+                unshield();
+                shieldTimer = 0;
+            }
+        }
+    }
+
     public void updatePositionAndRotation(){
         setRadialPosition(getRadialPosition() + getSpeedFactor());
-        if (getRadialPosition() >= 2 * Math.PI)
-            setRadialPosition(0f);
-        setPositionX(SpaceJoust.GAME_WIDTH/2 - (int)(RADIUS * Math.cos(getRadialPosition())));
-        setPositionY(SpaceJoust.GAME_HEIGHT/2 - (int)(RADIUS * Math.sin(getRadialPosition())));
+//        if (getRadialPosition() >= 2 * Math.PI)
+//            setRadialPosition(0f);
+        setPositionX(SpaceJoust.GAME_WIDTH/2 - (int)(TRAJECTORY_RADIUS * Math.cos(getRadialPosition())));
+        setPositionY(SpaceJoust.GAME_HEIGHT/2 - (int)(TRAJECTORY_RADIUS * Math.sin(getRadialPosition())));
         setRotation(getRadialPosition());
     }
     
@@ -74,6 +82,11 @@ public class Ship extends GameObject{
     public void setRadialPosition(float radialPosition){
         this.radialPosition= radialPosition;
     }
+
+    public boolean getIsAlive(){
+        return isAlive;
+    }
+    public void setIsAlive(boolean isAlive){this.isAlive = isAlive;}
 
     public int getHealth(){return health;}
     public void setHealth(int health){
@@ -139,9 +152,4 @@ public class Ship extends GameObject{
             return true;
         return false;
     }
-
-    public boolean getIsAlive(){
-        return isAlive;
-    }
-    public void setIsAlive(boolean isAlive){this.isAlive = isAlive;}
 }
