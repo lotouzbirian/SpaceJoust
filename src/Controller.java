@@ -22,9 +22,10 @@ public class Controller {
                 break;
             case KeyEvent.VK_D:
                 if (model.getPlayer(1).fireRocket())
-                    model.createRocketWithView(model.getPlayer(1), model.getPlayer(2));
+                    model.createRocketWithView(model.getPlayer(1), model.getPlayer(1).getTarget());
                 break;
             case KeyEvent.VK_W:
+                model.cycleShipTarget(1);
                 break;
 
             case KeyEvent.VK_J:
@@ -35,14 +36,15 @@ public class Controller {
                 break;
             case KeyEvent.VK_L:
                 if (model.getPlayer(2).fireRocket())
-                    model.createRocketWithView(model.getPlayer(2), model.getPlayer(1));
+                    model.createRocketWithView(model.getPlayer(2), model.getPlayer(2).getTarget());
                 break;
             case KeyEvent.VK_I:
+                model.cycleShipTarget(1);
                 break;
         }
     }
 
     public void handleMouseInput(MouseEvent e){
-        for (e.getX() )
+//        for (e.getX() )
     }
 }

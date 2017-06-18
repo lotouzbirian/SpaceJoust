@@ -18,7 +18,9 @@ public class View extends JPanel implements ActionListener{
     Animation circleAnimation;
     Image backgroundImage;
     protected Image[]
-            shipTravelFrames, shipDamagedFrames, shipCriticalFrames, shieldTravelFrames,
+            shipTravelFrames, shipDamagedFrames, shipCriticalFrames,
+            shieldTravelFrames,
+            crosshairTravelFrames,
             rocketTravelFrames,
             asteroidTravelFrames,
             explosionFrames;
@@ -145,6 +147,10 @@ public class View extends JPanel implements ActionListener{
                 loadTexture("shield7.png"),
                 loadTexture("shield8.png"),
                 loadTexture("shield9.png")
+        };
+
+        crosshairTravelFrames = new Image[]{
+                loadTexture("crosshair1.png")
         };
         rocketTravelFrames = new Image[]{
                 loadTexture("rocket1.png"),
@@ -283,6 +289,8 @@ public class View extends JPanel implements ActionListener{
             view.addAnimation("CRITICAL", new Animation(shipCriticalFrames, 20));
         } else if (view instanceof  ShieldView){
             view.addAnimation("TRAVEL", new Animation(shieldTravelFrames, 20));
+        } else if (view instanceof  CrosshairView){
+            view.addAnimation("TRAVEL", new Animation(crosshairTravelFrames, 20));
         } else if (view instanceof RocketView){
             view.addAnimation("TRAVEL", new Animation(rocketTravelFrames, 20));
         } else if (view instanceof AsteroidView){
@@ -323,7 +331,11 @@ public class View extends JPanel implements ActionListener{
                 g.drawImage(circleAnimation.getFrame(), SpaceJoust.GAME_WIDTH/2 - 200 - 9, SpaceJoust.GAME_HEIGHT / 2 - 200 - 9, 400 + 19, 400 + 19, null);
                 circleAnimation.update();
                 for (GameObjectView gameObjectView : gameObjectViews){
-                gameObjectView.draw((Graphics2D)g);
+                    gameObjectView.draw((Graphics2D)g);
+                }
+                for (GameObjectView gameObjectView : gameObjectViews){
+                    if (gameObjectView instanceof CrosshairView)
+                        gameObjectView.draw((Graphics2D)g);
                 }
                 cleanupObjectViews();
                 break;

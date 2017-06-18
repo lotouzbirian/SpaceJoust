@@ -24,6 +24,7 @@ public class Ship extends GameObject{
     private int energy= STARTING_ENERGY, energyRegenTimer = 0;
     private boolean shielded= false;
     private int shieldTimer = 0;
+    private GameObject target;
 
     public Ship(int collisionWidth, int collisionHeight){
         super(collisionWidth, collisionHeight, DEFAULT_SPEED_FACTOR);
@@ -77,7 +78,10 @@ public class Ship extends GameObject{
         setPositionY(SpaceJoust.GAME_HEIGHT/2 - (int)(TRAJECTORY_RADIUS * Math.sin(getRadialPosition())));
         setRotation(getRadialPosition());
     }
-    
+
+    public GameObject getTarget(){return target;}
+    public void setTarget(GameObject target){this.target = target;}
+
     public float getRadialPosition(){return radialPosition;}
     public void setRadialPosition(float radialPosition){
         this.radialPosition= radialPosition;

@@ -13,6 +13,7 @@ public class Model {
     final static int ASTEROID_COLLISION_HEIGHT=10, ASTEROID_COLLISION_WIDTH = 10;
 
     public ArrayList<GameObject> gameObjects = new ArrayList<>();
+
     private int numberOfPlayers = 2;
     private int asteroidTimer = 0;
 
@@ -41,7 +42,9 @@ public class Model {
         createShipWithView();
         createShipWithView();
         getPlayer(1).setRadialPosition(0);
+        getPlayer(1).setTarget(gameObjects.get(0));
         getPlayer(2).setRadialPosition((float)Math.PI);
+        getPlayer(2).setTarget(gameObjects.get(1));
     }
 
     /**
@@ -53,11 +56,14 @@ public class Model {
         Ship ship = new Ship(SHIP_COLLISION_WIDTH, SHIP_COLLISION_HEIGHT);
         ShipView shipView = new ShipView();
         ShieldView shieldView = new ShieldView();
+        CrosshairView crosshairView = new CrosshairView();
         ship.addObserver(shipView);
         ship.addObserver(shieldView);
+        ship.addObserver(crosshairView);
         gameObjects.add(ship);
         getView().addView(shipView);
         getView().addView(shieldView);
+        getView().addView(crosshairView);
         return ship;
     }
 
@@ -174,6 +180,16 @@ public class Model {
             return null;
         else
             return (Ship)gameObjects.get(playerNumber - 1);
+    }
+
+    /**
+     * Mueve el reticular del jugador al siguiente GameObject de la lista.
+     * @param playerNumber
+     */
+    public void cycleShipTarget(int playerNumber){
+        int currentTargetIndex;
+        currentTargetIndex = gameObjects.indexOf(getPlayer(playerNumber).getTarget());
+        getPlayer(playerNumber).setTarget(gameObjects.get(currentTargetIndex + 1>gameObjects.size()-1?0:currentTargetIndex+1));
     }
 
     /**
