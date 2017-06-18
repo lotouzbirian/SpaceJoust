@@ -20,13 +20,11 @@ public class SpaceJoust{
         view.setModel(model);
         view.setController(controller);
         controller.setModel(model);
+        controller.setView(view);
 
         JFrame frame = new JFrame();
         frame.setBounds(1, 1, GAME_WIDTH, GAME_HEIGHT);
         frame.add(view);
         frame.setVisible(true);
-
-        model.initGame();
-
     }
 }

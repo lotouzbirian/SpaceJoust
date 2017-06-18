@@ -1,3 +1,5 @@
+ import com.sun.tools.javah.Util;
+
  import java.awt.*;
  import java.awt.event.*;
  import java.util.ArrayList;
@@ -13,21 +15,27 @@ public class View extends JPanel implements ActionListener{
     private Controller controller;
     private ViewThread thread;
 
+    static final int STATE_MAIN_MENU = 0, STATE_NEW_GAME = 1, STATE_PLAY = 2, STATE_GAME_OVER = 3, STATE_EXIT = 4;
+    private int state = STATE_MAIN_MENU;
 
     Animation circleAnimation;
     Image backgroundImage;
     protected Image[]
             shipTravelFrames, shipDamagedFrames, shipCriticalFrames,
             shieldTravelFrames,
-            crosshairTravelFrames,
+            crosshair1TravelFrames,
+            crosshair2TravelFrames,
             rocketTravelFrames,
             asteroidTravelFrames,
             explosionFrames;
 
     private ArrayList<GameObjectView> gameObjectViews;
 
+    public ArrayList<Button> mainMenuButtons = new ArrayList();
+    public ArrayList<Button> newGameButtons = new ArrayList();
+    public ArrayList<Button> gameOverButtons = new ArrayList();
 
-
+    public ArrayList<Player> players;
 
     /**
       *Constructor de la clase que 
@@ -37,10 +45,13 @@ public class View extends JPanel implements ActionListener{
        addKeyListener(new TAdapter());
        addMouseListener(new MouseListener());
 
-       mainMenuButtons.add(new Button("New Game", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35));
-       mainMenuButtons.add(new Button("Exit", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35));
-       newGameButtons.add(new Button("Play", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35));
-       newGameButtons.add(new Button("Main Menu", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35));
+       mainMenuButtons.add(new Button("New Game", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35, STATE_NEW_GAME));
+       mainMenuButtons.add(new Button("Exit", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35, STATE_EXIT));
+       newGameButtons.add(new Button("Play", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35, STATE_PLAY));
+       newGameButtons.add(new Button("Main Menu", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35, STATE_MAIN_MENU));
+       gameOverButtons.add(new Button("Play Again", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35, STATE_PLAY));
+       gameOverButtons.add(new Button("Main Menu", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35, STATE_MAIN_MENU));
+
 
        loadFramess();
        backgroundImage = new ImageIcon("background1.jpg").getImage();
@@ -149,8 +160,11 @@ public class View extends JPanel implements ActionListener{
                 loadTexture("shield9.png")
         };
 
-        crosshairTravelFrames = new Image[]{
+        crosshair1TravelFrames = new Image[]{
                 loadTexture("crosshair1.png")
+        };
+        crosshair2TravelFrames = new Image[]{
+                loadTexture("crosshair2.png")
         };
         rocketTravelFrames = new Image[]{
                 loadTexture("rocket1.png"),
@@ -274,12 +288,28 @@ public class View extends JPanel implements ActionListener{
 
     }
 
+    public Model getModel(){return model;}
     public void setModel(Model model){
         this.model = model;
     }
 
     public void setController(Controller controller){
         this.controller = controller;
+    }
+
+    public void setState(int state){
+        if (state == STATE_PLAY){
+            gameObjectViews = new ArrayList<>();
+            getModel().initGame();
+            getModel().setPlaying(true);
+        } else if (state == STATE_EXIT){
+            System.exit(0);
+        }
+        this.state = state;
+    }
+
+    public int getState(){
+        return state;
     }
 
     protected void addView(GameObjectView view){
@@ -290,7 +320,7 @@ public class View extends JPanel implements ActionListener{
         } else if (view instanceof  ShieldView){
             view.addAnimation("TRAVEL", new Animation(shieldTravelFrames, 20));
         } else if (view instanceof  CrosshairView){
-            view.addAnimation("TRAVEL", new Animation(crosshairTravelFrames, 20));
+            view.addAnimation("TRAVEL", new Animation(((CrosshairView) view).getType()==1?crosshair1TravelFrames:crosshair2TravelFrames, 20));
         } else if (view instanceof RocketView){
             view.addAnimation("TRAVEL", new Animation(rocketTravelFrames, 20));
         } else if (view instanceof AsteroidView){
@@ -302,8 +332,10 @@ public class View extends JPanel implements ActionListener{
     }
 
     private void draw(Graphics g){
-        switch (model.get(State){
-            
+        g.drawImage(backgroundImage, 0, 0, backgroundImage.getWidth(null), backgroundImage.getHeight(null), null);
+        g.drawImage(circleAnimation.getFrame(), SpaceJoust.GAME_WIDTH/2 - 200 - 9, SpaceJoust.GAME_HEIGHT / 2 - 200 - 9, 400 + 19, 400 + 19, null);
+        circleAnimation.update();
+        switch (getState()){
             case STATE_MAIN_MENU:
                 for(Button button: mainMenuButtons){
                     button.draw((Graphics2D)g);
@@ -324,13 +356,10 @@ public class View extends JPanel implements ActionListener{
 
 
             case STATE_EXIT:
-            /* ABORT!!!*/
-            break;
+                /* ABORT!!!*/
+                break;
 
             case STATE_PLAY:
-                g.drawImage(backgroundImage, 0, 0, backgroundImage.getWidth(null), backgroundImage.getHeight(null), null);
-                g.drawImage(circleAnimation.getFrame(), SpaceJoust.GAME_WIDTH/2 - 200 - 9, SpaceJoust.GAME_HEIGHT / 2 - 200 - 9, 400 + 19, 400 + 19, null);
-                circleAnimation.update();
                 for (GameObjectView gameObjectView : gameObjectViews){
                     gameObjectView.draw((Graphics2D)g);
                 }

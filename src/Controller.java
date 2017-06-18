@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
  */
 public class Controller {
     Model model;
+    View view;
 
     /**
       *Setea el model al controller.
@@ -15,15 +16,18 @@ public class Controller {
         this.model = model;
     }
 
-<<<<<<< HEAD
+    /**
+     *Setea la view al controller.
+     */
+    public void setView(View view){
+        this.view = view;
+    }
+
     /**
       *Se encarga de manejar la presión de teclas para la jugabilidad del juego.
       *@param e es el evento que genera presionar la tecla, y con un switch se verifica que realizar. 
     */
-    public void handleInput(KeyEvent e){
-=======
     public void handleKeyboardInput(KeyEvent e){
->>>>>>> 7edfe947ae459bdf692de938e84325db500f4946
         switch (e.getKeyCode()){
             case KeyEvent.VK_A:
                 model.getPlayer(1).accelerate();
@@ -50,12 +54,31 @@ public class Controller {
                     model.createRocketWithView(model.getPlayer(2), model.getPlayer(2).getTarget());
                 break;
             case KeyEvent.VK_I:
-                model.cycleShipTarget(1);
+                model.cycleShipTarget(2);
                 break;
         }
     }
 
     public void handleMouseInput(MouseEvent e){
-//        for (e.getX() )
+        switch (view.getState()){
+            case View.STATE_MAIN_MENU:
+                for (Button button: view.mainMenuButtons){
+                    if (button.getBoundaries().contains(e.getX(), e.getY()))
+                        view.setState(button.getStatePointer());
+                }
+                break;
+            case View.STATE_NEW_GAME:
+                for (Button button: view.newGameButtons){
+                    if (button.getBoundaries().contains(e.getX(), e.getY()))
+                        view.setState(button.getStatePointer());
+                }
+                break;
+            case View.STATE_GAME_OVER:
+                for (Button button: view.gameOverButtons){
+                    if (button.getBoundaries().contains(e.getX(), e.getY()))
+                        view.setState(button.getStatePointer());
+                }
+                break;
+        }
     }
 }

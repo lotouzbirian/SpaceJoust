@@ -70,26 +70,26 @@ public class Asteroid extends GameObject{
 		if(rnd.nextBoolean()){//si es verdadero, entra por la derecha o izquierda
 			if(rnd.nextBoolean()){//si es verdadero, entra por la derecha
 				setPositionX(SpaceJoust.GAME_WIDTH + getCollisionWidth());
-				setPositionY((int)(rnd.nextFloat()*SpaceJoust.GAME_HEIGHT)); //El int tiene que ser entre
+				setPositionY((int)(SpaceJoust.GAME_HEIGHT/2 + rnd.nextFloat()*SpaceJoust.GAME_HEIGHT / 2)); //El int tiene que ser entre
 				setSpeedX(-1);
-				setSpeedY(1);
+				setSpeedY(-1);
 			}
 			else{//sale por la izquierda
 				setPositionX(-getCollisionWidth());
-				setPositionY((int)(rnd.nextFloat()*SpaceJoust.GAME_HEIGHT));
+				setPositionY((int)(rnd.nextFloat()*SpaceJoust.GAME_HEIGHT/2));
 				setSpeedX(1);
-				setSpeedY(-1);
+				setSpeedY(1);
 			}
 		}
 		else{//entra por arriba o abajo
 			if(rnd.nextBoolean()){//entra por abajo
-				setPositionX((int)(rnd.nextFloat() * SpaceJoust.GAME_WIDTH)); //El int tiene que ser entre
+				setPositionX((int)(rnd.nextFloat() * SpaceJoust.GAME_WIDTH/2)); //El int tiene que ser entre
 				setPositionY(SpaceJoust.GAME_HEIGHT + getCollisionHeight());
 				setSpeedX(1);
 				setSpeedY(-1);
 			}
 			else{//entra por arriba
-				setPositionX((int)(rnd.nextFloat() * SpaceJoust.GAME_WIDTH)); //El int tiene que ser entre
+				setPositionX((int)(SpaceJoust.GAME_WIDTH/2 + rnd.nextFloat() * SpaceJoust.GAME_WIDTH/2)); //El int tiene que ser entre
 				setPositionY(-getCollisionHeight());
 				setSpeedX(-1);
 				setSpeedY(1);
