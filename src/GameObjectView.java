@@ -5,7 +5,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Created by Bensas on 5/27/17.
+  * Created by Bensas on 5/27/17.
+  * Es la View encargada de graficar a los objetos de juego.
  */
 public abstract class GameObjectView implements Observer{
     private int positionX, positionY;
@@ -17,6 +18,10 @@ public abstract class GameObjectView implements Observer{
     protected HashMap<String, Animation> animations = new HashMap<>();
     protected Animation currentAnimation;
 
+    /**
+      *Grafica al objeto g en la pantalla.
+      *@param g es el objeto a graficar
+    */
     public void draw(Graphics2D g){
         getAnimation().update();
         AffineTransform trans = new AffineTransform();
@@ -27,6 +32,10 @@ public abstract class GameObjectView implements Observer{
             setState(STATE_INACTIVE);
     }
 
+    /**
+      *Updatea las propiedades gráficas del objeto y genera alguna animación de ser necesario.
+      *@param o es el objeto a obervar para su update.
+    */
     @Override
     public void update(Observable o, Object arg) {
         setPositionX(((GameObject)o).getPositionX());
@@ -38,13 +47,19 @@ public abstract class GameObjectView implements Observer{
         }
     }
 
+    /**
+      *Agrega una animación determinada al mapa de animaciones.
+      *@param name es el nombre de la animación.
+      *@param animation es la animación dicha. 
+    */
     public void addAnimation(String name, Animation animation){
         animations.put(name, animation);
     }
 
     /**
      * @author Juan Bensadon
-     * @param
+     * Cambiar la animación en la que se enceuntra el objeto.
+     * @param state es el estado para cambiar la animación.
      */
     protected void switchAnimation(int state){
         switch (state){
@@ -56,27 +71,60 @@ public abstract class GameObjectView implements Observer{
         }
     };
 
-
+    /**
+      *@return Devuelve la posición x del Observer.
+    */
     protected int getPositionX() {return positionX;}
+
+    /**
+      *@param positionX es la nueva posición en x del Obsever.
+    */
     protected void setPositionX(int positionX) {
         this.positionX = positionX;
     }
 
+    /**
+      *@return Devuelve la posición en y del Observer.
+    */
     protected int getPositionY() {return positionY;}
+    
+    /**
+      *@param positionY es la nueva posición en Y del Observer.
+    */    
     protected void setPositionY(int positionY) {
         this.positionY = positionY;
     }
 
+    /**
+      *@return Devuelve la rotación del Observer.
+    */
     protected float getRotation() {return rotation;}
+
+    /**
+      *@param rotation setea la rotación del Observer.
+    */    
     protected void setRotation(float rotation) {
         this.rotation = rotation;
     }
 
+    /**
+      *@return Devuelve el estado en el que se encuentra el Observer.
+    */
     protected int getState(){return state;}
+
+    /**
+      *@param state setea el estado del Observer.
+    */    
     protected void setState(int state){this.state = state;}
 
-
+    /**
+      *@return Devuelve la animación actual del Observer.
+    */
     protected Animation getAnimation(){return currentAnimation;}
+
+    /**
+      *@param currentAnimation setea la animación del Observer.
+    */    
     protected void setAnimation(Animation currentAnimation){this.currentAnimation = currentAnimation;}
 
 }

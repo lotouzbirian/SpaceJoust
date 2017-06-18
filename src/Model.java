@@ -11,19 +11,44 @@ public class Model {
     final static int SHIP_COLLISION_HEIGHT=120, SHIP_COLLISION_WIDTH = 50;
     final static int ROCKET_COLLISION_HEIGHT=20, ROCKET_COLLISION_WIDTH = 20;
     final static int ASTEROID_COLLISION_HEIGHT=10, ASTEROID_COLLISION_WIDTH = 10;
+    static final int STATE_MAIN_MENU = 0, STATE_NEW_GAME = 1, STATE_PLAY = 2, STATE_GAME_OVER = 3, STATE_EXIT = 4;
+
+    private int State = STATE_PLAY;
+    private ArrayList<Button> mainMenuButtons = new ArrayList();
+    private ArrayList<Button> newGameButtons = new ArrayList();
+    private ArrayList<Button> gameOverButtons = new ArrayList();
 
     public ArrayList<GameObject> gameObjects = new ArrayList<>();
 
     private int numberOfPlayers = 2;
     private int asteroidTimer = 0;
 
+<<<<<<< HEAD
+    /**
+      *@return Devuelve la View.
+    */
+=======
+
+    public void setState(int State){
+        this.State = State;
+    }
+
+    public int getState(){
+        return State;
+    }
+
+>>>>>>> 4f074f2bdff823d66c2881ae156edd312faa54d6
     private View getView(){
         return view;
     }
 
+    /**
+      *@param view setea la View.
+    */
     public void setView(View view){
         this.view = view;
     }
+
 
     /**
      * Crea los jugadores, crea el Thread y lo inicia.
@@ -45,6 +70,15 @@ public class Model {
         getPlayer(1).setTarget(gameObjects.get(0));
         getPlayer(2).setRadialPosition((float)Math.PI);
         getPlayer(2).setTarget(gameObjects.get(1));
+    }
+
+    private Button createButtonWithView(String nameButton, int positionX, int positionY){
+        Button button = new Button(nameButton, positionX, positionY);
+        ButtonView buttonView = new ButtonView();
+        button.addObserver(buttonView);
+        gameObjects.add(button);
+        getView().addView(buttonView);
+        return button;
     }
 
     /**
@@ -97,19 +131,43 @@ public class Model {
         return rocket;
     }
 
+
+
     /**
      * Ejecuta la actualizacion general del juego.
      */
     public void update(){
-        updateGameObjects();
-        checkForShipCollision(getPlayer(1), getPlayer(2));
-        asteroidTimer++;
-        if (asteroidTimer >= 200){
-            createAsteroidWithView();
-            asteroidTimer = 0;
+        switch (State){
+            
+            case STATE_MAIN_MENU:
+                break;
+
+            case STATE_NEW_GAME:
+
+                break;
+
+            case STATE_GAME_OVER:
+
+                break;
+
+
+            case STATE_EXIT:
+            /* ABORT!!!*/
+            break;
+
+            case STATE_PLAY:
+            updateGameObjects();
+            checkForShipCollision(getPlayer(1), getPlayer(2));
+            asteroidTimer++;
+            if (asteroidTimer >= 200){
+                createAsteroidWithView();
+                asteroidTimer = 0;
+            }
+            cleanupObjects();
+            break;
         }
-        cleanupObjects();
-    };
+
+    }
 
     /**
      * Revisa la lista de objetos en busca de objetos inactivos y los remueve.

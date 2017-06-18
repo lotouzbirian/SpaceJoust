@@ -4,12 +4,18 @@ import java.io.IOException;
 
 /**
  * Created by Bensas on 6/17/17.
+ * Clase dedicada a guardar los datos del jugador.
  */
 public class Player {
     final static String FILENAME_EXTENSION = ".plr";
     private String name;
     private int wins, loses;
 
+    /**
+      *Constructor de la clase
+      *@param name es el nombre seleccionado del jugador
+      *
+    */
     public Player(String name){
         this.name = name;
         getInfoFromPlayerFile(name + FILENAME_EXTENSION);

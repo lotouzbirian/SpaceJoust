@@ -4,11 +4,10 @@
 
 import java.awt.*;
 
-public class Button{
+public class Button extends GameObject{
 	private String nameButton;
 	private int positionX;
-	private int positionY;
-	private Font fnt0 = new Font("arial", Font.BOLD, 30);
+	private int positionY;S
 	public Rectangle rectangle;
 
 	
@@ -16,13 +15,5 @@ public class Button{
 		this.nameButton=nameButton;
 		this.positionX=positionX;
 		this.positionY=positionY;
-	}
-
-	public void draw (Graphics2D g){
-		rectangle = new Rectangle (positionX, positionY, 120, 50);
-		g.setFont(fnt0);
-		g.setColor(Color.white);
-		g.draw(rectangle);
-		g.drawString( nameButton, rectangle.x +30, rectangle.y + 20);
 	}
 }

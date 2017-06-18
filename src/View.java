@@ -13,7 +13,6 @@ public class View extends JPanel implements ActionListener{
     private Controller controller;
     private ViewThread thread;
 
-    static final int STATE_MAIN_MENU = 0, STATE_NEW_GAME = 1, STATE_PLAY = 2, STATE_GAME_OVER = 3, STATE_EXIT = 4;
 
     Animation circleAnimation;
     Image backgroundImage;
@@ -27,11 +26,12 @@ public class View extends JPanel implements ActionListener{
 
     private ArrayList<GameObjectView> gameObjectViews;
 
-    private int State = STATE_PLAY;
-    private ArrayList<Button> mainMenuButtons = new ArrayList();
-    private ArrayList<Button> newGameButtons = new ArrayList();
-    private ArrayList<Button> gameOverButtons = new ArrayList();
 
+
+
+    /**
+      *Constructor de la clase que 
+    */
     public View() {
        setFocusable(true);
        addKeyListener(new TAdapter());
@@ -302,7 +302,7 @@ public class View extends JPanel implements ActionListener{
     }
 
     private void draw(Graphics g){
-        switch (State){
+        switch (model.get(State){
             
             case STATE_MAIN_MENU:
                 for(Button button: mainMenuButtons){
@@ -320,6 +320,7 @@ public class View extends JPanel implements ActionListener{
                 for (Button button: gameOverButtons){
                     button.draw((Graphics2D)g);
                 }
+                break;
 
 
             case STATE_EXIT:
