@@ -12,20 +12,28 @@ public class Player {
     private int wins, loses;
 
     /**
-      *Constructor de la clase
-      *@param name es el nombre seleccionado del jugador
-      *
+      *Constructor de la clase que además crea el archivo con la información del jugador. 
+      *@param name es el nombre seleccionado del jugador.
     */
     public Player(String name){
         this.name = name;
         getInfoFromPlayerFile(name + FILENAME_EXTENSION);
     }
 
+   
+	/**
+ 	  *@param fileName es el nombre del archivo.
+ 	*/
     private void getInfoFromPlayerFile(String fileName){
         File playerFile = new File(fileName);
 
     }
 
+    
+    
+	/**
+ 	  * Escribe los datos del jugador en el archivo del mismo.
+ 	*/
     private void writeInfoToPlayerFile(){
         File playerFile = new File(name + FILENAME_EXTENSION);
         FileWriter writer = null;
