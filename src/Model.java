@@ -11,32 +11,16 @@ public class Model {
     final static int SHIP_COLLISION_HEIGHT=120, SHIP_COLLISION_WIDTH = 50;
     final static int ROCKET_COLLISION_HEIGHT=20, ROCKET_COLLISION_WIDTH = 20;
     final static int ASTEROID_COLLISION_HEIGHT=10, ASTEROID_COLLISION_WIDTH = 10;
-    static final int STATE_MAIN_MENU = 0, STATE_NEW_GAME = 1, STATE_PLAY = 2, STATE_GAME_OVER = 3, STATE_EXIT = 4;
 
-    private int State = STATE_PLAY;
-    private ArrayList<Button> mainMenuButtons = new ArrayList();
-    private ArrayList<Button> newGameButtons = new ArrayList();
-    private ArrayList<Button> gameOverButtons = new ArrayList();
+    public ArrayList<GameObject> gameObjects;
 
-    public ArrayList<GameObject> gameObjects = new ArrayList<>();
+    private boolean playing = false;
     private int numberOfPlayers = 2;
     private int asteroidTimer = 0;
 
-<<<<<<< HEAD
     /**
       *@return Devuelve la View.
     */
-=======
-
-    public void setState(int State){
-        this.State = State;
-    }
-
-    public int getState(){
-        return State;
-    }
-
->>>>>>> 4f074f2bdff823d66c2881ae156edd312faa54d6
     private View getView(){
         return view;
     }
@@ -48,34 +32,29 @@ public class Model {
         this.view = view;
     }
 
-
     /**
      * Crea los jugadores, crea el Thread y lo inicia.
      */
     public void initGame(){
+        gameObjects = new ArrayList<>();
         initPlayers();
-        thread = new ModelThread(this);
-        thread.setIsRunning(true);
-        thread.start();
+        if (thread == null){
+            thread = new ModelThread(this);
+            thread.setIsRunning(true);
+            thread.start();
+        }
     }
 
     /**
      * Crea los jugadores y los posiciona en los lugares iniciales
      */
     private void initPlayers(){
-        createShipWithView();
-        createShipWithView();
+        createShipWithView(1);
+        createShipWithView(2);
         getPlayer(1).setRadialPosition(0);
+        getPlayer(1).setTarget(getPlayer(2));
         getPlayer(2).setRadialPosition((float)Math.PI);
-    }
-
-    private Button createButtonWithView(String nameButton, int positionX, int positionY){
-        Button button = new Button(nameButton, positionX, positionY);
-        ButtonView buttonView = new ButtonView();
-        button.addObserver(buttonView);
-        gameObjects.add(button);
-        getView().addView(buttonView);
-        return button;
+        getPlayer(2).setTarget(getPlayer(1));
     }
 
     /**
@@ -83,15 +62,18 @@ public class Model {
      * y lo agrega a la lista de GameObjects. Tambien agrega las Views a la lista de GameObjectViews.
      * @return Ship
      */
-    private Ship createShipWithView(){
+    private Ship createShipWithView(int crosshairType){
         Ship ship = new Ship(SHIP_COLLISION_WIDTH, SHIP_COLLISION_HEIGHT);
         ShipView shipView = new ShipView();
         ShieldView shieldView = new ShieldView();
+        CrosshairView crosshairView = new CrosshairView(crosshairType);
         ship.addObserver(shipView);
         ship.addObserver(shieldView);
+        ship.addObserver(crosshairView);
         gameObjects.add(ship);
         getView().addView(shipView);
         getView().addView(shieldView);
+        getView().addView(crosshairView);
         return ship;
     }
 
@@ -125,31 +107,11 @@ public class Model {
         return rocket;
     }
 
-
-
     /**
      * Ejecuta la actualizacion general del juego.
      */
     public void update(){
-        switch (State){
-            
-            case STATE_MAIN_MENU:
-                break;
-
-            case STATE_NEW_GAME:
-
-                break;
-
-            case STATE_GAME_OVER:
-
-                break;
-
-
-            case STATE_EXIT:
-            /* ABORT!!!*/
-            break;
-
-            case STATE_PLAY:
+        if (playing){
             updateGameObjects();
             checkForShipCollision(getPlayer(1), getPlayer(2));
             asteroidTimer++;
@@ -158,9 +120,7 @@ public class Model {
                 asteroidTimer = 0;
             }
             cleanupObjects();
-            break;
         }
-
     }
 
     /**
@@ -187,7 +147,14 @@ public class Model {
         for (GameObject object: gameObjects){
             if (object != null){
                 object.update();
+                if (object instanceof Ship)
+                    if (!((Ship) object).getIsAlive()){
+                        setPlaying(false);
+                        getView().setState(View.STATE_GAME_OVER);
+                    }
                 if (object instanceof Rocket){
+                    if (((Rocket) object).getTarget() == null)
+                        gameObjects.remove(object);
                     if (object.collidesWith(((Rocket)object).getTarget())){
                         ((Rocket)object).getTarget().impact();
                         object.impact();
@@ -235,9 +202,31 @@ public class Model {
     }
 
     /**
+     * Mueve el reticular del jugador al siguiente GameObject de la lista.
+     * @param playerNumber
+     */
+    public void cycleShipTarget(int playerNumber){
+        int targetIndex;
+        targetIndex = gameObjects.indexOf(getPlayer(playerNumber).getTarget()) + 1;
+        if (targetIndex > gameObjects.size()-1)
+            targetIndex = 0;
+        while (gameObjects.get(targetIndex).equals(getPlayer(playerNumber))||
+                (gameObjects.get(targetIndex) instanceof Rocket)){
+            targetIndex++;
+            if (targetIndex > gameObjects.size()-1)
+                targetIndex = 0;
+        }
+        getPlayer(playerNumber).setTarget(gameObjects.get(targetIndex));
+    }
+
+    /**
      * Llamado cuando se detiene el hilo de ejecución del juego.
      */
     public void onThreadClosed(){
 
     };
+
+    public boolean isPlaying() {return playing;}
+
+    public void setPlaying(boolean playing) {this.playing = playing;}
 }

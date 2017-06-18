@@ -132,8 +132,8 @@ public abstract class GameObject extends Observable {
       *@return Devuelve verdaderosi el objeto se encuentra fuera de la pantalla, y falso si no.
     */
     public boolean isOffScreen(){
-        if (getPositionX() < -getCollisionWidth() || getPositionX() > SpaceJoust.GAME_WIDTH ||
-                getPositionY() < -getCollisionHeight() || getPositionY() > SpaceJoust.GAME_HEIGHT)
+        if (getPositionX() < -getCollisionWidth() -10 || getPositionX() > SpaceJoust.GAME_WIDTH+10 ||
+                getPositionY() < -getCollisionHeight()-10 || getPositionY() > SpaceJoust.GAME_HEIGHT+10)
             return  true;
         return false;
     }
