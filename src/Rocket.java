@@ -99,14 +99,29 @@ public class Rocket extends GameObject{
             setSpeedY(setMovement(distanceY, distanceX));
             setPositionX(getPositionX() + (int)getSpeedX());
             setPositionY(getPositionY() + (int)getSpeedY());
-            setRotation((float)Math.tan(speedX/speedY));
+            setRotation(determineRotationFromSpeed(getSpeedX(), getSpeedY()));
         }
         super.update();
     }
 
+    /**
+     * Devuelve la rotación correcta para el rocket, tomando en cuenta
+     * el valor positivo o negativo de la velocidad vertical
+     * @param speedX
+     * @param speedY
+     * @return El valor de la rotación del rocket.
+     */
+    private float determineRotationFromSpeed(float speedX, float speedY){
+        if (-speedY < 0)
+            return (float)(Math.PI + Math.atan(speedX/-speedY));
+        else
+            return (float)(Math.atan(speedX/-speedY));
+    }
+
 
     /**
-      *Método auxiliar para calcular la nueva velocidad del misil.
+     * Método auxiliar para calcular la nueva velocidad del misil.
+     * @return El valor normalizado de la velocidad en uno de los ejes.
     */    
     public float setMovement(float a, float b){
         float cuenta= (a/(float)Math.sqrt((a * a) + (b * b))) * getSpeedFactor();

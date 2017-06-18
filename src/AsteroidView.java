@@ -1,5 +1,5 @@
 /**
- * Created by Bensas on 6/18/17.
+ * @author Juan Bensadon
  * View del Asteroide.
  */
 public class AsteroidView extends GameObjectView{
