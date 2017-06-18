@@ -1,23 +1,27 @@
-package PACKAGE_NAME;
-
 import org.junit.Assert;
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-//import static org.mockito.Mockito.*;
+
+import java.awt.*;
+import java.awt.geom.Area;
+import java.util.Observer;
+import java.util.Vector;
+
+import static org.mockito.Mockito.*;
 
 /**
  * Created by leandro on 6/17/17.
  */
 public class ButtonTest {
     @Mock
-    java.awt.Rectangle rectangle;
+    Rectangle rectangle;
     @Mock
-    java.awt.geom.Area collisionBox;
+    Area collisionBox;
     @Mock
-    java.util.Vector<java.util.Observer> obs;
+    Vector<Observer> obs;
     @InjectMocks
     Button button;
 
@@ -74,5 +78,3 @@ public class ButtonTest {
         Assert.assertEquals(0, result);
     }
 }
-
-//Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme

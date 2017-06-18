@@ -1,12 +1,33 @@
-package PACKAGE_NAME;
-
 import org.junit.Assert;
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-//import static org.mockito.Mockito.*;
+import sun.awt.RequestFocusController;
+import sun.java2d.pipe.Region;
+import sun.util.logging.PlatformLogger;
+
+import javax.accessibility.AccessibleContext;
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.event.EventListenerList;
+import javax.swing.plaf.ComponentUI;
+import java.awt.*;
+import java.awt.dnd.DropTarget;
+import java.awt.event.*;
+import java.awt.image.BufferStrategy;
+import java.awt.image.VolatileImage;
+import java.awt.peer.ComponentPeer;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.beans.VetoableChangeSupport;
+import java.io.ObjectInputStream;
+import java.util.*;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import static org.mockito.Mockito.*;
 
 /**
  * Created by leandro on 6/17/17.
@@ -21,161 +42,150 @@ public class ViewTest {
     @Mock
     Animation circleAnimation;
     @Mock
-    java.awt.Image backgroundImage;
-    //Field shipTravelFrames of type Image[] - was not mocked since Mockito doesn't mock arrays
-    //Field shipDamagedFrames of type Image[] - was not mocked since Mockito doesn't mock arrays
-    //Field shipCriticalFrames of type Image[] - was not mocked since Mockito doesn't mock arrays
-    //Field shieldTravelFrames of type Image[] - was not mocked since Mockito doesn't mock arrays
-    //Field rocketTravelFrames of type Image[] - was not mocked since Mockito doesn't mock arrays
-    //Field asteroidTravelFrames of type Image[] - was not mocked since Mockito doesn't mock arrays
-    //Field explosionFrames of type Image[] - was not mocked since Mockito doesn't mock arrays
+    Image backgroundImage;
     @Mock
-    java.util.ArrayList<GameObjectView> gameObjectViews;
+    ArrayList<GameObjectView> gameObjectViews;
     @Mock
-    java.util.Hashtable<java.io.ObjectInputStream,javax.swing.JComponent.ReadObjectCallback> readObjectCallbacks;
+    Hashtable<ObjectInputStream, JComponent.ReadObjectCallback> readObjectCallbacks;
     @Mock
-    java.util.Set<javax.swing.KeyStroke> managingFocusForwardTraversalKeys;
+    Set<KeyStroke> managingFocusForwardTraversalKeys;
     @Mock
-    java.util.Set<javax.swing.KeyStroke> managingFocusBackwardTraversalKeys;
+    Set<KeyStroke> managingFocusBackwardTraversalKeys;
     @Mock
-    java.lang.Object INPUT_VERIFIER_SOURCE_KEY;
+    Object INPUT_VERIFIER_SOURCE_KEY;
     @Mock
-    javax.swing.plaf.ComponentUI ui;
+    ComponentUI ui;
     @Mock
-    javax.swing.event.EventListenerList listenerList;
+    EventListenerList listenerList;
     @Mock
-    javax.swing.ArrayTable clientProperties;
+    ArrayTable clientProperties;
     @Mock
-    java.beans.VetoableChangeSupport vetoableChangeSupport;
+    VetoableChangeSupport vetoableChangeSupport;
     @Mock
-    javax.swing.border.Border border;
+    Border border;
     @Mock
-    javax.swing.InputVerifier inputVerifier;
+    InputVerifier inputVerifier;
     @Mock
-    java.awt.Component paintingChild;
+    Component paintingChild;
     @Mock
-    javax.swing.JPopupMenu popupMenu;
+    JPopupMenu popupMenu;
     @Mock
-    java.util.concurrent.atomic.AtomicBoolean revalidateRunnableScheduled;
+    AtomicBoolean revalidateRunnableScheduled;
     @Mock
-    java.util.List<java.awt.Rectangle> tempRectangles;
+    java.util.List<Rectangle> tempRectangles;
     @Mock
-    javax.swing.InputMap focusInputMap;
+    InputMap focusInputMap;
     @Mock
-    javax.swing.InputMap ancestorInputMap;
+    InputMap ancestorInputMap;
     @Mock
-    javax.swing.ComponentInputMap windowInputMap;
+    ComponentInputMap windowInputMap;
     @Mock
-    javax.swing.ActionMap actionMap;
+    ActionMap actionMap;
     @Mock
-    java.awt.Component componentObtainingGraphicsFrom;
+    Component componentObtainingGraphicsFrom;
     @Mock
-    java.lang.Object componentObtainingGraphicsFromLock;
+    Object componentObtainingGraphicsFromLock;
     @Mock
-    java.lang.Object aaTextInfo;
+    Object aaTextInfo;
     @Mock
-    sun.awt.RequestFocusController focusController;
+    RequestFocusController focusController;
     @Mock
-    sun.util.logging.PlatformLogger log;
+    PlatformLogger log;
     @Mock
-    sun.util.logging.PlatformLogger eventLog;
+    PlatformLogger eventLog;
     @Mock
-    java.util.List<java.awt.Component> component;
+    List<Component> component;
     @Mock
-    java.awt.LayoutManager layoutMgr;
+    LayoutManager layoutMgr;
     @Mock
-    java.awt.LightweightDispatcher dispatcher;
+    LightweightDispatcher dispatcher;
     @Mock
-    java.awt.FocusTraversalPolicy focusTraversalPolicy;
+    FocusTraversalPolicy focusTraversalPolicy;
     @Mock
-    java.util.Set<java.lang.Thread> printingThreads;
+    Set<Thread> printingThreads;
     @Mock
-    java.awt.event.ContainerListener containerListener;
+    ContainerListener containerListener;
     @Mock
-    java.awt.Color preserveBackgroundColor;
+    Color preserveBackgroundColor;
     @Mock
-    sun.util.logging.PlatformLogger mixingLog;
+    PlatformLogger mixingLog;
     @Mock
-    java.awt.Component modalComp;
+    Component modalComp;
     //Field modalAppContext of type AppContext - was not mocked since Mockito doesn't mock a Final class
     @Mock
-    sun.util.logging.PlatformLogger log;
+    PlatformLogger log;
     @Mock
-    sun.util.logging.PlatformLogger eventLog;
+    PlatformLogger eventLog;
     @Mock
-    sun.util.logging.PlatformLogger focusLog;
+    PlatformLogger focusLog;
     @Mock
-    sun.util.logging.PlatformLogger mixingLog;
+    PlatformLogger mixingLog;
     @Mock
-    java.awt.peer.ComponentPeer peer;
+    ComponentPeer peer;
     @Mock
-    java.awt.Container parent;
-    //Field appContext of type AppContext - was not mocked since Mockito doesn't mock a Final class
+    Container parent;
     @Mock
-    java.awt.Color foreground;
+    Color foreground;
     @Mock
-    java.awt.Color background;
+    Color background;
     @Mock
-    java.awt.Font font;
+    Font font;
     @Mock
-    java.awt.Font peerFont;
+    Font peerFont;
     @Mock
-    java.awt.Cursor cursor;
-    //Field locale of type Locale - was not mocked since Mockito doesn't mock a Final class
+    Cursor cursor;
     @Mock
-    java.awt.GraphicsConfiguration graphicsConfig;
+    GraphicsConfiguration graphicsConfig;
     @Mock
-    java.awt.image.BufferStrategy bufferStrategy;
+    BufferStrategy bufferStrategy;
     @Mock
-    java.awt.dnd.DropTarget dropTarget;
+    DropTarget dropTarget;
     @Mock
-    java.util.Vector<java.awt.PopupMenu> popups;
-    //Field focusTraversalKeys of type Set[] - was not mocked since Mockito doesn't mock arrays
+    Vector<PopupMenu> popups;
     @Mock
-    java.lang.Object LOCK;
-    //Field acc of type AccessControlContext - was not mocked since Mockito doesn't mock a Final class
+    Object LOCK;
     @Mock
-    java.awt.Dimension minSize;
+    Dimension minSize;
     @Mock
-    java.awt.Dimension prefSize;
+    Dimension prefSize;
     @Mock
-    java.awt.Dimension maxSize;
+    Dimension maxSize;
     //Field componentOrientation of type ComponentOrientation - was not mocked since Mockito doesn't mock a Final class
     @Mock
-    java.awt.event.ComponentListener componentListener;
+    ComponentListener componentListener;
     @Mock
-    java.awt.event.FocusListener focusListener;
+    FocusListener focusListener;
     @Mock
-    java.awt.event.HierarchyListener hierarchyListener;
+    HierarchyListener hierarchyListener;
     @Mock
-    java.awt.event.HierarchyBoundsListener hierarchyBoundsListener;
+    HierarchyBoundsListener hierarchyBoundsListener;
     @Mock
-    java.awt.event.KeyListener keyListener;
+    KeyListener keyListener;
     @Mock
-    java.awt.event.MouseListener mouseListener;
+    MouseListener mouseListener;
     @Mock
-    java.awt.event.MouseMotionListener mouseMotionListener;
+    MouseMotionListener mouseMotionListener;
     @Mock
-    java.awt.event.MouseWheelListener mouseWheelListener;
+    MouseWheelListener mouseWheelListener;
     @Mock
-    java.awt.event.InputMethodListener inputMethodListener;
+    InputMethodListener inputMethodListener;
     @Mock
-    java.lang.RuntimeException windowClosingException;
+    RuntimeException windowClosingException;
     @Mock
-    java.beans.PropertyChangeSupport changeSupport;
+    PropertyChangeSupport changeSupport;
     @Mock
-    java.lang.Object objectLock;
+    Object objectLock;
     @Mock
-    sun.java2d.pipe.Region compoundShape;
+    Region compoundShape;
     @Mock
-    sun.java2d.pipe.Region mixingCutoutRegion;
+    Region mixingCutoutRegion;
     //Field eventCache of type EventQueueItem[] - was not mocked since Mockito doesn't mock arrays
     @Mock
-    java.util.Map<java.lang.Class<?>,java.lang.Boolean> coalesceMap;
+    Map<Class<?>, Boolean> coalesceMap;
     @Mock
-    sun.awt.RequestFocusController requestFocusController;
+    RequestFocusController requestFocusController;
     @Mock
-    javax.accessibility.AccessibleContext accessibleContext;
+    AccessibleContext accessibleContext;
     @InjectMocks
     View view;
 
@@ -191,7 +201,7 @@ public class ViewTest {
 
     @Test
     public void testLoadTexture() throws Exception {
-        java.awt.Image result = view.loadTexture("textureName");
+        Image result = view.loadTexture("textureName");
         Assert.assertEquals(null, result);
     }
 
@@ -269,7 +279,7 @@ public class ViewTest {
 
     @Test
     public void testGetFontMetrics() throws Exception {
-        java.awt.FontMetrics result = view.getFontMetrics(null);
+        FontMetrics result = view.getFontMetrics(null);
         Assert.assertEquals(null, result);
     }
 
@@ -281,7 +291,7 @@ public class ViewTest {
 
     @Test
     public void testGetInsets() throws Exception {
-        java.awt.Insets result = view.getInsets(null);
+        Insets result = view.getInsets(null);
         Assert.assertEquals(null, result);
     }
 
@@ -308,7 +318,7 @@ public class ViewTest {
 
     @Test
     public void testGetActionForKeyStroke() throws Exception {
-        java.awt.event.ActionListener result = view.getActionForKeyStroke(null);
+        ActionListener result = view.getActionForKeyStroke(null);
         Assert.assertEquals(null, result);
     }
 
@@ -319,13 +329,13 @@ public class ViewTest {
 
     @Test
     public void testSetInputMap() throws Exception {
-        view.setInputMap(0, new javax.swing.InputMap());
+        view.setInputMap(0, new InputMap());
     }
 
     @Test
     public void testGetInputMap() throws Exception {
-        javax.swing.InputMap result = view.getInputMap(0);
-        Assert.assertEquals(new javax.swing.InputMap(), result);
+        InputMap result = view.getInputMap(0);
+        Assert.assertEquals(new InputMap(), result);
     }
 
     @Test
@@ -342,26 +352,26 @@ public class ViewTest {
 
     @Test
     public void testGetToolTipText() throws Exception {
-        java.lang.String result = view.getToolTipText(null);
+        String result = view.getToolTipText(null);
         Assert.assertEquals("replaceMeWithExpectedResult", result);
     }
 
     @Test
     public void testGetToolTipLocation() throws Exception {
-        java.awt.Point result = view.getToolTipLocation(null);
+        Point result = view.getToolTipLocation(null);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testGetPopupLocation() throws Exception {
-        java.awt.Point result = view.getPopupLocation(null);
+        Point result = view.getPopupLocation(null);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testCreateToolTip() throws Exception {
-        javax.swing.JToolTip result = view.createToolTip();
-        Assert.assertEquals(new javax.swing.JToolTip(), result);
+        JToolTip result = view.createToolTip();
+        Assert.assertEquals(new JToolTip(), result);
     }
 
     @Test
@@ -381,7 +391,7 @@ public class ViewTest {
 
     @Test
     public void testGetClientProperty() throws Exception {
-        java.lang.Object result = view.getClientProperty(null);
+        Object result = view.getClientProperty(null);
         Assert.assertEquals(null, result);
     }
 
@@ -392,7 +402,7 @@ public class ViewTest {
 
     @Test
     public void testSetFocusTraversalKeys() throws Exception {
-        view.setFocusTraversalKeys(0, new java.util.HashSet<? extends java.awt.AWTKeyStroke>(java.util.Arrays.asList(null)));
+        view.setFocusTraversalKeys(0, new HashSet<? extends AWTKeyStroke>(Arrays.asList(null)));
     }
 
     @Test
@@ -408,19 +418,19 @@ public class ViewTest {
 
     @Test
     public void testGetBounds() throws Exception {
-        java.awt.Rectangle result = view.getBounds(null);
+        Rectangle result = view.getBounds(null);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testGetSize() throws Exception {
-        java.awt.Dimension result = view.getSize(null);
+        Dimension result = view.getSize(null);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testGetLocation() throws Exception {
-        java.awt.Point result = view.getLocation(null);
+        Point result = view.getLocation(null);
         Assert.assertEquals(null, result);
     }
 
@@ -518,31 +528,31 @@ public class ViewTest {
 
     @Test
     public void testGetComponent() throws Exception {
-        java.awt.Component result = view.getComponent(0);
+        Component result = view.getComponent(0);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testInsets() throws Exception {
-        java.awt.Insets result = view.insets();
+        Insets result = view.insets();
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testAdd() throws Exception {
-        java.awt.Component result = view.add(null);
+        Component result = view.add(null);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testAdd2() throws Exception {
-        java.awt.Component result = view.add("name", null);
+        Component result = view.add("name", null);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testAdd3() throws Exception {
-        java.awt.Component result = view.add(null, 0);
+        Component result = view.add(null, 0);
         Assert.assertEquals(null, result);
     }
 
@@ -604,13 +614,13 @@ public class ViewTest {
 
     @Test
     public void testPreferredSize() throws Exception {
-        java.awt.Dimension result = view.preferredSize();
+        Dimension result = view.preferredSize();
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testMinimumSize() throws Exception {
-        java.awt.Dimension result = view.minimumSize();
+        Dimension result = view.minimumSize();
         Assert.assertEquals(null, result);
     }
 
@@ -662,37 +672,37 @@ public class ViewTest {
 
     @Test
     public void testGetComponentAt() throws Exception {
-        java.awt.Component result = view.getComponentAt(0, 0);
+        Component result = view.getComponentAt(0, 0);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testLocate() throws Exception {
-        java.awt.Component result = view.locate(0, 0);
+        Component result = view.locate(0, 0);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testGetComponentAt2() throws Exception {
-        java.awt.Component result = view.getComponentAt(null);
+        Component result = view.getComponentAt(null);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testGetMousePosition() throws Exception {
-        java.awt.Point result = view.getMousePosition(true);
+        Point result = view.getMousePosition(true);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testFindComponentAt() throws Exception {
-        java.awt.Component result = view.findComponentAt(0, 0);
+        Component result = view.findComponentAt(0, 0);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testFindComponentAt2() throws Exception {
-        java.awt.Component result = view.findComponentAt(null);
+        Component result = view.findComponentAt(null);
         Assert.assertEquals(null, result);
     }
 
@@ -724,13 +734,13 @@ public class ViewTest {
 
     @Test
     public void testSetFocusTraversalKeys2() throws Exception {
-        view.setFocusTraversalKeys(0, new java.util.HashSet<? extends java.awt.AWTKeyStroke>(java.util.Arrays.asList(null)));
+        view.setFocusTraversalKeys(0, new HashSet<? extends AWTKeyStroke>(Arrays.asList(null)));
     }
 
     @Test
     public void testGetFocusTraversalKeys() throws Exception {
-        java.util.Set<java.awt.AWTKeyStroke> result = view.getFocusTraversalKeys(0);
-        Assert.assertEquals(new java.util.HashSet<java.awt.AWTKeyStroke>(java.util.Arrays.asList(null)), result);
+        Set<AWTKeyStroke> result = view.getFocusTraversalKeys(0);
+        Assert.assertEquals(new HashSet<AWTKeyStroke>(Arrays.asList(null)), result);
     }
 
     @Test
@@ -802,7 +812,7 @@ public class ViewTest {
 
     @Test
     public void testLocation() throws Exception {
-        java.awt.Point result = view.location();
+        Point result = view.location();
         Assert.assertEquals(null, result);
     }
 
@@ -818,7 +828,7 @@ public class ViewTest {
 
     @Test
     public void testSize() throws Exception {
-        java.awt.Dimension result = view.size();
+        Dimension result = view.size();
         Assert.assertEquals(null, result);
     }
 
@@ -839,7 +849,7 @@ public class ViewTest {
 
     @Test
     public void testBounds() throws Exception {
-        java.awt.Rectangle result = view.bounds();
+        Rectangle result = view.bounds();
         Assert.assertEquals(null, result);
     }
 
@@ -855,31 +865,31 @@ public class ViewTest {
 
     @Test
     public void testGetBounds2() throws Exception {
-        java.awt.Rectangle result = view.getBounds(null);
+        Rectangle result = view.getBounds(null);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testGetSize2() throws Exception {
-        java.awt.Dimension result = view.getSize(null);
+        Dimension result = view.getSize(null);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testGetLocation2() throws Exception {
-        java.awt.Point result = view.getLocation(null);
+        Point result = view.getLocation(null);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testPreferredSize2() throws Exception {
-        java.awt.Dimension result = view.preferredSize();
+        Dimension result = view.preferredSize();
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testMinimumSize2() throws Exception {
-        java.awt.Dimension result = view.minimumSize();
+        Dimension result = view.minimumSize();
         Assert.assertEquals(null, result);
     }
 
@@ -916,7 +926,7 @@ public class ViewTest {
 
     @Test
     public void testGetFontMetrics2() throws Exception {
-        java.awt.FontMetrics result = view.getFontMetrics(null);
+        FontMetrics result = view.getFontMetrics(null);
         Assert.assertEquals(null, result);
     }
 
@@ -973,25 +983,25 @@ public class ViewTest {
 
     @Test
     public void testCreateImage() throws Exception {
-        java.awt.Image result = view.createImage(null);
+        Image result = view.createImage(null);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testCreateImage2() throws Exception {
-        java.awt.Image result = view.createImage(0, 0);
+        Image result = view.createImage(0, 0);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testCreateVolatileImage() throws Exception {
-        java.awt.image.VolatileImage result = view.createVolatileImage(0, 0);
+        VolatileImage result = view.createVolatileImage(0, 0);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testCreateVolatileImage2() throws Exception {
-        java.awt.image.VolatileImage result = view.createVolatileImage(0, 0, null);
+        VolatileImage result = view.createVolatileImage(0, 0, null);
         Assert.assertEquals(null, result);
     }
 
@@ -1039,19 +1049,19 @@ public class ViewTest {
 
     @Test
     public void testGetComponentAt3() throws Exception {
-        java.awt.Component result = view.getComponentAt(0, 0);
+        Component result = view.getComponentAt(0, 0);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testLocate2() throws Exception {
-        java.awt.Component result = view.locate(0, 0);
+        Component result = view.locate(0, 0);
         Assert.assertEquals(null, result);
     }
 
     @Test
     public void testGetComponentAt4() throws Exception {
-        java.awt.Component result = view.getComponentAt(null);
+        Component result = view.getComponentAt(null);
         Assert.assertEquals(null, result);
     }
 
@@ -1251,13 +1261,13 @@ public class ViewTest {
 
     @Test
     public void testSetFocusTraversalKeys3() throws Exception {
-        view.setFocusTraversalKeys(0, new java.util.HashSet<? extends java.awt.AWTKeyStroke>(java.util.Arrays.asList(null)));
+        view.setFocusTraversalKeys(0, new HashSet<? extends AWTKeyStroke>(Arrays.asList(null)));
     }
 
     @Test
     public void testGetFocusTraversalKeys2() throws Exception {
-        java.util.Set<java.awt.AWTKeyStroke> result = view.getFocusTraversalKeys(0);
-        Assert.assertEquals(new java.util.HashSet<java.awt.AWTKeyStroke>(java.util.Arrays.asList(null)), result);
+        Set<AWTKeyStroke> result = view.getFocusTraversalKeys(0);
+        Assert.assertEquals(new HashSet<AWTKeyStroke>(Arrays.asList(null)), result);
     }
 
     @Test
@@ -1321,7 +1331,7 @@ public class ViewTest {
 
     @Test
     public void testToString() throws Exception {
-        java.lang.String result = view.toString();
+        String result = view.toString();
         Assert.assertEquals("replaceMeWithExpectedResult", result);
     }
 
@@ -1372,8 +1382,8 @@ public class ViewTest {
 
     @Test
     public void testGetPropertyChangeListeners() throws Exception {
-        java.beans.PropertyChangeListener[] result = view.getPropertyChangeListeners("propertyName");
-        Assert.assertArrayEquals(new java.beans.PropertyChangeListener[]{null}, result);
+        PropertyChangeListener[] result = view.getPropertyChangeListeners("propertyName");
+        Assert.assertArrayEquals(new PropertyChangeListener[]{null}, result);
     }
 
     @Test
@@ -1411,5 +1421,3 @@ public class ViewTest {
         view.applyComponentOrientation(null);
     }
 }
-
-//Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme

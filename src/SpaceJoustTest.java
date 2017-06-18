@@ -1,6 +1,3 @@
-package PACKAGE_NAME;
-
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -10,8 +7,6 @@ public class SpaceJoustTest {
 
     @Test
     public void testMain() throws Exception {
-        SpaceJoust.main(new java.lang.String[]{"args"});
+        SpaceJoust.main(new String[]{"foo"});
     }
 }
-
-//Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme

@@ -1,12 +1,12 @@
-package PACKAGE_NAME;
-
 import org.junit.Assert;
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-//import static org.mockito.Mockito.*;
+import sun.nio.ch.Interruptible;
+
+import static org.mockito.Mockito.*;
 
 /**
  * Created by leandro on 6/17/17.
@@ -15,28 +15,27 @@ public class ViewThreadTest {
     @Mock
     View view;
     @Mock
-    java.lang.Thread threadQ;
+    Thread threadQ;
     @Mock
-    java.lang.Runnable target;
+    Runnable target;
     @Mock
-    java.lang.ThreadGroup group;
+    ThreadGroup group;
     @Mock
-    java.lang.ClassLoader contextClassLoader;
-    //Field inheritedAccessControlContext of type AccessControlContext - was not mocked since Mockito doesn't mock a Final class
+    ClassLoader contextClassLoader;
     @Mock
-    java.lang.ThreadLocal.ThreadLocalMap threadLocals;
+    ThreadLocal.ThreadLocalMap threadLocals;
     @Mock
-    java.lang.ThreadLocal.ThreadLocalMap inheritableThreadLocals;
+    ThreadLocal.ThreadLocalMap inheritableThreadLocals;
     @Mock
-    java.lang.Object parkBlocker;
+    Object parkBlocker;
     @Mock
-    sun.nio.ch.Interruptible blocker;
+    Interruptible blocker;
     @Mock
-    java.lang.Object blockerLock;
+    Object blockerLock;
     @Mock
-    java.lang.Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
+    Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
     @Mock
-    java.lang.Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler;
+    Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler;
     @InjectMocks
     ViewThread viewThread;
 
@@ -62,7 +61,7 @@ public class ViewThreadTest {
 
     @Test
     public void testCurrentThread() throws Exception {
-        java.lang.Thread result = ViewThread.currentThread();
+        Thread result = ViewThread.currentThread();
         Assert.assertEquals(null, result);
     }
 
@@ -135,7 +134,7 @@ public class ViewThreadTest {
 
     @Test
     public void testEnumerate() throws Exception {
-        int result = ViewThread.enumerate(new java.lang.Thread[]{null});
+        int result = ViewThread.enumerate(new Thread[]{null});
         Assert.assertEquals(0, result);
     }
 
@@ -172,7 +171,7 @@ public class ViewThreadTest {
 
     @Test
     public void testToString() throws Exception {
-        java.lang.String result = viewThread.toString();
+        String result = viewThread.toString();
         Assert.assertEquals("replaceMeWithExpectedResult", result);
     }
 
@@ -182,5 +181,3 @@ public class ViewThreadTest {
         Assert.assertEquals(true, result);
     }
 }
-
-//Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme

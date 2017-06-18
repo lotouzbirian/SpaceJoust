@@ -1,12 +1,13 @@
-package PACKAGE_NAME;
-
 import org.junit.Assert;
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-//import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+
+import static org.mockito.Mockito.*;
 
 /**
  * Created by leandro on 6/17/17.
@@ -17,13 +18,13 @@ public class ModelTest {
     @Mock
     ModelThread thread;
     @Mock
-    java.util.ArrayList<Button> mainMenuButtons;
+    ArrayList<Button> mainMenuButtons;
     @Mock
-    java.util.ArrayList<Button> newGameButtons;
+    ArrayList<Button> newGameButtons;
     @Mock
-    java.util.ArrayList<Button> gameOverButtons;
+    ArrayList<Button> gameOverButtons;
     @Mock
-    java.util.ArrayList<GameObject> gameObjects;
+    ArrayList<GameObject> gameObjects;
     @InjectMocks
     Model model;
 
@@ -69,5 +70,3 @@ public class ModelTest {
         model.onThreadClosed();
     }
 }
-
-//Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme

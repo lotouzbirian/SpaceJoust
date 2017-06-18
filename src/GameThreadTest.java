@@ -1,40 +1,40 @@
-package PACKAGE_NAME;
-
 import org.junit.Assert;
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-//import static org.mockito.Mockito.*;
+import sun.nio.ch.Interruptible;
+
+import static org.mockito.Mockito.*;
 
 /**
  * Created by leandro on 6/17/17.
  */
 public class GameThreadTest {
     @Mock
-    java.lang.Thread threadQ;
+    Thread threadQ;
     @Mock
-    java.lang.Runnable target;
+    Runnable target;
     @Mock
-    java.lang.ThreadGroup group;
+    ThreadGroup group;
     @Mock
-    java.lang.ClassLoader contextClassLoader;
+    ClassLoader contextClassLoader;
     //Field inheritedAccessControlContext of type AccessControlContext - was not mocked since Mockito doesn't mock a Final class
     @Mock
-    java.lang.ThreadLocal.ThreadLocalMap threadLocals;
+    ThreadLocal.ThreadLocalMap threadLocals;
     @Mock
-    java.lang.ThreadLocal.ThreadLocalMap inheritableThreadLocals;
+    ThreadLocal.ThreadLocalMap inheritableThreadLocals;
     @Mock
-    java.lang.Object parkBlocker;
+    Object parkBlocker;
     @Mock
-    sun.nio.ch.Interruptible blocker;
+    Interruptible blocker;
     @Mock
-    java.lang.Object blockerLock;
+    Object blockerLock;
     @Mock
-    java.lang.Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
+    Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
     @Mock
-    java.lang.Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler;
+    Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler;
     @InjectMocks
     GameThread gameThread;
 
@@ -50,7 +50,7 @@ public class GameThreadTest {
 
     @Test
     public void testCurrentThread() throws Exception {
-        java.lang.Thread result = GameThread.currentThread();
+        Thread result = GameThread.currentThread();
         Assert.assertEquals(null, result);
     }
 
@@ -118,7 +118,7 @@ public class GameThreadTest {
 
     @Test
     public void testEnumerate() throws Exception {
-        int result = GameThread.enumerate(new java.lang.Thread[]{null});
+        int result = GameThread.enumerate(new Thread[]{null});
         Assert.assertEquals(0, result);
     }
 
@@ -155,7 +155,7 @@ public class GameThreadTest {
 
     @Test
     public void testToString() throws Exception {
-        java.lang.String result = gameThread.toString();
+        String result = gameThread.toString();
         Assert.assertEquals("replaceMeWithExpectedResult", result);
     }
 
@@ -165,5 +165,3 @@ public class GameThreadTest {
         Assert.assertEquals(true, result);
     }
 }
-
-//Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme
