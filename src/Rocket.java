@@ -99,7 +99,7 @@ public class Rocket extends GameObject{
             setSpeedY(setMovement(distanceY, distanceX));
             setPositionX(getPositionX() + (int)getSpeedX());
             setPositionY(getPositionY() + (int)getSpeedY());
-            setRotation((float)-Math.PI/2 - (float)Math.atan(-getSpeedY()/getSpeedX()));
+            setRotation((float)Math.tan(speedX/speedY));
         }
         super.update();
     }

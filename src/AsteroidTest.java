@@ -1,6 +1,8 @@
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -25,6 +27,9 @@ public class AsteroidTest {
     @InjectMocks
     Asteroid asteroid;
 
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -45,10 +50,11 @@ public class AsteroidTest {
         asteroid.setRandomPropierties();
     }
 
-    @Test
+    @Test(expected=NullPointerException.class)
     public void testCollidesWith() throws Exception {
         boolean result = asteroid.collidesWith(null);
         Assert.assertEquals(true, result);
+        exception.expect(NullPointerException.class);
     }
 
     @Test

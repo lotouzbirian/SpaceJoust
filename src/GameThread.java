@@ -1,12 +1,11 @@
 /**
  * @author Juan Bensadon
- * This thread performs a certain set of actions sixty times every second.
- * Said actions are contained in the doUpdate() method.
- * It also provides a method to be executed when the thread is stopped.
+ * Este thread ejecuta una serie de acciones aproximadamente 60 veces por segundo
+ * Dichas accionas están contenidas en el método doUpdate()
  */
 public abstract class GameThread extends Thread {
     private boolean isRunning;
-    private int targetFPS= 60;
+    private int targetFPS= 70;
     private float averageFPS;
 
     @Override
@@ -22,10 +21,8 @@ public abstract class GameThread extends Thread {
             startTime= System.nanoTime();
             try{
                 doUpdate();
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-            }finally{
-                onThreadClosed();
             }
 
             timeMilliseconds= (System.nanoTime()-startTime)/1000000;
@@ -48,13 +45,17 @@ public abstract class GameThread extends Thread {
 
     }
 
-    //Set running boolean method
+    /**
+     * Setea el boolean necesario para que el thread corra.
+     * @param isRunning
+     */
+
     public void setIsRunning(boolean isRunning) {
         this.isRunning= isRunning;
     }
 
+    /**
+     * Acciones a ejecutar por el thread
+     */
     public abstract void doUpdate();
-
-    public abstract void onThreadClosed();
-
 }

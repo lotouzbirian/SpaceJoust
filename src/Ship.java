@@ -11,10 +11,10 @@ public class Ship extends GameObject{
     private static final int STARTING_ENERGY= 5;
     private static final int MAX_ENERGY= 10;
     private static final int ROCKET_COST= 2;
-    private static final int SHIELD_COST= 2;
+    private static final int SHIELD_COST= 3;
     private static final int SHIELD_DURATION= 120;
     private static final int ACCELERATION_COST= 2;
-    private static final float ACCELERATION_FACTOR= 10f;
+    private static final float ACCELERATION_FACTOR= 11f;
     private static final float DECELERATION_FACTOR= 0.002f;
     private static final float DEFAULT_SPEED_FACTOR= 0.005f;
 
@@ -24,7 +24,6 @@ public class Ship extends GameObject{
     private int energy= STARTING_ENERGY, energyRegenTimer = 0;
     private boolean shielded= false;
     private int shieldTimer = 0;
-    private GameObject target;
 
 
     /**
@@ -101,11 +100,6 @@ public class Ship extends GameObject{
         setPositionY(SpaceJoust.GAME_HEIGHT/2 - (int)(TRAJECTORY_RADIUS * Math.sin(getRadialPosition())));
         setRotation(getRadialPosition());
     }
-
-    public GameObject getTarget(){return target;}
-
-    public void setTarget(GameObject target){this.target = target;}
-
 
     /**
      *@return Devuelve la posición de la nave en el círculo.

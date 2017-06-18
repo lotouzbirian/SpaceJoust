@@ -21,10 +21,10 @@ public class GameThreadTest {
     @Mock
     ClassLoader contextClassLoader;
     //Field inheritedAccessControlContext of type AccessControlContext - was not mocked since Mockito doesn't mock a Final class
-    @Mock
-    ThreadLocal.ThreadLocalMap threadLocals;
-    @Mock
-    ThreadLocal.ThreadLocalMap inheritableThreadLocals;
+//    @Mock
+//    ThreadLocal.ThreadLocalMap threadLocals;
+//    @Mock
+//    ThreadLocal.ThreadLocalMap inheritableThreadLocals;
     @Mock
     Object parkBlocker;
     @Mock

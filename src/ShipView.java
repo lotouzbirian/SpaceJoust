@@ -9,7 +9,6 @@ public class ShipView extends GameObjectView {
     protected static final int STATE_DAMAGED= 3, STATE_CRITICAL= 4;
     protected SwingProgressBar healthBar, energyBar;
 
-
     /**
       *Constructor de la nave que crea la barra de vida y energía de la nave.
     */
@@ -17,7 +16,6 @@ public class ShipView extends GameObjectView {
         healthBar = new SwingProgressBar(3, 3, Color.GREEN);
         energyBar = new SwingProgressBar(10, 5, Color.YELLOW);
     }
-
 
     /**
       *Cambia la animación que debe ocurrir
@@ -35,7 +33,6 @@ public class ShipView extends GameObjectView {
         }
         super.switchAnimation(state);
     }
-    
 
     /**
       *Updatea la vida y energía de la nave.
@@ -46,7 +43,6 @@ public class ShipView extends GameObjectView {
         energyBar.setCurrentValue(((Ship)o).getEnergy());
         super.update(o, arg);
     }
-
 
     /**
       *Dibuja a la nave en la pantalla y la barra de vida y energía.

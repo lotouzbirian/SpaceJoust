@@ -1,6 +1,6 @@
 /**
  * @author Juan Bensadon
- * Specific Thread class for executing view updates.
+ * Thread específico para ejecutar el dibujo (y actualización) de la view.
  */
 public class ViewThread extends GameThread {
     View view;
@@ -12,10 +12,5 @@ public class ViewThread extends GameThread {
     @Override
     public void doUpdate() {
         view.repaint();
-    }
-
-    @Override
-    public void onThreadClosed() {
-        view.onThreadClosed();
     }
 }

@@ -1,6 +1,6 @@
 /**
  * @author Juan Bensadon
- * Specific Thread class for executing model updates.
+ * Thread específico para ejecutar la actualización del model.
  */
 public class ModelThread extends GameThread {
     Model model;
@@ -12,10 +12,5 @@ public class ModelThread extends GameThread {
     @Override
     public void doUpdate() {
         model.update();
-    }
-
-    @Override
-    public void onThreadClosed() {
-        model.onThreadClosed();
     }
 }

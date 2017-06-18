@@ -1,4 +1,5 @@
  import com.sun.tools.javah.Util;
+ import sun.jvm.hotspot.memory.Space;
 
  import java.awt.*;
  import java.awt.event.*;
@@ -20,11 +21,10 @@ public class View extends JPanel implements ActionListener{
 
     Animation circleAnimation;
     Image backgroundImage;
+    Image playerControlsImage;
     protected Image[]
             shipTravelFrames, shipDamagedFrames, shipCriticalFrames,
             shieldTravelFrames,
-            crosshair1TravelFrames,
-            crosshair2TravelFrames,
             rocketTravelFrames,
             asteroidTravelFrames,
             explosionFrames;
@@ -35,8 +35,6 @@ public class View extends JPanel implements ActionListener{
     public ArrayList<Button> newGameButtons = new ArrayList();
     public ArrayList<Button> gameOverButtons = new ArrayList();
 
-    public ArrayList<Player> players;
-
     /**
       *Constructor de la clase que 
     */
@@ -45,16 +43,8 @@ public class View extends JPanel implements ActionListener{
        addKeyListener(new TAdapter());
        addMouseListener(new MouseListener());
 
-       mainMenuButtons.add(new Button("New Game", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35, STATE_NEW_GAME));
-       mainMenuButtons.add(new Button("Exit", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35, STATE_EXIT));
-       newGameButtons.add(new Button("Play", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35, STATE_PLAY));
-       newGameButtons.add(new Button("Main Menu", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35, STATE_MAIN_MENU));
-       gameOverButtons.add(new Button("Play Again", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35, STATE_PLAY));
-       gameOverButtons.add(new Button("Main Menu", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35, STATE_MAIN_MENU));
-
-
+       addMenuButtons();
        loadFramess();
-       backgroundImage = new ImageIcon("background1.jpg").getImage();
 
        gameObjectViews = new ArrayList<>();
        thread = new ViewThread(this);
@@ -62,7 +52,24 @@ public class View extends JPanel implements ActionListener{
        thread.start();
     }
 
+    /**
+     * Agrega los botones necesarios a cada menu
+     */
+    public void addMenuButtons(){
+       mainMenuButtons.add(new Button("New Game", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35, STATE_NEW_GAME));
+       mainMenuButtons.add(new Button("Exit", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35, STATE_EXIT));
+       newGameButtons.add(new Button("Play", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35, STATE_PLAY));
+       newGameButtons.add(new Button("Main Menu", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35, STATE_MAIN_MENU));
+       gameOverButtons.add(new Button("Play Again", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35, STATE_PLAY));
+       gameOverButtons.add(new Button("Main Menu", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35, STATE_MAIN_MENU));
+    }
+
+    /**
+     * Carga todas las imágenes del juego a la memoria.
+     */
     public void loadFramess(){
+        backgroundImage = new ImageIcon("background1.jpg").getImage();
+        playerControlsImage = new ImageIcon("player_controls1.png").getImage();
         Image[] circleFrames = new Image[]{
                 loadTexture("circle1.png"),
                 loadTexture("circle2.png"),
@@ -71,7 +78,6 @@ public class View extends JPanel implements ActionListener{
                 loadTexture("circle5.png"),
                 loadTexture("circle6.png"),
                 loadTexture("circle7.png"),
-                //loadTexture("circle8.png"),
                 loadTexture("circle9.png"),
                 loadTexture("circle10.png"),
                 loadTexture("circle11.png"),
@@ -160,12 +166,6 @@ public class View extends JPanel implements ActionListener{
                 loadTexture("shield9.png")
         };
 
-        crosshair1TravelFrames = new Image[]{
-                loadTexture("crosshair1.png")
-        };
-        crosshair2TravelFrames = new Image[]{
-                loadTexture("crosshair2.png")
-        };
         rocketTravelFrames = new Image[]{
                 loadTexture("rocket1.png"),
                 loadTexture("rocket2.png"),
@@ -284,19 +284,32 @@ public class View extends JPanel implements ActionListener{
         return i.getImage();
     }
 
-    public void onThreadClosed(){
-
-    }
-
+    /**
+     * Devuelve el model asociado a esta view (El model del juego)
+     * @return
+     */
     public Model getModel(){return model;}
+
+    /**
+     * Setea el model del juego
+     * @param model
+     */
     public void setModel(Model model){
         this.model = model;
     }
 
+    /**
+     * Setea el controller asociado a esta view(El controller del juego)
+     * @param controller
+     */
     public void setController(Controller controller){
         this.controller = controller;
     }
 
+    /**
+     * Modifica el estado de la view, ejecutando acciones extra de ser necesario
+     * @param state
+     */
     public void setState(int state){
         if (state == STATE_PLAY){
             gameObjectViews = new ArrayList<>();
@@ -308,10 +321,18 @@ public class View extends JPanel implements ActionListener{
         this.state = state;
     }
 
+    /**
+     * Setea el estado de la view
+     * @return
+     */
     public int getState(){
         return state;
     }
 
+    /**
+     * Agrega un ObjectView a la lista, pasándole primero las animaciones correctas.
+     * @param view
+     */
     protected void addView(GameObjectView view){
         if (view instanceof ShipView){
             view.addAnimation("TRAVEL", new Animation(shipTravelFrames, 20));
@@ -319,8 +340,6 @@ public class View extends JPanel implements ActionListener{
             view.addAnimation("CRITICAL", new Animation(shipCriticalFrames, 20));
         } else if (view instanceof  ShieldView){
             view.addAnimation("TRAVEL", new Animation(shieldTravelFrames, 20));
-        } else if (view instanceof  CrosshairView){
-            view.addAnimation("TRAVEL", new Animation(((CrosshairView) view).getType()==1?crosshair1TravelFrames:crosshair2TravelFrames, 20));
         } else if (view instanceof RocketView){
             view.addAnimation("TRAVEL", new Animation(rocketTravelFrames, 20));
         } else if (view instanceof AsteroidView){
@@ -331,48 +350,48 @@ public class View extends JPanel implements ActionListener{
         gameObjectViews.add(view);
     }
 
+
+    /**
+     * Método de dibujo de los elementos en la pantalla (y su actualización)
+     * @param g
+     */
     private void draw(Graphics g){
         g.drawImage(backgroundImage, 0, 0, backgroundImage.getWidth(null), backgroundImage.getHeight(null), null);
-        g.drawImage(circleAnimation.getFrame(), SpaceJoust.GAME_WIDTH/2 - 200 - 9, SpaceJoust.GAME_HEIGHT / 2 - 200 - 9, 400 + 19, 400 + 19, null);
+        g.drawImage(circleAnimation.getFrame(), SpaceJoust.GAME_WIDTH/2 - 200 - 9,
+                SpaceJoust.GAME_HEIGHT / 2 - 200 - 9, 400 + 19, 400 + 19,
+                null);
         circleAnimation.update();
+        for (GameObjectView gameObjectView : gameObjectViews){
+            gameObjectView.draw((Graphics2D)g);
+        }
+        cleanupObjectViews();
         switch (getState()){
             case STATE_MAIN_MENU:
                 for(Button button: mainMenuButtons){
                     button.draw((Graphics2D)g);
                 }
                 break;
-
             case STATE_NEW_GAME:
+                g.drawImage(playerControlsImage, 0, 100, playerControlsImage.getWidth(null), playerControlsImage.getHeight(null), null);
                 for(Button button: newGameButtons){
                     button.draw((Graphics2D)g);
                 }
                 break;
-
             case STATE_GAME_OVER:
+                g.setFont(new Font("arial", Font.BOLD, 20));
+                g.drawString("PLAYER " + getModel().getWinner() + " WINS!", SpaceJoust.GAME_WIDTH/2 - 50, 100);
                 for (Button button: gameOverButtons){
                     button.draw((Graphics2D)g);
                 }
-                break;
-
-
-            case STATE_EXIT:
-                /* ABORT!!!*/
-                break;
-
-            case STATE_PLAY:
-                for (GameObjectView gameObjectView : gameObjectViews){
-                    gameObjectView.draw((Graphics2D)g);
-                }
-                for (GameObjectView gameObjectView : gameObjectViews){
-                    if (gameObjectView instanceof CrosshairView)
-                        gameObjectView.draw((Graphics2D)g);
-                }
-                cleanupObjectViews();
                 break;
         }
        
     }
 
+    /**
+     * Recorre la lista de objectViews y elimina las que tengan estado INACTIVE
+     * (Es decir, aquellas que hayan finalizado la animación de explosión)
+     */
     private void cleanupObjectViews(){
         ArrayList<Integer> toBeRemovedIndexes = new ArrayList<Integer>();
         for (GameObjectView gameObjectView: gameObjectViews){
@@ -394,10 +413,11 @@ public class View extends JPanel implements ActionListener{
     }
 
      @Override
-     public void actionPerformed(ActionEvent e) {
+     public void actionPerformed(ActionEvent e) {}
 
-     }
-
+     /**
+      * Clase utilizada para recibir entrada del mouse
+      */
      private class MouseListener implements java.awt.event.MouseListener{
          @Override
          public void mouseClicked(MouseEvent e) {
@@ -417,6 +437,9 @@ public class View extends JPanel implements ActionListener{
          public void mouseExited(MouseEvent e) {}
      }
 
+     /**
+      * Clase utilizada para recibir entrada del teclado
+      */
      private class TAdapter extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {

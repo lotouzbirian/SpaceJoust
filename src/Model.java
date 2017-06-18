@@ -16,6 +16,8 @@ public class Model {
 
     private boolean playing = false;
     private int numberOfPlayers = 2;
+    private int winner;
+
     private int asteroidTimer = 0;
 
     /**
@@ -52,9 +54,7 @@ public class Model {
         createShipWithView(1);
         createShipWithView(2);
         getPlayer(1).setRadialPosition(0);
-        getPlayer(1).setTarget(getPlayer(2));
         getPlayer(2).setRadialPosition((float)Math.PI);
-        getPlayer(2).setTarget(getPlayer(1));
     }
 
     /**
@@ -66,14 +66,11 @@ public class Model {
         Ship ship = new Ship(SHIP_COLLISION_WIDTH, SHIP_COLLISION_HEIGHT);
         ShipView shipView = new ShipView();
         ShieldView shieldView = new ShieldView();
-        CrosshairView crosshairView = new CrosshairView(crosshairType);
         ship.addObserver(shipView);
         ship.addObserver(shieldView);
-        ship.addObserver(crosshairView);
         gameObjects.add(ship);
         getView().addView(shipView);
         getView().addView(shieldView);
-        getView().addView(crosshairView);
         return ship;
     }
 
@@ -136,7 +133,7 @@ public class Model {
             try{
                 gameObjects.remove(i.intValue());
             }catch (IndexOutOfBoundsException e){
-                System.out.println("Failed to remove " + gameObjects.get(i).getClass().getSimpleName() + "(IndexOutOfBoundsException)");
+                System.out.println("Failed to remove GameObject");
             }
     }
 
@@ -150,6 +147,7 @@ public class Model {
                 if (object instanceof Ship)
                     if (!((Ship) object).getIsAlive()){
                         setPlaying(false);
+                        setWinner(gameObjects.indexOf(object) + 1);
                         getView().setState(View.STATE_GAME_OVER);
                     }
                 if (object instanceof Rocket){
@@ -202,31 +200,20 @@ public class Model {
     }
 
     /**
-     * Mueve el reticular del jugador al siguiente GameObject de la lista.
-     * @param playerNumber
+     * Setea si el juego está corriendo(Ningún jugador ha perdido)
+     * @param playing
      */
-    public void cycleShipTarget(int playerNumber){
-        int targetIndex;
-        targetIndex = gameObjects.indexOf(getPlayer(playerNumber).getTarget()) + 1;
-        if (targetIndex > gameObjects.size()-1)
-            targetIndex = 0;
-        while (gameObjects.get(targetIndex).equals(getPlayer(playerNumber))||
-                (gameObjects.get(targetIndex) instanceof Rocket)){
-            targetIndex++;
-            if (targetIndex > gameObjects.size()-1)
-                targetIndex = 0;
-        }
-        getPlayer(playerNumber).setTarget(gameObjects.get(targetIndex));
-    }
+    public void setPlaying(boolean playing) {this.playing = playing;}
 
     /**
-     * Llamado cuando se detiene el hilo de ejecución del juego.
+     * Devuelve el ganador de la partida
+     * @return el número de jugador del ganador de la partida
      */
-    public void onThreadClosed(){
+    public int getWinner() {return winner;}
 
-    };
-
-    public boolean isPlaying() {return playing;}
-
-    public void setPlaying(boolean playing) {this.playing = playing;}
+    /**
+     * Setea el ganadore de la partida
+     * @param winner
+     */
+    protected void setWinner(int winner) {this.winner = winner;}
 }
