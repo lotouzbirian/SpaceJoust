@@ -9,84 +9,69 @@ import java.awt.geom.Area;
 import java.util.Observer;
 import java.util.Vector;
 
-import static org.mockito.Mockito.*;
-
 /**
  * Created by leandro on 6/17/17.
  */
 public class RocketTest {
-    @Mock
-    GameObject target;
-    @Mock
-    GameObject origin;
-    @Mock
-    Area collisionBox;
-    @Mock
-    Vector<Observer> obs;
-    @InjectMocks
-    Rocket rocket;
+    int COLLISION_WIDTH = 20, COLLISION_HEIGHT = 20;
+    GameObject dummyTarget;
+    GameObject dummyOrigin;
+    GameObject dummyOther;
+    Rocket dummyRocket;
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        dummyOrigin = new GameObject(COLLISION_WIDTH, COLLISION_HEIGHT, 0.1f) {
+            @Override
+            public void impact() {}
+        };
+        dummyTarget = new GameObject(COLLISION_WIDTH, COLLISION_HEIGHT, 0.1f) {
+            @Override
+            public void impact() {}
+        };
+        dummyOther = new GameObject(COLLISION_WIDTH, COLLISION_HEIGHT, 0.1f) {
+            @Override
+            public void impact() {}
+        };
+        dummyRocket = new Rocket(COLLISION_WIDTH, COLLISION_HEIGHT, dummyOrigin, dummyTarget);
+        dummyOrigin.setPositionX(0);
+        dummyOrigin.setPositionY(0);
+        dummyTarget.setPositionX(0);
+        dummyTarget.setPositionY(0);
+        dummyOther.setPositionX(0);
+        dummyOther.setPositionY(0);
+        dummyRocket.setPositionX(0);
+        dummyRocket.setPositionY(0);
     }
 
     @Test
     public void testImpact() throws Exception {
-        rocket.impact();
+        dummyRocket.setState(GameObject.STATE_TRAVELING);
+        dummyRocket.impact();
+        Assert.assertEquals(GameObject.STATE_EXPLODING, dummyRocket.getState());
     }
 
     @Test
     public void testUpdate() throws Exception {
-        rocket.update();
+        dummyRocket.update();
     }
 
-    @Test
-    public void testSetMovement() throws Exception {
-        float result = rocket.setMovement(0f, 0f);
-        Assert.assertEquals(0f, result);
-    }
 
     @Test
-    public void testCollidesWith() throws Exception {
-        boolean result = rocket.collidesWith(null);
+    public void testCollidesWithTarget() throws Exception {
+        boolean result = dummyRocket.collidesWith(dummyTarget);
         Assert.assertEquals(true, result);
     }
 
     @Test
-    public void testAddObserver() throws Exception {
-        rocket.addObserver(null);
+    public void testCollidesWithOrigin() throws Exception {
+        boolean result = dummyRocket.collidesWith(dummyTarget);
+        Assert.assertEquals(false, result);
     }
 
     @Test
-    public void testDeleteObserver() throws Exception {
-        rocket.deleteObserver(null);
-    }
-
-    @Test
-    public void testNotifyObservers() throws Exception {
-        rocket.notifyObservers();
-    }
-
-    @Test
-    public void testNotifyObservers2() throws Exception {
-        rocket.notifyObservers(null);
-    }
-
-    @Test
-    public void testDeleteObservers() throws Exception {
-        rocket.deleteObservers();
-    }
-
-    @Test
-    public void testHasChanged() throws Exception {
-        boolean result = rocket.hasChanged();
+    public void testCollidesWithOtherObject() throws Exception {
+        boolean result = dummyRocket.collidesWith(dummyOther);
         Assert.assertEquals(true, result);
-    }
-
-    @Test
-    public void testCountObservers() throws Exception {
-        int result = rocket.countObservers();
-        Assert.assertEquals(0, result);
     }
 }

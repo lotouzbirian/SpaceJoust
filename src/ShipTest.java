@@ -1,8 +1,6 @@
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.awt.geom.Area;
@@ -15,16 +13,13 @@ import static org.mockito.Mockito.*;
  * Created by leandro on 6/17/17.
  */
 public class ShipTest {
-    @Mock
-    Area collisionBox;
-    @Mock
-    Vector<Observer> obs;
-    @InjectMocks
     Ship ship;
+    int COLLISION_WIDTH = 50, COLLISION_HEIGHT = 120;
+
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        ship = new Ship(COLLISION_WIDTH, COLLISION_HEIGHT);
     }
 
     @Test
@@ -33,8 +28,10 @@ public class ShipTest {
     }
 
     @Test
-    public void testUpdateEnergy() throws Exception {
+    public void testUpdateEnergyWithFullEnergy() throws Exception {
+        ship.setEnergy(Ship.MAX_ENERGY);
         ship.updateEnergy();
+        Assert.assertEquals(Ship.MAX_ENERGY, ship.getEnergy());
     }
 
     @Test
@@ -48,31 +45,66 @@ public class ShipTest {
     }
 
     @Test
-    public void testAccelerate() throws Exception {
-        boolean result = ship.accelerate();
-        Assert.assertEquals(true, result);
-    }
-
-    @Test
-    public void testShield() throws Exception {
-        boolean result = ship.shield();
-        Assert.assertEquals(true, result);
-    }
-
-    @Test
     public void testUnshield() throws Exception {
         ship.unshield();
     }
 
     @Test
-    public void testFireRocket() throws Exception {
+    public void testAccelerateWithEnoughEnergy() throws Exception {
+        ship.setEnergy(Ship.ACCELERATION_COST);
+        boolean result = ship.accelerate();
+        Assert.assertEquals(true, result);
+    }
+
+    @Test
+    public void testAccelerateWithoutEnoughEnergy() throws Exception {
+        ship.setEnergy(0);
+        boolean result = ship.accelerate();
+        Assert.assertEquals(false, result);
+    }
+
+    @Test
+    public void testShieldWithEnoughEnergy() throws Exception {
+        ship.setEnergy(Ship.SHIELD_COST);
+        boolean result = ship.shield();
+        Assert.assertEquals(true, result);
+    }
+
+    @Test
+    public void testShieldWithoutEnoughEnergy() throws Exception {
+        ship.setEnergy(0);
+        boolean result = ship.shield();
+        Assert.assertEquals(false, result);
+    }
+
+    @Test
+    public void testFireRocketWithEnoughEnergy() throws Exception {
+        ship.setEnergy(Ship.ROCKET_COST);
         boolean result = ship.fireRocket();
         Assert.assertEquals(true, result);
     }
 
     @Test
-    public void testImpact() throws Exception {
+    public void testFireRocketWithoutEnoughEnergy() throws Exception {
+        ship.setEnergy(0);
+        boolean result = ship.fireRocket();
+        Assert.assertEquals(false, result);
+    }
+
+    @Test
+    public void testImpactWithShield() throws Exception {
+        ship.setEnergy(Ship.SHIELD_COST);
+        ship.setHealth(5);
+        ship.shield();
         ship.impact();
+        Assert.assertEquals(5, ship.getHealth());
+    }
+
+    @Test
+    public void testImpactWithoutShield() throws Exception {
+        ship.setHealth(5);
+        ship.impact();
+        Assert.assertEquals(4, ship.getHealth());
     }
 
     @Test
@@ -85,42 +117,5 @@ public class ShipTest {
     public void testCollidesWith() throws Exception {
         boolean result = ship.collidesWith(null);
         Assert.assertEquals(true, result);
-    }
-
-    @Test
-    public void testAddObserver() throws Exception {
-        ship.addObserver(null);
-    }
-
-    @Test
-    public void testDeleteObserver() throws Exception {
-        ship.deleteObserver(null);
-    }
-
-    @Test
-    public void testNotifyObservers() throws Exception {
-        ship.notifyObservers();
-    }
-
-    @Test
-    public void testNotifyObservers2() throws Exception {
-        ship.notifyObservers(null);
-    }
-
-    @Test
-    public void testDeleteObservers() throws Exception {
-        ship.deleteObservers();
-    }
-
-    @Test
-    public void testHasChanged() throws Exception {
-        boolean result = ship.hasChanged();
-        Assert.assertEquals(true, result);
-    }
-
-    @Test
-    public void testCountObservers() throws Exception {
-        int result = ship.countObservers();
-        Assert.assertEquals(0, result);
     }
 }

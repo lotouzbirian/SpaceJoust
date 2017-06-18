@@ -149,10 +149,32 @@ public class View extends JPanel implements ActionListener{
                 loadTexture("ship2.png")
         };
         shipDamagedFrames = new Image[]{
-                loadTexture("ship3.png")
+                loadTexture("ship_damaged1.png"),
+                loadTexture("ship_damaged2.png"),
+                loadTexture("ship_damaged3.png"),
+                loadTexture("ship_damaged4.png"),
+                loadTexture("ship_damaged5.png"),
+                loadTexture("ship_damaged6.png"),
+                loadTexture("ship_damaged7.png"),
+                loadTexture("ship_damaged6.png"),
+                loadTexture("ship_damaged5.png"),
+                loadTexture("ship_damaged4.png"),
+                loadTexture("ship_damaged3.png"),
+                loadTexture("ship_damaged2.png")
         };
         shipCriticalFrames = new Image[]{
-                loadTexture("ship3.png")
+                loadTexture("ship_critical1.png"),
+                loadTexture("ship_critical2.png"),
+                loadTexture("ship_critical3.png"),
+                loadTexture("ship_critical4.png"),
+                loadTexture("ship_critical5.png"),
+                loadTexture("ship_critical6.png"),
+                loadTexture("ship_critical7.png"),
+                loadTexture("ship_critical6.png"),
+                loadTexture("ship_critical5.png"),
+                loadTexture("ship_critical4.png"),
+                loadTexture("ship_critical3.png"),
+                loadTexture("ship_critical2.png")
         };
         shieldTravelFrames = new Image[]{
                 loadTexture("shield1.png"),

@@ -1,77 +1,46 @@
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import java.awt.geom.Area;
-import java.util.Observer;
-import java.util.Vector;
-
-import static org.mockito.Mockito.*;
 
 /**
  * Created by leandro on 6/17/17.
  */
 public class GameObjectTest {
-    @Mock
-    Area collisionBox;
-    @Mock
-    Vector<Observer> obs;
-    @InjectMocks
-    GameObject gameObject;
+    GameObject dummy1, dummy2;
+    int COLLISION_WIDTH = 20, COLLISION_HEIGHT = 20;
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        dummy1 = new GameObject(COLLISION_WIDTH, COLLISION_HEIGHT, 0.1f) {
+            @Override
+            public void impact() {}
+        };
+
+        dummy2 = new GameObject(COLLISION_WIDTH, COLLISION_HEIGHT, 0.1f) {
+            @Override
+            public void impact() {}
+        };
+        dummy1.setPositionX(0);
+        dummy1.setPositionY(0);
+        dummy2.setPositionX(0);
+        dummy2.setPositionY(0);
+
     }
 
     @Test
     public void testCollidesWith() throws Exception {
-        boolean result = gameObject.collidesWith(null);
+        boolean result = dummy1.collidesWith(dummy2);
         Assert.assertEquals(true, result);
     }
+
+    @Test(expected = NullPointerException.class)
+    public void testCollidesWithNullObject() throws Exception {
+        boolean result = dummy1.collidesWith(null);
+    }
+
 
     @Test
     public void testUpdate() throws Exception {
-        gameObject.update();
-    }
-
-    @Test
-    public void testAddObserver() throws Exception {
-        gameObject.addObserver(null);
-    }
-
-    @Test
-    public void testDeleteObserver() throws Exception {
-        gameObject.deleteObserver(null);
-    }
-
-    @Test
-    public void testNotifyObservers() throws Exception {
-        gameObject.notifyObservers();
-    }
-
-    @Test
-    public void testNotifyObservers2() throws Exception {
-        gameObject.notifyObservers(null);
-    }
-
-    @Test
-    public void testDeleteObservers() throws Exception {
-        gameObject.deleteObservers();
-    }
-
-    @Test
-    public void testHasChanged() throws Exception {
-        boolean result = gameObject.hasChanged();
-        Assert.assertEquals(true, result);
-    }
-
-    @Test
-    public void testCountObservers() throws Exception {
-        int result = gameObject.countObservers();
-        Assert.assertEquals(0, result);
+        dummy1.update();
     }
 }

@@ -9,7 +9,7 @@ public class Animation {
 	private int timer= 0, frameDuration, frameIndex = 0;
 
     public static final int STATE_PLAYING = 0, STATE_FINISHED = 1;
-    private int state;
+    private int state = STATE_PLAYING;
 
 	/**
 	  *Constructor de la clase.
