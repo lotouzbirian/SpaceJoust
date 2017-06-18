@@ -3,6 +3,7 @@ import java.util.Observable;
 
 /**
  * Created by Bensas on 5/28/17.
+ * View del misil.
  */
 public class RocketView extends GameObjectView {
 
