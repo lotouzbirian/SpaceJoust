@@ -126,14 +126,15 @@ public class Ship extends GameObject{
     }
 
     /**
-     * Reduce la velocidad de la nave de ser necesario
+     *Updatea la posición de la nave y su rotación.
      */
-    public void updateSpeed(){
-        if (getSpeedFactor() > DEFAULT_SPEED_FACTOR){
-            setSpeedFactor(getSpeedFactor() - DECELERATION_FACTOR);
-        } else {
-            setSpeedFactor(DEFAULT_SPEED_FACTOR);
-        }
+    public void updatePositionAndRotation(){
+        setRadialPosition(getRadialPosition() + getSpeedFactor());
+        if (getRadialPosition() >= 2 * Math.PI)
+            setRadialPosition(0f);
+        setPositionX(SpaceJoust.GAME_WIDTH/2 - (int)(TRAJECTORY_RADIUS * Math.cos(getRadialPosition())));
+        setPositionY(SpaceJoust.GAME_HEIGHT/2 - (int)(TRAJECTORY_RADIUS * Math.sin(getRadialPosition())));
+        setRotation(getRadialPosition());
     }
 
     /**
@@ -148,6 +149,17 @@ public class Ship extends GameObject{
     }
 
     /**
+     * Reduce la velocidad de la nave de ser necesario
+     */
+    public void updateSpeed(){
+        if (getSpeedFactor() > DEFAULT_SPEED_FACTOR){
+            setSpeedFactor(getSpeedFactor() - DECELERATION_FACTOR);
+        } else {
+            setSpeedFactor(DEFAULT_SPEED_FACTOR);
+        }
+    }
+
+    /**
      *Si el escudo se encuentra activo, luego de un tiempo, lo desactiva.
      */
     public void updateShield(){
@@ -158,18 +170,6 @@ public class Ship extends GameObject{
                 shieldTimer = 0;
             }
         }
-    }
-
-    /**
-     *Updatea la posición de la nave y su rotación.
-     */
-    public void updatePositionAndRotation(){
-        setRadialPosition(getRadialPosition() + getSpeedFactor());
-        if (getRadialPosition() >= 2 * Math.PI)
-            setRadialPosition(0f);
-        setPositionX(SpaceJoust.GAME_WIDTH/2 - (int)(TRAJECTORY_RADIUS * Math.cos(getRadialPosition())));
-        setPositionY(SpaceJoust.GAME_HEIGHT/2 - (int)(TRAJECTORY_RADIUS * Math.sin(getRadialPosition())));
-        setRotation(getRadialPosition());
     }
 
     /**

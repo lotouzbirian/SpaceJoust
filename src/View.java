@@ -82,9 +82,12 @@ public class View extends JPanel implements ActionListener{
        setFocusable(true);
        addKeyListener(new KeyListener());
        addMouseListener(new MouseListener());
+
        addMenuButtons();
        loadFrames();
+
        gameObjectViews = new ArrayList<>();
+
        thread = new ViewThread(this);
        thread.setIsRunning(true);
        thread.start();
@@ -108,9 +111,9 @@ public class View extends JPanel implements ActionListener{
      * Carga todas las imágenes del juego a la memoria.
      */
     public void loadFrames(){
-        logoImage = new ImageIcon("logo.png").getImage();
-        backgroundImage = new ImageIcon("background1.jpg").getImage();
-        playerControlsImage = new ImageIcon("player_controls1.png").getImage();
+        logoImage = loadTexture("logo.png");
+        backgroundImage = loadTexture("background1.jpg");
+        playerControlsImage = loadTexture("player_controls1.png");
         Image[] circleFrames = new Image[]{
                 loadTexture("circle1.png"),
                 loadTexture("circle2.png"),
@@ -379,7 +382,9 @@ public class View extends JPanel implements ActionListener{
                 }
                 break;
             case STATE_NEW_GAME:
-                g.drawImage(playerControlsImage, 0, 100, playerControlsImage.getWidth(null), playerControlsImage.getHeight(null), null);
+                g.drawImage(playerControlsImage, 0, 100,
+                        playerControlsImage.getWidth(null),
+                        playerControlsImage.getHeight(null), null);
                 for(Button button: newGameButtons){
                     button.draw((Graphics2D)g);
                 }

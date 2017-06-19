@@ -5,7 +5,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
-  * Created by Bensas on 5/27/17.
+  * @author Juan Bensadon
   * Es la View encargada de graficar a los objetos de juego.
  */
 public abstract class GameObjectView implements Observer{
@@ -75,14 +75,41 @@ public abstract class GameObjectView implements Observer{
     protected void setAnimation(Animation currentAnimation){this.currentAnimation = currentAnimation;}
 
     /**
+     *Agrega una animación determinada al mapa de animaciones.
+     *@param name es el nombre de la animación.
+     *@param animation es la animación dicha.
+     */
+    public void addAnimation(String name, Animation animation){
+        animations.put(name, animation);
+    }
+
+    /**
+     * @author Juan Bensadon
+     * Cambiar la animación en la que se enceuntra el objeto.
+     * @param state es el estado para cambiar la animación.
+     */
+    protected void switchAnimation(int state){
+        switch (state){
+            case STATE_TRAVELING:
+                setAnimation(animations.get("TRAVEL"));
+            case STATE_EXPLODING:
+                setAnimation(animations.get("EXPLOSION"));
+                break;
+        }
+    };
+
+    /**
       *Grafica al objeto g en la pantalla.
       *@param g es el objeto a graficar
     */
     public void draw(Graphics2D g){
         getAnimation().update();
         AffineTransform trans = new AffineTransform();
-        trans.translate(getPositionX() - getAnimation().getFrame().getWidth(null)/2, getPositionY() - getAnimation().getFrame().getHeight(null)/2);
-        trans.rotate(getRotation(), getAnimation().getFrame().getWidth(null)/2, getAnimation().getFrame().getHeight(null)/2);
+        trans.translate(getPositionX() - getAnimation().getFrame().getWidth(null)/2,
+                getPositionY() - getAnimation().getFrame().getHeight(null)/2);
+        trans.rotate(getRotation(),
+                getAnimation().getFrame().getWidth(null)/2,
+                getAnimation().getFrame().getHeight(null)/2);
         g.drawImage(getAnimation().getFrame(), trans, null);
         if (getState() == STATE_EXPLODING && getAnimation().getState() == Animation.STATE_FINISHED)
             setState(STATE_INACTIVE);
@@ -102,28 +129,4 @@ public abstract class GameObjectView implements Observer{
             setState(((GameObject)o).getState());
         }
     }
-
-    /**
-      *Agrega una animación determinada al mapa de animaciones.
-      *@param name es el nombre de la animación.
-      *@param animation es la animación dicha. 
-    */
-    public void addAnimation(String name, Animation animation){
-        animations.put(name, animation);
-    }
-
-    /**
-     * @author Juan Bensadon
-     * Cambiar la animación en la que se enceuntra el objeto.
-     * @param state es el estado para cambiar la animación.
-     */
-    protected void switchAnimation(int state){
-        switch (state){
-            case STATE_TRAVELING:
-                setAnimation(animations.get("TRAVEL"));
-            case STATE_EXPLODING:
-                setAnimation(animations.get("EXPLOSION"));
-                break;
-        }
-    };
 }

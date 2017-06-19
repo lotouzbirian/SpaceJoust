@@ -66,7 +66,7 @@ public class Asteroid extends GameObject{
         switch (rnd.nextInt(4)){
             case 0:
                 setPositionX(SpaceJoust.GAME_WIDTH + getCollisionWidth());
-                setPositionY((int)(SpaceJoust.GAME_HEIGHT/2 + rnd.nextFloat()*SpaceJoust.GAME_HEIGHT / 2)); //El int tiene que ser entre
+                setPositionY((int)(SpaceJoust.GAME_HEIGHT/2 + rnd.nextFloat()*SpaceJoust.GAME_HEIGHT / 2));
                 setSpeedX(-1);
                 setSpeedY(-1);
                 break;
@@ -77,13 +77,13 @@ public class Asteroid extends GameObject{
                 setSpeedY(1);
                 break;
             case 2:
-                setPositionX((int)(rnd.nextFloat() * SpaceJoust.GAME_WIDTH/2)); //El int tiene que ser entre
+                setPositionX((int)(rnd.nextFloat() * SpaceJoust.GAME_WIDTH/2));
                 setPositionY(SpaceJoust.GAME_HEIGHT + getCollisionHeight());
                 setSpeedX(1);
                 setSpeedY(-1);
                 break;
             case 3:
-                setPositionX((int)(SpaceJoust.GAME_WIDTH/2 + rnd.nextFloat() * SpaceJoust.GAME_WIDTH/2)); //El int tiene que ser entre
+                setPositionX((int)(SpaceJoust.GAME_WIDTH/2 + rnd.nextFloat() * SpaceJoust.GAME_WIDTH/2));
                 setPositionY(-getCollisionHeight());
                 setSpeedX(-1);
                 setSpeedY(1);

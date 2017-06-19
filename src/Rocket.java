@@ -46,11 +46,6 @@ public class Rocket extends GameObject{
     private void setSpeedY(float speedY) {this.speedY = speedY;}
 
     /**
-     *@return Devuelve el GameObject origen del misil.
-     */
-    public GameObject getOrigin() {return origin;}
-
-    /**
      *@param origin el origen del misil.
      */
     public void setOrigin(GameObject origin) {this.origin = origin;}

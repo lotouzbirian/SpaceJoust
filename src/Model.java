@@ -12,10 +12,11 @@ public class Model {
     final static int ROCKET_COLLISION_HEIGHT=20, ROCKET_COLLISION_WIDTH = 20;
     final static int ASTEROID_COLLISION_HEIGHT=10, ASTEROID_COLLISION_WIDTH = 10;
 
+    final static int NUMBER_OF_PLAYERS = 2;
+
     public ArrayList<GameObject> gameObjects = new ArrayList<>();
 
     private boolean playing = false;
-    private int numberOfPlayers = 2;
     private int winner;
 
     private int asteroidTimer = 0;
@@ -217,7 +218,7 @@ public class Model {
      * @return Ship
      */
     public Ship getPlayer(int playerNumber){
-        if (playerNumber < 1 || playerNumber > numberOfPlayers || !(gameObjects.get(playerNumber-1) instanceof Ship))
+        if (playerNumber < 1 || playerNumber > NUMBER_OF_PLAYERS || !(gameObjects.get(playerNumber-1) instanceof Ship))
             return null;
         else
             try{
