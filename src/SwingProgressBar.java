@@ -10,11 +10,10 @@ public class SwingProgressBar {
     private int maxValue, currentValue;
     private Color color;
 
-
     /**
       *Constructor de la clase que crea el ancho de la barra.
       *@param maxValue es el valor máximo de la barra.
-      *@param currenValue es el valor actual de la barra.
+      *@param currentValue es el valor actual de la barra.
       *@param color es el color de la barra.
     */
     public SwingProgressBar(int maxValue, int currentValue, Color color){
@@ -24,7 +23,6 @@ public class SwingProgressBar {
         setSectionWidth();
     }
 
-
     /**
       *Setea el ancho de la barra.
     */
@@ -32,24 +30,20 @@ public class SwingProgressBar {
         sectionWidth = (BAR_WIDTH - BAR_DIVISION_WIDTH * (maxValue + 1)) / maxValue;
     }
 
-
     /**
       *@return Devuelve el ancho de la barra.
     */    
     private int getSectionWidth() {return sectionWidth;}
-
 
     /**
       * @param currentValue es el valor actual de la barra.
     */
     public void setCurrentValue(int currentValue) {this.currentValue = currentValue;}
 
-
     /**
       *@return Devuelve el color de la barra.
     */
     private Color getColor() {return color;}
-
 
     /**
       *Dibuja la barra.

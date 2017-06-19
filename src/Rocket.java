@@ -10,7 +10,6 @@ public class Rocket extends GameObject{
     private float speedX;
     private float speedY;
 
-
     /**
       *Constructor de la clase que setea las propiedades iniciales del misil.
       *@param collisionWidth es el ancho colisionable del misil.
@@ -24,9 +23,49 @@ public class Rocket extends GameObject{
         setPositionY(origin.getPositionY());
         setTarget(target);
         setOrigin(origin);
-        setState(STATE_TRAVELING);
     }
 
+    /**
+     *@return Devuelve la velocidad en x del misil.
+     */
+    private float getSpeedX() {return speedX;}
+
+    /**
+     *@param speedX es la nueva velocidad en x del misil.
+     */
+    private void setSpeedX(float speedX) {this.speedX = speedX;}
+
+    /**
+     *@return Devuelve la velocidad en y del misil.
+     */
+    private float getSpeedY() {return speedY;}
+
+    /**
+     *@param speedY es la nueva velocidad en y del misil.
+     */
+    private void setSpeedY(float speedY) {this.speedY = speedY;}
+
+    /**
+     *@return Devuelve el GameObject origen del misil.
+     */
+    public GameObject getOrigin() {return origin;}
+
+    /**
+     *@param origin el origen del misil.
+     */
+    public void setOrigin(GameObject origin) {this.origin = origin;}
+
+    /**
+     *@return Devuelve el GameObject al que se dirige el misil.
+     */
+    public GameObject getTarget(){ return target;}
+
+    /**
+     *@param target es el objetivo del misil.
+     */
+    public void setTarget (GameObject target){
+        this.target=target;
+    }
  
     /**
       *Se encarga de cambiar el estado del misil al impactar.
@@ -35,57 +74,6 @@ public class Rocket extends GameObject{
     public void impact(){
         setState(STATE_EXPLODING);
     }
-
-
-    /**
-      *@return Devuelve la velocidad en x del misil.
-    */
-    private float getSpeedX() {return speedX;}
-
- 
-    /**
-      *@param speedX es la nueva velocidad en x del misil.
-    */    
-    private void setSpeedX(float speedX) {this.speedX = speedX;}
-
-
-    /**
-      *@return Devuelve la velocidad en y del misil.
-    */
-    private float getSpeedY() {return speedY;}
-
-
-    /**
-      *@param speedY es la nueva velocidad en y del misil.
-    */    
-    private void setSpeedY(float speedY) {this.speedY = speedY;}
-
-  
-    /**
-      *@return Devuelve el GameObject origen del misil.
-    */
-    public GameObject getOrigin() {return origin;}
-
-   
-    /**
-      *@param origin el origen del misil.
-    */    
-    public void setOrigin(GameObject origin) {this.origin = origin;}
-
-  
-    /**
-      *@return Devuelve el GameObject al que se dirige el misil.
-    */ 
-    public GameObject getTarget(){ return target;}
-    
-    
-    /**
-      *@param target es el objetivo del misil.
-    */
-    public void setTarget (GameObject target){
-        this.target=target;
-    }
-
 
     /**
       *Updatea la posición del misil en la pantalla y modifica su velocidad X, Y, y su rotación.
@@ -118,7 +106,6 @@ public class Rocket extends GameObject{
             return (float)(Math.atan(speedX/-speedY));
     }
 
-
     /**
      * Método auxiliar para calcular la nueva velocidad del misil.
      * @return El valor normalizado de la velocidad en uno de los ejes.
@@ -127,7 +114,6 @@ public class Rocket extends GameObject{
         float cuenta= (a/(float)Math.sqrt((a * a) + (b * b))) * getSpeedFactor();
         return cuenta;
     }
-
 
     /**
       *Verifica si el misil colisiona con su objetivo.

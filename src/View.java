@@ -1,52 +1,89 @@
- import com.sun.tools.javah.Util;
- import sun.jvm.hotspot.memory.Space;
-
- import java.awt.*;
- import java.awt.event.*;
- import java.util.ArrayList;
-
- import javax.swing.*;
-
- /**
- * Created by Bensas on 5/27/17.
- */
-
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+import javax.swing.*;
+/**
+* @author Juan Bensadon y Ramiro Oliva
+*/
 public class View extends JPanel implements ActionListener{
-    Model model;
-    private Controller controller;
-    private ViewThread thread;
-
     static final int STATE_MAIN_MENU = 0, STATE_NEW_GAME = 1, STATE_PLAY = 2, STATE_GAME_OVER = 3, STATE_EXIT = 4;
     private int state = STATE_MAIN_MENU;
 
-    Animation circleAnimation;
-    Image logoImage;
-    Image backgroundImage;
-    Image playerControlsImage;
-    protected Image[]
+    private Model model;
+    private Controller controller;
+
+    private ViewThread thread;
+
+    private Image logoImage;
+    private Image backgroundImage;
+    private Animation circleAnimation;
+    private Image playerControlsImage;
+    private Image[]
             shipTravelFrames, shipDamagedFrames, shipCriticalFrames,
             shieldTravelFrames,
             rocketTravelFrames,
             asteroidTravelFrames,
             explosionFrames;
 
-    public ArrayList<GameObjectView> gameObjectViews = new ArrayList<>();
-
+    private ArrayList<GameObjectView> gameObjectViews = new ArrayList<>();
     public ArrayList<Button> mainMenuButtons = new ArrayList();
     public ArrayList<Button> newGameButtons = new ArrayList();
     public ArrayList<Button> gameOverButtons = new ArrayList();
 
     /**
-      *Constructor de la clase que 
+     * Devuelve el model asociado a esta view (El model del juego)
+     * @return
+     */
+    public Model getModel(){return model;}
+
+    /**
+     * Setea el model del juego
+     * @param model
+     */
+    public void setModel(Model model){
+        this.model = model;
+    }
+
+    /**
+     * Setea el controller asociado a esta view(El controller del juego)
+     * @param controller
+     */
+    public void setController(Controller controller){
+        this.controller = controller;
+    }
+
+    /**
+     * Modifica el estado de la view, ejecutando acciones extra de ser necesario
+     * @param state
+     */
+    public void setState(int state){
+        if (state == STATE_PLAY){
+            gameObjectViews = new ArrayList<>();
+            getModel().initGame();
+            getModel().setPlaying(true);
+        } else if (state == STATE_EXIT){
+            System.exit(0);
+        }
+        this.state = state;
+    }
+
+    /**
+     * Setea el estado de la view
+     * @return
+     */
+    public int getState(){
+        return state;
+    }
+
+    /**
+      *Constructor de la clase
     */
     public View() {
        setFocusable(true);
-       addKeyListener(new TAdapter());
+       addKeyListener(new KeyListener());
        addMouseListener(new MouseListener());
-
        addMenuButtons();
-       loadFramess();
-
+       loadFrames();
        gameObjectViews = new ArrayList<>();
        thread = new ViewThread(this);
        thread.setIsRunning(true);
@@ -59,8 +96,10 @@ public class View extends JPanel implements ActionListener{
     public void addMenuButtons(){
        mainMenuButtons.add(new Button("New Game", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2, STATE_NEW_GAME));
        mainMenuButtons.add(new Button("Exit", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 + 70, STATE_EXIT));
+
        newGameButtons.add(new Button("Play", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 + 40, STATE_PLAY));
        newGameButtons.add(new Button("Main Menu", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 + 100, STATE_MAIN_MENU));
+
        gameOverButtons.add(new Button("Play Again", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35, STATE_PLAY));
        gameOverButtons.add(new Button("Main Menu", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35, STATE_MAIN_MENU));
     }
@@ -68,7 +107,7 @@ public class View extends JPanel implements ActionListener{
     /**
      * Carga todas las imágenes del juego a la memoria.
      */
-    public void loadFramess(){
+    public void loadFrames(){
         logoImage = new ImageIcon("logo.png").getImage();
         backgroundImage = new ImageIcon("background1.jpg").getImage();
         playerControlsImage = new ImageIcon("player_controls1.png").getImage();
@@ -189,7 +228,6 @@ public class View extends JPanel implements ActionListener{
                 loadTexture("shield8.png"),
                 loadTexture("shield9.png")
         };
-
         rocketTravelFrames = new Image[]{
                 loadTexture("rocket1.png"),
                 loadTexture("rocket2.png"),
@@ -200,7 +238,6 @@ public class View extends JPanel implements ActionListener{
                 loadTexture("rocket7.png"),
                 loadTexture("rocket8.png")
         };
-
         asteroidTravelFrames = new Image[]{
                 loadTexture("asteroid.png")
         };
@@ -298,59 +335,13 @@ public class View extends JPanel implements ActionListener{
         };
     }
 
-    /***
-     *
+    /**
      * @param textureName
      * @return Image
      */
     protected Image loadTexture(String textureName){
         ImageIcon i = new ImageIcon(textureName);
         return i.getImage();
-    }
-
-    /**
-     * Devuelve el model asociado a esta view (El model del juego)
-     * @return
-     */
-    public Model getModel(){return model;}
-
-    /**
-     * Setea el model del juego
-     * @param model
-     */
-    public void setModel(Model model){
-        this.model = model;
-    }
-
-    /**
-     * Setea el controller asociado a esta view(El controller del juego)
-     * @param controller
-     */
-    public void setController(Controller controller){
-        this.controller = controller;
-    }
-
-    /**
-     * Modifica el estado de la view, ejecutando acciones extra de ser necesario
-     * @param state
-     */
-    public void setState(int state){
-        if (state == STATE_PLAY){
-            gameObjectViews = new ArrayList<>();
-            getModel().initGame();
-            getModel().setPlaying(true);
-        } else if (state == STATE_EXIT){
-            System.exit(0);
-        }
-        this.state = state;
-    }
-
-    /**
-     * Setea el estado de la view
-     * @return
-     */
-    public int getState(){
-        return state;
     }
 
     /**
@@ -374,21 +365,12 @@ public class View extends JPanel implements ActionListener{
         gameObjectViews.add(view);
     }
 
-
     /**
      * Método de dibujo de los elementos en la pantalla (y su actualización)
      * @param g
      */
     private void draw(Graphics g){
-        g.drawImage(backgroundImage, 0, 0, backgroundImage.getWidth(null), backgroundImage.getHeight(null), null);
-        g.drawImage(circleAnimation.getFrame(), SpaceJoust.GAME_WIDTH/2 - 200 - 9,
-                SpaceJoust.GAME_HEIGHT / 2 - 200 - 9, 400 + 19, 400 + 19,
-                null);
-        circleAnimation.update();
-        for (GameObjectView gameObjectView : gameObjectViews){
-            gameObjectView.draw((Graphics2D)g);
-        }
-        cleanupObjectViews();
+        basicDraw((Graphics2D)g);
         switch (getState()){
             case STATE_MAIN_MENU:
                 g.drawImage(logoImage, 0, 0, logoImage.getWidth(null), logoImage.getHeight(null), null);
@@ -410,7 +392,23 @@ public class View extends JPanel implements ActionListener{
                 }
                 break;
         }
-       
+        cleanupObjectViews();
+    }
+
+    /**
+     * Dibuja los elementos que estarán visualmente presentes
+     * en todos los estados del juego
+     * @param g
+     */
+    public void basicDraw(Graphics2D g){
+        g.drawImage(backgroundImage, 0, 0, backgroundImage.getWidth(null), backgroundImage.getHeight(null), null);
+        g.drawImage(circleAnimation.getFrame(), SpaceJoust.GAME_WIDTH/2 - 200 - 9,
+                SpaceJoust.GAME_HEIGHT / 2 - 200 - 9, 400 + 19, 400 + 19,
+                null);
+        circleAnimation.update();
+        for (GameObjectView gameObjectView : gameObjectViews){
+            gameObjectView.draw(g);
+        }
     }
 
     /**
@@ -418,17 +416,17 @@ public class View extends JPanel implements ActionListener{
      * (Es decir, aquellas que hayan finalizado la animación de explosión)
      */
     private void cleanupObjectViews(){
-        ArrayList<Integer> toBeRemovedIndexes = new ArrayList<Integer>();
+        ArrayList<Integer> toBeRemovedIndexes = new ArrayList<>();
         for (GameObjectView gameObjectView: gameObjectViews){
             if (gameObjectView.getState() == GameObjectView.STATE_INACTIVE)
                 toBeRemovedIndexes.add(gameObjectViews.indexOf(gameObjectView));
         }
         for (Integer i: toBeRemovedIndexes)
-        try{
-            gameObjectViews.remove(i.intValue());
-        }catch (IndexOutOfBoundsException e){
-            System.out.println("Failed to remove " + gameObjectViews.get(i).getClass().getSimpleName() + "(IndexOutOfBoundsException)");
-        }
+            try{
+                gameObjectViews.remove(i.intValue());
+            }catch (IndexOutOfBoundsException e){
+                System.out.println("Failed to remove " + gameObjectViews.get(i).getClass().getSimpleName() + "(IndexOutOfBoundsException)");
+            }
     }
 
     @Override
@@ -437,39 +435,34 @@ public class View extends JPanel implements ActionListener{
         draw(g);
     }
 
-     @Override
-     public void actionPerformed(ActionEvent e) {}
+    @Override
+    public void actionPerformed(ActionEvent e) {}
 
-     /**
-      * Clase utilizada para recibir entrada del mouse
-      */
-     private class MouseListener implements java.awt.event.MouseListener{
-         @Override
-         public void mouseClicked(MouseEvent e) {
-             controller.handleMouseInput(e);
-         }
-
-         @Override
-         public void mousePressed(MouseEvent e) {}
-
-         @Override
-         public void mouseReleased(MouseEvent e) {}
-
-         @Override
-         public void mouseEntered(MouseEvent e) {}
-
-         @Override
-         public void mouseExited(MouseEvent e) {}
-     }
-
-     /**
-      * Clase utilizada para recibir entrada del teclado
-      */
-     private class TAdapter extends KeyAdapter {
+    /**
+     * Clase utilizada para recibir entrada del mouse
+     */
+    private class MouseListener implements java.awt.event.MouseListener{
         @Override
-        public void keyPressed(KeyEvent e) {
-            controller.handleKeyboardInput(e);
+        public void mouseClicked(MouseEvent e) {
+            controller.handleMouseInput(e);
         }
+        @Override
+        public void mousePressed(MouseEvent e) {}
+        @Override
+        public void mouseReleased(MouseEvent e) {}
+        @Override
+        public void mouseEntered(MouseEvent e) {}
+        @Override
+        public void mouseExited(MouseEvent e) {}
     }
 
+    /**
+     * Clase utilizada para recibir entrada del teclado
+     */
+    private class KeyListener extends KeyAdapter {
+       @Override
+       public void keyPressed(KeyEvent e) {
+           controller.handleKeyboardInput(e);
+       }
+    }
 }

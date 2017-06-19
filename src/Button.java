@@ -1,7 +1,3 @@
-/**
- * @author Ramiro Oliva
- */
-
 import java.awt.*;
 
 /**
@@ -33,11 +29,12 @@ public class Button {
 	
 	/**
  	  * Grafica el botón según sus propiedades.
+	 * @param g clase graficadora
  	*/
 	public void draw(Graphics2D g){
-		g.setColor(Color.WHITE);
+		g.setColor(Color.GRAY);
 		g.fillRect(posX - width/2, posY - height/2, width, height);
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
 		g.setFont(font);
 		g.drawString(text, posX - width/2 + 20, posY+ 10);
 	}

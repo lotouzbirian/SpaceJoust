@@ -1,6 +1,6 @@
 /**
  * @author Juan Bensadon
- * Este thread ejecuta una serie de acciones aproximadamente 60 veces por segundo
+ * Este thread ejecuta una serie de acciones multiples veces por segundo
  * Dichas accionas están contenidas en el método doUpdate()
  */
 public abstract class GameThread extends Thread {
@@ -49,7 +49,6 @@ public abstract class GameThread extends Thread {
      * Setea el boolean necesario para que el thread corra.
      * @param isRunning
      */
-
     public void setIsRunning(boolean isRunning) {
         this.isRunning= isRunning;
     }

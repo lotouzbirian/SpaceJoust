@@ -2,18 +2,16 @@ import java.awt.*;
 import java.util.Observable;
 
 /**
- * Created by Bensas on 6/15/17.
+ * @author Juan Bensadon
  * Clase encargada de mostrar el escudo de la nave en la view.
  */
 public class ShieldView extends GameObjectView {
     boolean isActive = false;
 
-    
     /**
       *@param active setea si el escudo es activado o no.
     */
     public void setActive(boolean active) {isActive = active;}
-
 
     /**
       *Updatea a la nave que activo el escudo, de haberlo hecho.
@@ -23,7 +21,6 @@ public class ShieldView extends GameObjectView {
         setActive(((Ship)o).isShielded());
         super.update(o, arg);
     }
-
 
     /**
       *Dibuja al escudo.

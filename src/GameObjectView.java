@@ -9,14 +9,70 @@ import java.util.Observer;
   * Es la View encargada de graficar a los objetos de juego.
  */
 public abstract class GameObjectView implements Observer{
+    protected static final int STATE_TRAVELING= 0, STATE_EXPLODING= 1, STATE_INACTIVE = 2;
+    private int state = STATE_TRAVELING;
+
     private int positionX, positionY;
     private float rotation;
 
-    private int state;
-    protected static final int STATE_TRAVELING= 0, STATE_EXPLODING= 1, STATE_INACTIVE = 2;
-
     protected HashMap<String, Animation> animations = new HashMap<>();
     protected Animation currentAnimation;
+
+    /**
+     *@return Devuelve el estado en el que se encuentra el Observer.
+     */
+    protected int getState(){return state;}
+
+    /**
+     *@param state setea el estado del Observer.
+     */
+    protected void setState(int state){this.state = state;}
+
+    /**
+     *@return Devuelve la posición x del Observer.
+     */
+    protected int getPositionX() {return positionX;}
+
+    /**
+     *@param positionX es la nueva posición en x del Obsever.
+     */
+    protected void setPositionX(int positionX) {
+        this.positionX = positionX;
+    }
+
+    /**
+     *@return Devuelve la posición en y del Observer.
+     */
+    protected int getPositionY() {return positionY;}
+
+    /**
+     *@param positionY es la nueva posición en Y del Observer.
+     */
+    protected void setPositionY(int positionY) {
+        this.positionY = positionY;
+    }
+
+    /**
+     *@return Devuelve la rotación del Observer.
+     */
+    protected float getRotation() {return rotation;}
+
+    /**
+     *@param rotation setea la rotación del Observer.
+     */
+    protected void setRotation(float rotation) {
+        this.rotation = rotation;
+    }
+
+    /**
+     *@return Devuelve la animación actual del Observer.
+     */
+    protected Animation getAnimation(){return currentAnimation;}
+
+    /**
+     *@param currentAnimation setea la animación del Observer.
+     */
+    protected void setAnimation(Animation currentAnimation){this.currentAnimation = currentAnimation;}
 
     /**
       *Grafica al objeto g en la pantalla.
@@ -70,61 +126,4 @@ public abstract class GameObjectView implements Observer{
                 break;
         }
     };
-
-    /**
-      *@return Devuelve la posición x del Observer.
-    */
-    protected int getPositionX() {return positionX;}
-
-    /**
-      *@param positionX es la nueva posición en x del Obsever.
-    */
-    protected void setPositionX(int positionX) {
-        this.positionX = positionX;
-    }
-
-    /**
-      *@return Devuelve la posición en y del Observer.
-    */
-    protected int getPositionY() {return positionY;}
-    
-    /**
-      *@param positionY es la nueva posición en Y del Observer.
-    */    
-    protected void setPositionY(int positionY) {
-        this.positionY = positionY;
-    }
-
-    /**
-      *@return Devuelve la rotación del Observer.
-    */
-    protected float getRotation() {return rotation;}
-
-    /**
-      *@param rotation setea la rotación del Observer.
-    */    
-    protected void setRotation(float rotation) {
-        this.rotation = rotation;
-    }
-
-    /**
-      *@return Devuelve el estado en el que se encuentra el Observer.
-    */
-    protected int getState(){return state;}
-
-    /**
-      *@param state setea el estado del Observer.
-    */    
-    protected void setState(int state){this.state = state;}
-
-    /**
-      *@return Devuelve la animación actual del Observer.
-    */
-    protected Animation getAnimation(){return currentAnimation;}
-
-    /**
-      *@param currentAnimation setea la animación del Observer.
-    */    
-    protected void setAnimation(Animation currentAnimation){this.currentAnimation = currentAnimation;}
-
 }

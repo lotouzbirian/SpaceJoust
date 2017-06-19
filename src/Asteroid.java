@@ -12,10 +12,9 @@ public class Asteroid extends GameObject{
 	private float speedX, speedY;
 
 	/**
-	  *Constructor de la clase
+	  *Constructor de la clase. Aquí se establecen las propiedades aleatorias del asteroide.
 	  *@param collisionWidth es el ancho colisionable del asteroide.
 	  *@param collisionHeight es el alto colisionable del asteroide.
-	  *Además
 	*/
 	public Asteroid(int collisionWidth, int collisionHeight){
 		super(collisionWidth, collisionHeight, DEFAULT_SPEED_FACTOR);
@@ -50,7 +49,7 @@ public class Asteroid extends GameObject{
     }
 
 	/**
-	  *Updatea la posición del mismo con respecto a su anterior posición.
+	  *Actualiza la posición del mismo con respecto a su anterior posición.
 	*/
     public void update(){
         setPositionX(getPositionX() + (int)getSpeedX());
@@ -60,38 +59,36 @@ public class Asteroid extends GameObject{
     }
 	
 	/**
-     * Se encarga de determinar la posición por la que aparecerá el asteroide en la pantalla
+     * Se encarga de determinar la posición en la que aparecerá el asteroide en la pantalla
      * y determinar su velocidad acorde a ella.
 	*/
 	public void setRandomPropierties(){
-		if(rnd.nextBoolean()){
-			if(rnd.nextBoolean()){
-				setPositionX(SpaceJoust.GAME_WIDTH + getCollisionWidth());
-				setPositionY((int)(SpaceJoust.GAME_HEIGHT/2 + rnd.nextFloat()*SpaceJoust.GAME_HEIGHT / 2)); //El int tiene que ser entre
-				setSpeedX(-1);
-				setSpeedY(-1);
-			}
-			else{
-				setPositionX(-getCollisionWidth());
-				setPositionY((int)(rnd.nextFloat()*SpaceJoust.GAME_HEIGHT/2));
-				setSpeedX(1);
-				setSpeedY(1);
-			}
-		}
-		else{
-			if(rnd.nextBoolean()){
-				setPositionX((int)(rnd.nextFloat() * SpaceJoust.GAME_WIDTH/2)); //El int tiene que ser entre
-				setPositionY(SpaceJoust.GAME_HEIGHT + getCollisionHeight());
-				setSpeedX(1);
-				setSpeedY(-1);
-			}
-			else{
-				setPositionX((int)(SpaceJoust.GAME_WIDTH/2 + rnd.nextFloat() * SpaceJoust.GAME_WIDTH/2)); //El int tiene que ser entre
-				setPositionY(-getCollisionHeight());
-				setSpeedX(-1);
-				setSpeedY(1);
-			}
-		}
-		
+        switch (rnd.nextInt(4)){
+            case 0:
+                setPositionX(SpaceJoust.GAME_WIDTH + getCollisionWidth());
+                setPositionY((int)(SpaceJoust.GAME_HEIGHT/2 + rnd.nextFloat()*SpaceJoust.GAME_HEIGHT / 2)); //El int tiene que ser entre
+                setSpeedX(-1);
+                setSpeedY(-1);
+                break;
+            case 1:
+                setPositionX(-getCollisionWidth());
+                setPositionY((int)(rnd.nextFloat()*SpaceJoust.GAME_HEIGHT/2));
+                setSpeedX(1);
+                setSpeedY(1);
+                break;
+            case 2:
+                setPositionX((int)(rnd.nextFloat() * SpaceJoust.GAME_WIDTH/2)); //El int tiene que ser entre
+                setPositionY(SpaceJoust.GAME_HEIGHT + getCollisionHeight());
+                setSpeedX(1);
+                setSpeedY(-1);
+                break;
+            case 3:
+                setPositionX((int)(SpaceJoust.GAME_WIDTH/2 + rnd.nextFloat() * SpaceJoust.GAME_WIDTH/2)); //El int tiene que ser entre
+                setPositionY(-getCollisionHeight());
+                setSpeedX(-1);
+                setSpeedY(1);
+                break;
+
+        }
 	}
 }

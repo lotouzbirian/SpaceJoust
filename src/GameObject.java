@@ -5,16 +5,18 @@ import java.util.Observable;
 
 /**
  * @author Juan Bensadon
- *La clase GameObject determina las propiedades que deben cumplir todos los objetos del juego.
+ *La clase GameObject determina las propiedades y comportamientos que deben cumplir todos los objetos del juego.
  */
 public abstract class GameObject extends Observable {
-    private int positionX, positionY;
-    private int collisionWidth, collisionHeight;
-    private float rotation = 0;
-    private Area collisionBox;
-    private float speedFactor;
-    private int state;
     public static final int STATE_TRAVELING= 0, STATE_EXPLODING = 1;
+    private int state = STATE_TRAVELING;
+
+    private int positionX, positionY;
+    private float rotation = 0;
+    private float speedFactor;
+
+    private int collisionWidth, collisionHeight;
+    private Area collisionBox;
 
     /**
       *Constructor de la clase.
@@ -55,6 +57,26 @@ public abstract class GameObject extends Observable {
     }
 
     /**
+     *@return Devuelve la rotación del objeto.
+     */
+    protected float getRotation(){return rotation;}
+
+    /**
+     *@param rotation es la rotación determinada del objeto a ser guardada.
+     */
+    protected void setRotation(float rotation) {this.rotation = rotation;}
+
+    /**
+     *@return Devuelve la velocidad del objeto.
+     */
+    protected float getSpeedFactor(){return speedFactor;}
+
+    /**
+     *@param speedFactor es la nueva velocidad del objeto.
+     */
+    protected void setSpeedFactor(float speedFactor) {this.speedFactor = speedFactor;}
+
+    /**
       *@return Devuelve el ancho colisionable del objeto.
     */
     protected int getCollisionWidth() {return collisionWidth;}
@@ -65,31 +87,11 @@ public abstract class GameObject extends Observable {
     protected int getCollisionHeight() {return collisionHeight;}
 
     /**
-      *@return Devuelve la rotación del objeto.
-    */
-    protected float getRotation(){return rotation;}
-
-    /**
-      *@param rotation es la rotación determinada del objeto a ser guardada.
-    */    
-    protected void setRotation(float rotation) {this.rotation = rotation;}
-
-    /**
       *@return Devuelve el área colisonable del objeto.
     */
     protected Area getCollisionBox() {
         return collisionBox;
     }
-
-    /**
-      *@return Devuelve la velocidad del objeto.
-    */
-    protected float getSpeedFactor(){return speedFactor;}
-    
-    /**
-      *@param speedFactor es la nueva velocidad del objeto.
-    */    
-    protected void setSpeedFactor(float speedFactor) {this.speedFactor = speedFactor;}
 
     /**
       *@return Devuelve el estado en el que se encuentra el objeto.
@@ -112,15 +114,20 @@ public abstract class GameObject extends Observable {
       *@return Devuelve verdadero si colisionan, y falso en caso contrario.
     */
     public  boolean collidesWith(GameObject object){
-        if (getState() != STATE_EXPLODING && object.getState() != STATE_EXPLODING && object.getCollisionBox().intersects(getCollisionBox().getBounds()))
+        if (getState() != STATE_EXPLODING &&
+                object.getState() != STATE_EXPLODING &&
+                object.getCollisionBox().intersects(getCollisionBox().getBounds()))
             return true;
         return false;
     };
 
+    /**
+     * Determina el comportamiento del objeto frente a un choque
+     */
     public abstract void impact();
 
     /**
-      *Updatea la área colisionable del objeto y notifica al resto de los Observers. 
+     * Updatea la área colisionable del objeto y notifica al resto de los Observers.
     */
     public void update(){
         updateCollisionBox();
@@ -129,7 +136,7 @@ public abstract class GameObject extends Observable {
     }
 
     /**
-      *@return Devuelve verdaderosi el objeto se encuentra fuera de la pantalla, y falso si no.
+      *@return Devuelve verdadero si el objeto se encuentra fuera de la pantalla, y falso si no.
     */
     public boolean isOffScreen(){
         if (getPositionX() < -getCollisionWidth() -10 || getPositionX() > SpaceJoust.GAME_WIDTH+10 ||
@@ -142,7 +149,10 @@ public abstract class GameObject extends Observable {
       *Updatea el área de colisión del objeto.
     */
     private void updateCollisionBox(){
-        Rectangle boundaries = new Rectangle(getPositionX() - getCollisionWidth()/2, getPositionY() - getCollisionHeight()/2, getCollisionWidth(), getCollisionHeight());
+        Rectangle boundaries = new Rectangle(getPositionX() - getCollisionWidth()/2,
+                getPositionY() - getCollisionHeight()/2,
+                getCollisionWidth(),
+                getCollisionHeight());
         AffineTransform tx = new AffineTransform();
         tx.rotate(rotation, getPositionX(), getPositionY());
         collisionBox = new Area(tx.createTransformedShape(boundaries));

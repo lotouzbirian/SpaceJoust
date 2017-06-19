@@ -35,6 +35,24 @@ public class Model {
     }
 
     /**
+     * Setea si el juego está corriendo(Ningún jugador ha perdido)
+     * @param playing
+     */
+    public void setPlaying(boolean playing) {this.playing = playing;}
+
+    /**
+     * Devuelve el ganador de la partida
+     * @return el número de jugador del ganador de la partida
+     */
+    public int getWinner() {return winner;}
+
+    /**
+     * Setea el ganadore de la partida
+     * @param winner
+     */
+    protected void setWinner(int winner) {this.winner = winner;}
+
+    /**
      * Crea los jugadores, crea el Thread y lo inicia.
      */
     public void initGame(){
@@ -209,21 +227,5 @@ public class Model {
             }
     }
 
-    /**
-     * Setea si el juego está corriendo(Ningún jugador ha perdido)
-     * @param playing
-     */
-    public void setPlaying(boolean playing) {this.playing = playing;}
 
-    /**
-     * Devuelve el ganador de la partida
-     * @return el número de jugador del ganador de la partida
-     */
-    public int getWinner() {return winner;}
-
-    /**
-     * Setea el ganadore de la partida
-     * @param winner
-     */
-    protected void setWinner(int winner) {this.winner = winner;}
 }

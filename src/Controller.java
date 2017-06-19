@@ -1,9 +1,8 @@
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 /**
- * Created by Bensas on 5/27/17.
+ * @author Juan Bensadon
  */
 public class Controller {
     Model model;
@@ -11,6 +10,7 @@ public class Controller {
 
     /**
       *Setea el model al controller.
+     * @param model nuevo modelo
     */
     public void setModel(Model model){
         this.model = model;
@@ -18,6 +18,7 @@ public class Controller {
 
     /**
      *Setea la view al controller.
+     * @param view nueva view
      */
     public void setView(View view){
         this.view = view;
@@ -40,8 +41,6 @@ public class Controller {
                     if (model.getPlayer(1).fireRocket())
                         model.createRocketWithView(model.getPlayer(1), model.getPlayer(2));
                     break;
-                case KeyEvent.VK_W:
-                    break;
 
                 case KeyEvent.VK_J:
                     model.getPlayer(2).accelerate();
@@ -52,8 +51,6 @@ public class Controller {
                 case KeyEvent.VK_L:
                     if (model.getPlayer(2).fireRocket())
                         model.createRocketWithView(model.getPlayer(2), model.getPlayer(1));
-                    break;
-                case KeyEvent.VK_I:
                     break;
             }
         } catch (NullPointerException exc){
