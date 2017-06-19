@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 /**
- * Created by Bensas on 5/27/17.
+ * @author Juan Bensadon
  */
 public class Model {
     View view;
@@ -12,7 +12,7 @@ public class Model {
     final static int ROCKET_COLLISION_HEIGHT=20, ROCKET_COLLISION_WIDTH = 20;
     final static int ASTEROID_COLLISION_HEIGHT=10, ASTEROID_COLLISION_WIDTH = 10;
 
-    public ArrayList<GameObject> gameObjects;
+    public ArrayList<GameObject> gameObjects = new ArrayList<>();
 
     private boolean playing = false;
     private int numberOfPlayers = 2;
@@ -51,8 +51,8 @@ public class Model {
      * Crea los jugadores y los posiciona en los lugares iniciales
      */
     private void initPlayers(){
-        createShipWithView(1);
-        createShipWithView(2);
+        createShipWithView();
+        createShipWithView();
         getPlayer(1).setRadialPosition(0);
         getPlayer(2).setRadialPosition((float)Math.PI);
     }
@@ -62,7 +62,7 @@ public class Model {
      * y lo agrega a la lista de GameObjects. Tambien agrega las Views a la lista de GameObjectViews.
      * @return Ship
      */
-    private Ship createShipWithView(int crosshairType){
+    private Ship createShipWithView(){
         Ship ship = new Ship(SHIP_COLLISION_WIDTH, SHIP_COLLISION_HEIGHT);
         ShipView shipView = new ShipView();
         ShieldView shieldView = new ShieldView();
@@ -110,12 +110,8 @@ public class Model {
     public void update(){
         if (playing){
             updateGameObjects();
-            checkForShipCollision(getPlayer(1), getPlayer(2));
-            asteroidTimer++;
-            if (asteroidTimer >= 200){
-                createAsteroidWithView();
-                asteroidTimer = 0;
-            }
+            checkForShipCollisionAndDeath(getPlayer(1), getPlayer(2));
+            updateAsteroidTimer();
             cleanupObjects();
         }
     }
@@ -138,6 +134,17 @@ public class Model {
     }
 
     /**
+     * Actualza el timer para la creación de asteroides
+     */
+    private void updateAsteroidTimer(){
+        asteroidTimer++;
+        if (asteroidTimer >= 200){
+            createAsteroidWithView();
+            asteroidTimer = 0;
+        }
+    }
+
+    /**
      * Actualiza los GameObjects y chequea las colisiones.
      */
     public void updateGameObjects(){
@@ -147,7 +154,7 @@ public class Model {
                 if (object instanceof Ship)
                     if (!((Ship) object).getIsAlive()){
                         setPlaying(false);
-                        setWinner(gameObjects.indexOf(object) + 1);
+                        setWinner(gameObjects.indexOf(object)==0?2:1);
                         getView().setState(View.STATE_GAME_OVER);
                     }
                 if (object instanceof Rocket){
@@ -177,8 +184,7 @@ public class Model {
      * @param ship1
      * @param ship2
      */
-
-    public void checkForShipCollision(Ship ship1, Ship ship2){
+    public void checkForShipCollisionAndDeath(Ship ship1, Ship ship2){
         if (ship2.collidesWith(ship1)){
              if (ship1.isBehindShip(ship2))
                  ship2.setHealth(0);
@@ -196,7 +202,11 @@ public class Model {
         if (playerNumber < 1 || playerNumber > numberOfPlayers || !(gameObjects.get(playerNumber-1) instanceof Ship))
             return null;
         else
-            return (Ship)gameObjects.get(playerNumber - 1);
+            try{
+                return (Ship)gameObjects.get(playerNumber - 1);
+            } catch (IndexOutOfBoundsException e){
+                return  null;
+            }
     }
 
     /**

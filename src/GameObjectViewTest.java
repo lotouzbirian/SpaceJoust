@@ -28,7 +28,7 @@ public class GameObjectViewTest {
         dummyView.setPositionY(0);
         dummyObject.setPositionX(10);
         dummyObject.setPositionY(10);
-        dummyObject.notifyObservers();
+        dummyObject.update();
         Assert.assertEquals(10, dummyView.getPositionX());
         Assert.assertEquals(10, dummyView.getPositionY());
     }

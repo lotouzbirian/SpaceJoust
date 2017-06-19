@@ -5,6 +5,7 @@
 import java.awt.*;
 
 /**
+ * @author Ramiro Oliva
  * Clase para los botones del menú.
  */
 public class Button {
@@ -13,7 +14,6 @@ public class Button {
 	private int posX, posY, width = 200, height = 40;
 	private Rectangle boundaries;
 	private int statePointer;
-
 	
 	/**
  	  * Constructor de la clase que inicializa las propiedades básicas del botón.
@@ -30,7 +30,6 @@ public class Button {
 		boundaries = new Rectangle(posX - width/2, posY - height/2, width, height);
 		this.statePointer = statePointer;
 	}
-
 	
 	/**
  	  * Grafica el botón según sus propiedades.
@@ -43,13 +42,10 @@ public class Button {
 		g.drawString(text, posX - width/2 + 20, posY+ 10);
 	}
 
-	
-	
 	/**
  	  * @return Devuelve las limitaciones del botón.
  	*/
 	public Rectangle getBoundaries(){return boundaries;}
-
 	
 	/**
  	  * @return Devuelve el estado del botón.

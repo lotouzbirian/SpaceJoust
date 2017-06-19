@@ -135,7 +135,7 @@ public class Rocket extends GameObject{
     */
     @Override
     public boolean collidesWith(GameObject object){
-        if(object.getClass().equals(Rocket.class) || object.equals(origin) )
+        if(object instanceof Rocket || object.equals(origin) )
             return false;
         return super.collidesWith(object);
     }

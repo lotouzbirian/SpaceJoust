@@ -56,7 +56,7 @@ public class Controller {
                 case KeyEvent.VK_I:
                     break;
             }
-        } catch (IndexOutOfBoundsException exc){
+        } catch (NullPointerException exc){
             //Exception thrown when the player is dead and button presses are still registered
         }
 

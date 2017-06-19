@@ -20,6 +20,7 @@ public class View extends JPanel implements ActionListener{
     private int state = STATE_MAIN_MENU;
 
     Animation circleAnimation;
+    Image logoImage;
     Image backgroundImage;
     Image playerControlsImage;
     protected Image[]
@@ -29,7 +30,7 @@ public class View extends JPanel implements ActionListener{
             asteroidTravelFrames,
             explosionFrames;
 
-    private ArrayList<GameObjectView> gameObjectViews;
+    public ArrayList<GameObjectView> gameObjectViews = new ArrayList<>();
 
     public ArrayList<Button> mainMenuButtons = new ArrayList();
     public ArrayList<Button> newGameButtons = new ArrayList();
@@ -56,10 +57,10 @@ public class View extends JPanel implements ActionListener{
      * Agrega los botones necesarios a cada menu
      */
     public void addMenuButtons(){
-       mainMenuButtons.add(new Button("New Game", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35, STATE_NEW_GAME));
-       mainMenuButtons.add(new Button("Exit", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35, STATE_EXIT));
-       newGameButtons.add(new Button("Play", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2, STATE_PLAY));
-       newGameButtons.add(new Button("Main Menu", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +70, STATE_MAIN_MENU));
+       mainMenuButtons.add(new Button("New Game", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2, STATE_NEW_GAME));
+       mainMenuButtons.add(new Button("Exit", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 + 70, STATE_EXIT));
+       newGameButtons.add(new Button("Play", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 + 40, STATE_PLAY));
+       newGameButtons.add(new Button("Main Menu", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 + 100, STATE_MAIN_MENU));
        gameOverButtons.add(new Button("Play Again", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35, STATE_PLAY));
        gameOverButtons.add(new Button("Main Menu", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35, STATE_MAIN_MENU));
     }
@@ -68,6 +69,7 @@ public class View extends JPanel implements ActionListener{
      * Carga todas las imágenes del juego a la memoria.
      */
     public void loadFramess(){
+        logoImage = new ImageIcon("logo.png").getImage();
         backgroundImage = new ImageIcon("background1.jpg").getImage();
         playerControlsImage = new ImageIcon("player_controls1.png").getImage();
         Image[] circleFrames = new Image[]{
@@ -389,6 +391,7 @@ public class View extends JPanel implements ActionListener{
         cleanupObjectViews();
         switch (getState()){
             case STATE_MAIN_MENU:
+                g.drawImage(logoImage, 0, 0, logoImage.getWidth(null), logoImage.getHeight(null), null);
                 for(Button button: mainMenuButtons){
                     button.draw((Graphics2D)g);
                 }

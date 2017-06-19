@@ -13,109 +13,122 @@ import static org.mockito.Mockito.*;
  * Created by leandro on 6/17/17.
  */
 public class ShipTest {
-    Ship ship;
+    Ship dummyShip, dummyShip2;
     int COLLISION_WIDTH = 50, COLLISION_HEIGHT = 120;
 
 
     @Before
     public void setUp() {
-        ship = new Ship(COLLISION_WIDTH, COLLISION_HEIGHT);
+        dummyShip = new Ship(COLLISION_WIDTH, COLLISION_HEIGHT);
+        dummyShip2 = new Ship(COLLISION_WIDTH, COLLISION_HEIGHT);
     }
 
     @Test
     public void testUpdate() throws Exception {
-        ship.update();
+        dummyShip.update();
     }
 
     @Test
     public void testUpdateEnergyWithFullEnergy() throws Exception {
-        ship.setEnergy(Ship.MAX_ENERGY);
-        ship.updateEnergy();
-        Assert.assertEquals(Ship.MAX_ENERGY, ship.getEnergy());
+        dummyShip.setEnergy(Ship.MAX_ENERGY);
+        dummyShip.updateEnergy();
+        Assert.assertEquals(Ship.MAX_ENERGY, dummyShip.getEnergy());
     }
 
     @Test
     public void testUpdateShield() throws Exception {
-        ship.updateShield();
+        dummyShip.updateShield();
     }
 
     @Test
     public void testUpdatePositionAndRotation() throws Exception {
-        ship.updatePositionAndRotation();
+        dummyShip.updatePositionAndRotation();
     }
 
     @Test
     public void testUnshield() throws Exception {
-        ship.unshield();
+        dummyShip.unshield();
     }
 
     @Test
     public void testAccelerateWithEnoughEnergy() throws Exception {
-        ship.setEnergy(Ship.ACCELERATION_COST);
-        boolean result = ship.accelerate();
+        dummyShip.setEnergy(Ship.ACCELERATION_COST);
+        boolean result = dummyShip.accelerate();
         Assert.assertEquals(true, result);
     }
 
     @Test
     public void testAccelerateWithoutEnoughEnergy() throws Exception {
-        ship.setEnergy(0);
-        boolean result = ship.accelerate();
+        dummyShip.setEnergy(0);
+        boolean result = dummyShip.accelerate();
         Assert.assertEquals(false, result);
     }
 
     @Test
     public void testShieldWithEnoughEnergy() throws Exception {
-        ship.setEnergy(Ship.SHIELD_COST);
-        boolean result = ship.shield();
+        dummyShip.setEnergy(Ship.SHIELD_COST);
+        boolean result = dummyShip.shield();
         Assert.assertEquals(true, result);
     }
 
     @Test
     public void testShieldWithoutEnoughEnergy() throws Exception {
-        ship.setEnergy(0);
-        boolean result = ship.shield();
+        dummyShip.setEnergy(0);
+        boolean result = dummyShip.shield();
         Assert.assertEquals(false, result);
     }
 
     @Test
     public void testFireRocketWithEnoughEnergy() throws Exception {
-        ship.setEnergy(Ship.ROCKET_COST);
-        boolean result = ship.fireRocket();
+        dummyShip.setEnergy(Ship.ROCKET_COST);
+        boolean result = dummyShip.fireRocket();
         Assert.assertEquals(true, result);
     }
 
     @Test
     public void testFireRocketWithoutEnoughEnergy() throws Exception {
-        ship.setEnergy(0);
-        boolean result = ship.fireRocket();
+        dummyShip.setEnergy(0);
+        boolean result = dummyShip.fireRocket();
         Assert.assertEquals(false, result);
     }
 
     @Test
     public void testImpactWithShield() throws Exception {
-        ship.setEnergy(Ship.SHIELD_COST);
-        ship.setHealth(5);
-        ship.shield();
-        ship.impact();
-        Assert.assertEquals(5, ship.getHealth());
+        dummyShip.setEnergy(Ship.SHIELD_COST);
+        dummyShip.setHealth(5);
+        dummyShip.shield();
+        dummyShip.impact();
+        Assert.assertEquals(5, dummyShip.getHealth());
     }
 
     @Test
     public void testImpactWithoutShield() throws Exception {
-        ship.setHealth(5);
-        ship.impact();
-        Assert.assertEquals(4, ship.getHealth());
+        dummyShip.setHealth(5);
+        dummyShip.impact();
+        Assert.assertEquals(4, dummyShip.getHealth());
     }
 
     @Test
-    public void testIsBehindShip() throws Exception {
-        boolean result = ship.isBehindShip(new Ship(0, 0));
+    public void testIsBehindShipWhenInSamePosition() throws Exception {
+        dummyShip.setRadialPosition((float)Math.PI);
+        dummyShip2.setRadialPosition((float)Math.PI);
+        boolean result = dummyShip.isBehindShip(dummyShip2);
+        Assert.assertEquals(false, result);
+    }
+
+    @Test
+    public void testIsBehindShipWhenBehindShip() throws Exception {
+        dummyShip.setRadialPosition((float)Math.PI);
+        dummyShip2.setRadialPosition((float)Math.PI + 0.1f);
+        boolean result = dummyShip.isBehindShip(dummyShip2);
         Assert.assertEquals(true, result);
     }
 
     @Test
-    public void testCollidesWith() throws Exception {
-        boolean result = ship.collidesWith(null);
-        Assert.assertEquals(true, result);
+    public void testIsBehindShipWhenBeforeShip() throws Exception {
+        dummyShip.setRadialPosition((float)Math.PI + 0.1f);
+        dummyShip2.setRadialPosition((float)Math.PI);
+        boolean result = dummyShip.isBehindShip(dummyShip2);
+        Assert.assertEquals(false, result);
     }
 }

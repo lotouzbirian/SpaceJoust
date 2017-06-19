@@ -6,17 +6,17 @@ public class Ship extends GameObject{
 
     protected static final int STATE_DAMAGED= 3, STATE_CRITICAL= 4;
 
-     static final int TRAJECTORY_RADIUS= 200;
-     static final int STARTING_HEALTH= 3;
-     static final int STARTING_ENERGY= 5;
-     static final int MAX_ENERGY= 10;
-     static final int ROCKET_COST= 2;
-     static final int SHIELD_COST= 3;
-     static final int SHIELD_DURATION= 120;
-     static final int ACCELERATION_COST= 2;
-     static final float ACCELERATION_FACTOR= 11f;
-     static final float DECELERATION_FACTOR= 0.002f;
-     static final float DEFAULT_SPEED_FACTOR= 0.005f;
+    static final int TRAJECTORY_RADIUS= 200;
+    static final int STARTING_HEALTH= 3;
+    static final int STARTING_ENERGY= 5;
+    static final int MAX_ENERGY= 10;
+    static final int ROCKET_COST= 2;
+    static final int SHIELD_COST= 3;
+    static final int SHIELD_DURATION= 120;
+    static final int ACCELERATION_COST= 2;
+    static final float ACCELERATION_FACTOR= 11f;
+    static final float DECELERATION_FACTOR= 0.002f;
+    static final float DEFAULT_SPEED_FACTOR= 0.005f;
 
     private float radialPosition;
     private boolean isAlive= true;

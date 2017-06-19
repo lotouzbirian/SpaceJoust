@@ -1,6 +1,7 @@
 import java.awt.Image;
 
 /**
+  * @author Ramiro Oliva
   * Esta clase se encarga de manejar la animación de las
   * imágenes y los tiempos que tarda cada una.
 */

@@ -33,7 +33,7 @@ public class RocketTest {
             @Override
             public void impact() {}
         };
-        dummyRocket = new Rocket(COLLISION_WIDTH, COLLISION_HEIGHT, dummyOrigin, dummyTarget);
+        dummyRocket = new Rocket(COLLISION_WIDTH, COLLISION_HEIGHT, dummyTarget, dummyOrigin);
         dummyOrigin.setPositionX(0);
         dummyOrigin.setPositionY(0);
         dummyTarget.setPositionX(0);
@@ -65,7 +65,7 @@ public class RocketTest {
 
     @Test
     public void testCollidesWithOrigin() throws Exception {
-        boolean result = dummyRocket.collidesWith(dummyTarget);
+        boolean result = dummyRocket.collidesWith(dummyOrigin);
         Assert.assertEquals(false, result);
     }
 

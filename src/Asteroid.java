@@ -1,11 +1,7 @@
 import java.util.*;
 /**
   * @author Ramiro Oliva
- */
-
-
-/**
-  *Clase Asteroid que representa a un objeto no manejable por el usuario,
+  * Clase Asteroid que representa a un objeto no manejable por el usuario,
   * generado de manera random, y el cual puede impactar con las naves y provocarles daño.
 */
 public class Asteroid extends GameObject{
@@ -64,31 +60,32 @@ public class Asteroid extends GameObject{
     }
 	
 	/**
-	  *Se encarga de determinar la posición por la que aparecerá el asteroide en la pantalla.
+     * Se encarga de determinar la posición por la que aparecerá el asteroide en la pantalla
+     * y determinar su velocidad acorde a ella.
 	*/
 	public void setRandomPropierties(){
-		if(rnd.nextBoolean()){//si es verdadero, entra por la derecha o izquierda
-			if(rnd.nextBoolean()){//si es verdadero, entra por la derecha
+		if(rnd.nextBoolean()){
+			if(rnd.nextBoolean()){
 				setPositionX(SpaceJoust.GAME_WIDTH + getCollisionWidth());
 				setPositionY((int)(SpaceJoust.GAME_HEIGHT/2 + rnd.nextFloat()*SpaceJoust.GAME_HEIGHT / 2)); //El int tiene que ser entre
 				setSpeedX(-1);
 				setSpeedY(-1);
 			}
-			else{//sale por la izquierda
+			else{
 				setPositionX(-getCollisionWidth());
 				setPositionY((int)(rnd.nextFloat()*SpaceJoust.GAME_HEIGHT/2));
 				setSpeedX(1);
 				setSpeedY(1);
 			}
 		}
-		else{//entra por arriba o abajo
-			if(rnd.nextBoolean()){//entra por abajo
+		else{
+			if(rnd.nextBoolean()){
 				setPositionX((int)(rnd.nextFloat() * SpaceJoust.GAME_WIDTH/2)); //El int tiene que ser entre
 				setPositionY(SpaceJoust.GAME_HEIGHT + getCollisionHeight());
 				setSpeedX(1);
 				setSpeedY(-1);
 			}
-			else{//entra por arriba
+			else{
 				setPositionX((int)(SpaceJoust.GAME_WIDTH/2 + rnd.nextFloat() * SpaceJoust.GAME_WIDTH/2)); //El int tiene que ser entre
 				setPositionY(-getCollisionHeight());
 				setSpeedX(-1);
