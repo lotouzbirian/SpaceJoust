@@ -58,8 +58,8 @@ public class View extends JPanel implements ActionListener{
     public void addMenuButtons(){
        mainMenuButtons.add(new Button("New Game", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35, STATE_NEW_GAME));
        mainMenuButtons.add(new Button("Exit", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35, STATE_EXIT));
-       newGameButtons.add(new Button("Play", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35, STATE_PLAY));
-       newGameButtons.add(new Button("Main Menu", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35, STATE_MAIN_MENU));
+       newGameButtons.add(new Button("Play", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2, STATE_PLAY));
+       newGameButtons.add(new Button("Main Menu", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +70, STATE_MAIN_MENU));
        gameOverButtons.add(new Button("Play Again", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 -35, STATE_PLAY));
        gameOverButtons.add(new Button("Main Menu", SpaceJoust.GAME_WIDTH/2, SpaceJoust.GAME_HEIGHT/2 +35, STATE_MAIN_MENU));
     }
